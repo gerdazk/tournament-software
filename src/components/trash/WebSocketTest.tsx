@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import useWebSocket from "../../utils/useWebSocket";
+
 import { ScoreBox } from "./ScoreBox";
 
 function MyComponent() {
