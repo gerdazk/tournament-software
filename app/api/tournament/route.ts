@@ -6,8 +6,6 @@ export async function POST(req) {
 
     const prisma = new PrismaClient()
 
-    console.log({body})
-
     try {
       const user = await prisma.tournament.create({
         data: {

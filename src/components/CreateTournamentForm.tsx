@@ -15,29 +15,47 @@ import { createTournament } from "../utils/createTournament"
 import { TextField } from "./Input/TextField"
 import { DoubleCalendarField } from "./Input/DoubleCalendarField"
 import { PageHeader } from "./PageHeader"
+import { SuccessMessage } from "./Labels/SuccessMessage"
+import { ErrorMessage } from "./Labels/ErrorMessage"
 
 
 const formSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1),
   description: z.string().default(""),
-  no_of_courts: z.string(),
-  country: z.string(),
-  city: z.string(),
+  no_of_courts: z.string().min(1),
+  country: z.string().min(1),
+  city: z.string().min(1),
   address_additional_info: z.string(),
-  address_name: z.string()
+  address_name: z.string().min(1)
 })
 
 export function CreateTournamentForm() {
   const [mainDrawDates, setMainDrawDates] = useState({from: '', to: ''})
+  const [successMessage, setSuccessMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema)
       })
      
-      function onSubmit(values: z.infer<typeof formSchema>) {
+      async function onSubmit(values: z.infer<typeof formSchema>) {
         const start_date = mainDrawDates?.from
         const end_date = mainDrawDates?.to
+        const no_of_courts = Number(values.no_of_courts)
+        const areValuesValid = no_of_courts && end_date && start_date
 
-        createTournament({...values, start_date, end_date, no_of_courts: Number(values.no_of_courts)})
+        if(!areValuesValid) {
+          setErrorMessage('Failed to create tournament. Please enter valid date for tournament start and end.')
+          return
+        }
+
+        const data = await createTournament({...values, start_date, end_date, no_of_courts})
+
+        if(data.success) {
+          setErrorMessage('')
+          setSuccessMessage('Tournament created successfully.')
+        } else {
+          setErrorMessage('Failed to create tournament.')
+        }
       }
 
   return (
@@ -55,7 +73,8 @@ export function CreateTournamentForm() {
         <TextField control={form.control} label="Venue name" description="" placeholder="" name="address_name" />
         
           <DoubleCalendarField date={mainDrawDates} setDate={setMainDrawDates} name="dates" label="Tournament date" />
-        <Button type="submit">Submit</Button>
+        {successMessage ? <SuccessMessage message={successMessage} /> : <Button type="submit">Submit</Button>}
+        {errorMessage && <ErrorMessage message={errorMessage} />}
       </form>
     </Form>
     </Card>

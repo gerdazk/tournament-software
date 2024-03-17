@@ -1,5 +1,4 @@
-export async function createTournament(props) {
-    try {
+export async function createTournament(props: any) {
       const response = await fetch('/api/tournament', {
         method: 'POST',
         headers: {
@@ -7,18 +6,8 @@ export async function createTournament(props) {
         },
         body: JSON.stringify({...props})
       });
-  
-      if (response.ok) {
+
         const data = await response.json();
-        console.log('Tournament created successfully:', data.user);
+        console.log({data2: data})
         return data
-      } else {
-        const error = await response.json();
-        console.error('Tournament creation failed:', error);
-        return
-      }
-    } catch (error) {
-      console.error('Error creating tournament:', error);
-      return
-    }
   }
