@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
 import './globals.css'
-import { Navigation } from '@/src/components/Navigation'
+import { Navigation } from '@/src/components/Navigation/Navigation'
 import { ThemeProvider } from '@/components/theme-provider'
 import Provider from "@/app/context/client-provider"
 import { getServerSession } from "next-auth/next"

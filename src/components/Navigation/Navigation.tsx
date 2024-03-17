@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "@/components/ModeToggle"
 
-import { LoginDialog } from "./Dialogs/LoginDialog"
-import { RegistrationDialog } from "./Dialogs/RegistrationDialog"
+import { LoginDialog } from "../Dialogs/LoginDialog"
+import { RegistrationDialog } from "../Dialogs/RegistrationDialog"
 
 export const Navigation =() => {
   return (

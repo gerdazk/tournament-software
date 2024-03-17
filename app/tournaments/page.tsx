@@ -1,11 +1,10 @@
 'use client'
 
-import { CreateTournamentForm } from "@/src/components/CreateTournamentForm";
 import { getAllTournaments } from "@/src/utils/getAllTournaments";
 import { useEffect, useState } from "react";
+import { PageHeader } from "@/src/components/PageHeader";
 
 import { TournamentList } from "./components/TournamentList";
-import { PageHeader } from "@/src/components/PageHeader";
 
 export default function Tournaments () {
 
@@ -13,7 +12,6 @@ export default function Tournaments () {
 
 	const getTournaments = async () => {
 		const allTournaments = await getAllTournaments();
-        console.log({allTournaments})
 		allTournaments && setTournaments(allTournaments.tournaments);
 	};
 

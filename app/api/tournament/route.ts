@@ -23,12 +23,18 @@ export async function POST(req: NextRequest) {
 }
 
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const params = req.nextUrl.searchParams
+  const id = params.get('id')
 
   const prisma = new PrismaClient()
 
   try {
-    const tournaments = await prisma.tournament.findMany();
+    const tournaments = id ? await prisma.tournament.findUnique({
+      where: {
+        id: Number(id)
+      }
+    }) : await prisma.tournament.findMany()
 
     return NextResponse.json({ success: true, tournaments, status: 201 });
 
