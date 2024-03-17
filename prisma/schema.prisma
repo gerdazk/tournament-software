@@ -16,3 +16,17 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Tournament {
+  id                      Int      @id @default(autoincrement())
+  name                    String
+  description             String
+  no_of_courts            Int
+  country                 String
+  city                    String
+  address_additional_info String?
+  address_name            String
+  start_date              DateTime
+  end_date                DateTime
+  gender                  String   @default("any")
+}

@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/form"
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+import { createTournament } from "../utils/createTournament"
 
 import { TextField } from "./Input/TextField"
 import { DoubleCalendarField } from "./Input/DoubleCalendarField"
@@ -15,25 +18,26 @@ import { PageHeader } from "./PageHeader"
 
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters."
-  })
+  name: z.string(),
+  description: z.string().default(""),
+  no_of_courts: z.string(),
+  country: z.string(),
+  city: z.string(),
+  address_additional_info: z.string(),
+  address_name: z.string()
 })
 
 export function CreateTournamentForm() {
-  const [mainDrawDates, setMainDrawDates] = useState({})
-  const [withdrawalDates, setWithdrawalDates] = useState({})
-  const [registrationDates, setRegistrationDates] = useState({})
-  const [qualifyingDates, setQualifyingDates] = useState({})
+  const [mainDrawDates, setMainDrawDates] = useState({from: '', to: ''})
     const form = useForm<z.infer<typeof formSchema>>({
-        // resolver: zodResolver(formSchema),
-        defaultValues: {
-          // username: ""
-        }
+        resolver: zodResolver(formSchema)
       })
      
       function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+        const start_date = mainDrawDates?.from
+        const end_date = mainDrawDates?.to
+
+        createTournament({...values, start_date, end_date, no_of_courts: Number(values.no_of_courts)})
       }
 
   return (
@@ -50,11 +54,7 @@ export function CreateTournamentForm() {
         <TextField control={form.control} label="Additional address info" description="" placeholder="" name="address_additional_info"  />
         <TextField control={form.control} label="Venue name" description="" placeholder="" name="address_name" />
         
-          <DoubleCalendarField date={mainDrawDates} setDate={setMainDrawDates} name="main_draw_dates" label="Main draw dates" />
-          <DoubleCalendarField date={qualifyingDates} setDate={setQualifyingDates} name="qualifying_draw_dates" label="Qualifying draw dates" />
-        
-        <DoubleCalendarField date={withdrawalDates} setDate={setWithdrawalDates} name="withdrawal_dates" label="Withdrawal dates" />
-        <DoubleCalendarField date={registrationDates} setDate={setRegistrationDates} name="registration_dates" label="Registration dates" />
+          <DoubleCalendarField date={mainDrawDates} setDate={setMainDrawDates} name="dates" label="Tournament date" />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
