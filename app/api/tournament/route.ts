@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
     const body = await req.json();
 
     const prisma = new PrismaClient()
@@ -19,5 +19,22 @@ export async function POST(req) {
       console.error('Error creating tournament:', error);
       return NextResponse.json({ success: false, error: 'Error creating tournament', status: 500 });
     }
+
+}
+
+
+export async function GET() {
+
+  const prisma = new PrismaClient()
+
+  try {
+    const tournaments = await prisma.tournament.findMany();
+
+    return NextResponse.json({ success: true, tournaments, status: 201 });
+
+  } catch (error) {
+    console.error('Error finding tournaments:', error);
+    return NextResponse.json({ success: false, error: 'Error finding tournaments', status: 500 });
+  }
 
 }

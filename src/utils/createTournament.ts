@@ -8,6 +8,5 @@ export async function createTournament(props: any) {
       });
 
         const data = await response.json();
-        console.log({data2: data})
         return data
   }

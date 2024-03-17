@@ -22,7 +22,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions)
   return (
     <html lang="en">
-      <body className={`${inter.className} px-8 pb-8 w-full`}>
+      <body className={`${inter.className} pb-8 w-full`}>
       <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -31,7 +31,9 @@ export default async function RootLayout({
           >
                   <Provider session={session}>
         <Navigation />
+        <div className="px-10">
         {children}
+        </div>
         </Provider>
         </ThemeProvider>
         </body>

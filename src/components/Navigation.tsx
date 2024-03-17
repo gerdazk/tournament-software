@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-// import { Icons } from "@/components/icons"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,15 +11,13 @@ import {
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "@/components/ModeToggle"
-import { LoginModal } from "@/app/login/components/LoginModal"
-import { RegistrationModal } from "@/components/Modals/RegistrationModal"
 
 import { LoginDialog } from "./Dialogs/LoginDialog"
 import { RegistrationDialog } from "./Dialogs/RegistrationDialog"
 
 export const Navigation =() => {
   return (
-    <NavigationMenu className="mt-5 flex justify-between w-full max-w-full">
+    <NavigationMenu className="mt-5 flex justify-between w-full max-w-full px-10">
       <NavigationMenuList>
       <NavigationMenuItem>
           <Link href="/tournaments" legacyBehavior passHref>
