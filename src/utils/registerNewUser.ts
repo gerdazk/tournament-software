@@ -1,11 +1,11 @@
-export async function registerUser({name, email, password}) {
+export async function registerUser({name, email, password, date_of_birth, proposed_role}) {
     try {
       const response = await fetch('/api/signUp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, password, date_of_birth, proposed_role })
       });
   
       if (response.ok) {

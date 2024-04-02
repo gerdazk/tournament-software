@@ -6,7 +6,7 @@ const saltRounds = 10;
 
 export async function POST(req) {
 
-    const {name, email, password} = await req.json();
+    const {name, email, password, date_of_birth, proposed_role} = await req.json();
 
     const prisma = new PrismaClient()
 
@@ -18,7 +18,9 @@ export async function POST(req) {
           name,
           email,
           password: hashedPassword,
-          role: 'user'
+          role: 'user',
+          date_of_birth,
+          proposed_role
         }
       });
 

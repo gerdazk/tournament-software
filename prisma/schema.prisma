@@ -8,13 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  password  String
-  email     String   @unique
-  role      String   @default("user")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(cuid())
+  name          String
+  password      String
+  email         String   @unique
+  role          String   @default("user")
+  proposed_role String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  date_of_birth DateTime
 }
 
 model Tournament {
@@ -28,5 +30,7 @@ model Tournament {
   address_name            String
   start_date              DateTime
   end_date                DateTime
-  gender                  String   @default("any")
+  is_visible              Boolean  @default(false)
+  is_registration_open    Boolean  @default(false)
+  max_participants        Int?
 }

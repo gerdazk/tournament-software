@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator"
 
 type Props = {
   title: string
-  subtitle: string
+  subtitle?: string
 }
 
 export const PageHeader: React.FC<Props> = ({title, subtitle}) => {

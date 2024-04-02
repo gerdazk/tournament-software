@@ -44,3 +44,25 @@ export async function GET(req: NextRequest) {
   }
 
 }
+
+export async function DELETE(req: NextRequest) {
+  const params = req.nextUrl.searchParams
+  const id = params.get('id')
+
+  const prisma = new PrismaClient()
+
+  try {
+    await prisma.tournament.delete({
+      where: {
+        id: Number(id)
+      }
+    })
+
+    return NextResponse.json({ success: true, status: 200 });
+
+  } catch (error) {
+    console.error('Error deleting tournament:', error);
+    return NextResponse.json({ success: false, error: 'Error deleting tournament', status: 500 });
+  }
+
+}

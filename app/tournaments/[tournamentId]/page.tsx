@@ -22,6 +22,7 @@ import { useEffect, useState } from "react"
 import { getTournamentById } from "@/src/utils/getTournamentById"
 
 import { GeneralInfoTab } from "./components/GeneralInfoTab"
+import { PlayersTable } from "./components/PlayersTable"
 
 export default function Page({params}) {
     const [tournament, setTournament] = useState([]);
@@ -50,7 +51,11 @@ export default function Page({params}) {
         <TabsTrigger value="results">Results</TabsTrigger>
       </TabsList>
       <TabsContent value="general" className="grid grid-cols-3 gap-x-4 gap-y-3">
-        <GeneralInfoTab />
+        <GeneralInfoTab {...tournament} />
+
+      </TabsContent>
+      <TabsContent value="players" className="grid grid-cols-3 gap-x-4 gap-y-3">
+        <PlayersTable />
 
       </TabsContent>
       <TabsContent value="password">

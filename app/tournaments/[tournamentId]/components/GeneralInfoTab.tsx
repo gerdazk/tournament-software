@@ -7,7 +7,16 @@ import {
 import { SimpleCard } from "@/src/components/SimpleCard"
 import { CalendarIcon, HomeIcon, InfoCircledIcon } from "@radix-ui/react-icons"
 
-export const GeneralInfoTab = () => {
+type GeneralInfoTabProps = {
+  name: string
+  city: string
+  description: string
+  start_date: string
+  end_date: string
+  country: string
+}
+
+export const GeneralInfoTab: React.FC<GeneralInfoTabProps> = ({ name, city, description, start_date, end_date, country }) => {
     return (
         <>
         <Card className="w-full">
@@ -16,9 +25,9 @@ export const GeneralInfoTab = () => {
           <InfoCircledIcon />
         </CardHeader>
         <CardContent className="space-y-2">
-        <SimpleCard title="Name of the tournament" subtitle="Lithuanian championships" />
+        <SimpleCard title="Name of the tournament" subtitle={name} />
         <SimpleCard title="Gender" subtitle="Women" />
-        <SimpleCard title="Description" subtitle="Vilnius" />
+        <SimpleCard title="Description" subtitle={description} />
         </CardContent>
       </Card>
       <Card className="w-full">
@@ -27,8 +36,8 @@ export const GeneralInfoTab = () => {
           <CalendarIcon />
         </CardHeader>
         <CardContent className="space-y-2">
-        <SimpleCard title="Start date" subtitle="Lithuania" />
-        <SimpleCard title="End date" subtitle="Vilnius" />
+        <SimpleCard title="Start date" subtitle={start_date} />
+        <SimpleCard title="End date" subtitle={end_date} />
         </CardContent>
       </Card>
       <Card className="w-full">
@@ -37,8 +46,8 @@ export const GeneralInfoTab = () => {
           <HomeIcon />
         </CardHeader>
         <CardContent className="space-y-2">
-        <SimpleCard title="Country" subtitle="Lithuania" />
-        <SimpleCard title="City" subtitle="Vilnius" />
+        <SimpleCard title="Country" subtitle={country} />
+        <SimpleCard title="City" subtitle={city} />
         </CardContent>
       </Card>
       <Card className="w-full">

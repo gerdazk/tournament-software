@@ -18,15 +18,33 @@ import {
 import { TextField } from "@/src/components/Input/TextField"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-
-import { SwitchField } from "../Input/SwitchField"
-
 import { registerUser } from "@/src/utils/registerNewUser"
+import { CalendarField } from "@/src/components/Input/CalendarField"
+
+import { SelectField } from "../Input/SelectField"
+
+const roleOptions = [
+  {
+    text: '...',
+    value: null
+  },
+  {
+    text: 'Referee',
+    value: 'referee'
+  },
+  {
+    text: 'Tournament organiser',
+    value: 'organiser'
+  }
+
+]
 
 const formSchema = z.object({
-    email: z.string(),
+    email: z.string().min(1),
     name: z.string().min(5),
-    password: z.string().min(8)
+    password: z.string().min(8),
+    date_of_birth: z.date(),
+    proposed_role: z.string().optional()
   }).required()
 
 export const  RegistrationDialog = () => {
@@ -63,9 +81,11 @@ export const  RegistrationDialog = () => {
         </DialogHeader>
         <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <TextField control={form.control} label="Name" description="" placeholder="" name="name" />
+      <CalendarField control={form.control} name="date_of_birth" label="Date of birth" description="" />
         <TextField control={form.control} label="Email" description="" placeholder="" name="email" type="email" />
         <TextField control={form.control} label="Password" description="" placeholder="" name="password" type="password" />
-        <TextField control={form.control} label="Name" description="" placeholder="" name="name" />
+        <SelectField control={form.control} label="Do you want to register as one of these roles?" name="proposed_role" description="You will need approval form administrator for this action" items={roleOptions} />
         <DialogFooter>
           {successMessage ? <div>{successMessage}</div> : <Button type="submit">Submit</Button> }
         </DialogFooter>
