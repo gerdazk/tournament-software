@@ -16,7 +16,7 @@ import { Form } from '@/components/ui/form'
 import { TextField } from '@/src/components/Input/TextField'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { registerUser } from '@/src/utils/registerNewUser'
+import { registerUser } from '@/src/utils/users/registerNewUser'
 import { CalendarField } from '@/src/components/Input/CalendarField'
 
 import { SelectField } from '../Input/SelectField'

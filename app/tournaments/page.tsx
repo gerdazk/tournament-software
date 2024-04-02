@@ -1,6 +1,6 @@
 'use client'
 
-import { getAllTournaments } from '@/src/utils/getAllTournaments'
+import { getAllTournaments } from '@/src/utils/tournaments/getAllTournaments'
 import { useEffect, useState } from 'react'
 import { PageHeader } from '@/src/components/PageHeader'
 

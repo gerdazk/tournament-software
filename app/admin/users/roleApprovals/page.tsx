@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getAllUsers } from '@/src/utils/getAllUsers'
+import { getAllUsers } from '@/src/utils/users/getAllUsers'
 import { PageHeader } from '@/src/components/PageHeader'
 
 import { ApprovalsTable } from './components/ApprovalsTable'

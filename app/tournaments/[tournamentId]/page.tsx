@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { PageHeader } from '@/src/components/PageHeader'
 import { useEffect, useState } from 'react'
-import { getTournamentById } from '@/src/utils/getTournamentById'
+import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 
 import { GeneralInfoTab } from './components/GeneralInfoTab'
 import { PlayersTable } from './components/PlayersTable'

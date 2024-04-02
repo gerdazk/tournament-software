@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { ManageRoleProps, manageRole } from '@/src/utils/manageRole'
+import { ManageRoleProps, manageRole } from '@/src/utils/users/manageRole'
 import { User } from '@prisma/client'
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 

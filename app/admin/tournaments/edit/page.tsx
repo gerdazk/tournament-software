@@ -1,6 +1,6 @@
 'use client'
 
-import { getTournamentById } from '@/src/utils/getTournamentById'
+import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 import { useEffect, useState } from 'react'
 
 import { EditTournamentForm } from './components/EditTournamentForm'

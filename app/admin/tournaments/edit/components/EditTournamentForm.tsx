@@ -16,7 +16,7 @@ import { Separator } from '@/components/ui/separator'
 import { Label } from '@/components/ui/label'
 import { TrashIcon } from '@radix-ui/react-icons'
 import { SwitchField } from '@/src/components/Input/SwithField'
-import { deleteTournament } from '@/src/utils/deleteTournament'
+import { deleteTournament } from '@/src/utils/tournaments/deleteTournament'
 
 const formSchema = z.object({
   name: z.string().min(1),
