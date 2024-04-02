@@ -1,6 +1,4 @@
 {
-  "root": true,
-  "ignorePatterns": ["node_modules/", "build/"],
   "env": {
     "browser": true,
     "node": true,
@@ -24,6 +22,8 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
+    "prettier",
+    "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript"
@@ -34,10 +34,13 @@
     "React": "writable"
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "@typescript-eslint", "import"],
+  "plugins": ["react", "@typescript-eslint"],
   "parserOptions": {
-    "project": "./tsconfig.json",
-    "tsconfigRootDir": "./"
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "rules": {
     "no-empty": 0,
@@ -49,13 +52,13 @@
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/member-ordering": 1,
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      "error",
       {
         "argsIgnorePattern": "^_"
       }
     ],
     "no-unused-vars": [
-      "warn",
+      "error",
       {
         "argsIgnorePattern": "^_"
       }
@@ -105,7 +108,16 @@
     "jsx-quotes": [1, "prefer-double"],
     "prefer-arrow-callback": "error",
     "linebreak-style": 0,
-    "react/no-unknown-property": ["error", { "ignore": ["jsx", "global"] }]
+    "react/no-unknown-property": ["error", { "ignore": ["jsx", "global"] }],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "none",
+        "singleQuote": true,
+        "semi": false,
+        "endOfLine": "auto",
+        "arrowParens": "avoid"
+      }
+    ]
   }
 }
-

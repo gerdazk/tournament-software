@@ -1,10 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
-import bcrypt from 'bcrypt';
+import { PrismaClient } from '@prisma/client'
+import { NextResponse } from 'next/server'
+import bcrypt from 'bcrypt'
 
 export async function POST(req) {
-
-  const { email, password } = await req.json();
+  const { email, password } = await req.json()
   const prisma = new PrismaClient()
 
   try {
@@ -12,22 +11,33 @@ export async function POST(req) {
       where: {
         email
       }
-    });
+    })
 
     if (!user) {
-      return NextResponse.json({ success: false, error: 'Invalid credentials', status: 401 });
+      return NextResponse.json({
+        success: false,
+        error: 'Invalid credentials',
+        status: 401
+      })
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password)
 
     if (!passwordMatch) {
-      return NextResponse.json({ success: false, error: 'Invalid credentials', status: 401 });
+      return NextResponse.json({
+        success: false,
+        error: 'Invalid credentials',
+        status: 401
+      })
     }
 
-    return NextResponse.json({ success: true, user, status: 200 });
+    return NextResponse.json({ success: true, user, status: 200 })
   } catch (error) {
-    console.error('Error logging in:', error);
-   return NextResponse.json({ success: false, error: 'Error logging in', status: 500 });
+    console.error('Error logging in:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Error logging in',
+      status: 500
+    })
   }
-  
-  }
+}

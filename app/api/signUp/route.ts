@@ -1,33 +1,36 @@
-import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
-import bcrypt from 'bcrypt';
+import { PrismaClient } from '@prisma/client'
+import { NextResponse } from 'next/server'
+import bcrypt from 'bcrypt'
 
-const saltRounds = 10;
+const saltRounds = 10
 
 export async function POST(req) {
+  const { name, email, password, date_of_birth, proposed_role } =
+    await req.json()
 
-    const {name, email, password, date_of_birth, proposed_role} = await req.json();
+  const prisma = new PrismaClient()
 
-    const prisma = new PrismaClient()
+  const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+  try {
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: 'user',
+        date_of_birth,
+        proposed_role
+      }
+    })
 
-    try {
-      const user = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: hashedPassword,
-          role: 'user',
-          date_of_birth,
-          proposed_role
-        }
-      });
-
-      return NextResponse.json({ success: true, user, status: 201 });
-
-    } catch (error) {
-      console.error('Error creating user:', error);
-      return NextResponse.json({ success: false, error: 'Error creating user', status: 500 });
-    }
+    return NextResponse.json({ success: true, user, status: 201 })
+  } catch (error) {
+    console.error('Error creating user:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Error creating user',
+      status: 500
+    })
   }
+}

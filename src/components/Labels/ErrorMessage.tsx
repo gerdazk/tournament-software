@@ -1,9 +1,7 @@
 type Props = {
-    message: string
+  message: string
 }
 
-export const ErrorMessage: React.FC<Props> = ({message}) => {
-    return (
-      <div className="text-sm text-destructive">{message}</div>
-    )
+export const ErrorMessage: React.FC<Props> = ({ message }) => {
+  return <div className="text-sm text-destructive">{message}</div>
 }

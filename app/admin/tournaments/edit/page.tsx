@@ -1,26 +1,28 @@
 'use client'
 
-import { getTournamentById } from "@/src/utils/getTournamentById";
-import { useEffect, useState } from "react";
+import { getTournamentById } from '@/src/utils/getTournamentById'
+import { useEffect, useState } from 'react'
 
-import { EditTournamentForm } from "./components/EditTournamentForm";
+import { EditTournamentForm } from './components/EditTournamentForm'
 
-export default function Page({params}) {
-    const [tournament, setTournament] = useState([]);
+export default function Page({ params }) {
+  const [tournament, setTournament] = useState([])
 
+  // VEIKIA
+  console.log({ tournament })
 
-    // VEIKIA
-    console.log({tournament})
+  const getTournament = async () => {
+    const allTournaments = await getTournamentById({ id: params.tournamentId })
+    allTournaments && setTournament(allTournaments.tournaments)
+  }
 
-	const getTournament = async () => {
-		const allTournaments = await getTournamentById({id: params.tournamentId});
-		allTournaments && setTournament(allTournaments.tournaments);
-	};
+  useEffect(() => {
+    getTournament()
+  }, [])
 
-	useEffect(() => {
-		getTournament();
-	}, []);
-
-    return <div><EditTournamentForm defaultValues={tournament} /></div>
-
+  return (
+    <div>
+      <EditTournamentForm defaultValues={tournament} />
+    </div>
+  )
 }

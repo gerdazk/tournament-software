@@ -1,10 +1,11 @@
 type TabsNavigationProps = {
-    items: string[]
-    selectedItem: number
+  items: string[]
+  selectedItem: number
 }
 
-export const TabsNavigation: React.FC<TabsNavigationProps> = ({items, selectedItem}) => {
-
-    return <div>nav</div>
-
+export const TabsNavigation: React.FC<TabsNavigationProps> = ({
+  items,
+  selectedItem
+}) => {
+  return <div>nav</div>
 }
