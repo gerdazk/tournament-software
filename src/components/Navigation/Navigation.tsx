@@ -11,11 +11,16 @@ import {
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
 import { ModeToggle } from '@/components/ModeToggle'
+import { signOut, useSession } from 'next-auth/react'
+import { ExitIcon } from '@radix-ui/react-icons'
 
 import { LoginDialog } from '../Dialogs/LoginDialog'
 import { RegistrationDialog } from '../Dialogs/RegistrationDialog'
 
+import { UserCard } from './components/UserCard'
+
 export const Navigation = () => {
+  const { data } = useSession()
   return (
     <NavigationMenu className="mt-5 flex justify-between w-full max-w-full px-10">
       <NavigationMenuList>
@@ -42,9 +47,24 @@ export const Navigation = () => {
         </NavigationMenuItem>
       </NavigationMenuList>
       <div>
-        <LoginDialog />
-        <RegistrationDialog />
-        <ModeToggle />
+        {data?.user ? (
+          <div className="flex gap-6 items-center">
+            <div className="flex gap-3 items-center">
+              <UserCard name={data.user?.name || ''} />
+              <ExitIcon
+                className="h-5 w-5 cursor-pointer"
+                onClick={() => signOut()}
+              />
+            </div>
+            <ModeToggle />
+          </div>
+        ) : (
+          <div className="flex gap-3">
+            <LoginDialog />
+            <RegistrationDialog />
+            <ModeToggle />
+          </div>
+        )}
       </div>
     </NavigationMenu>
   )

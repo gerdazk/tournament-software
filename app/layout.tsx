@@ -31,7 +31,7 @@ export default async function RootLayout({
         >
           <Provider session={session}>
             <Navigation />
-            <div className="px-10">{children}</div>
+            <div className="px-14">{children}</div>
           </Provider>
         </ThemeProvider>
       </body>
