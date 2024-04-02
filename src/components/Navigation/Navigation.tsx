@@ -10,7 +10,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
-import { ModeToggle } from '@/components/ModeToggle'
+import { ModeToggle } from '@/src/components/Navigation/components/ModeToggle'
 import { signOut, useSession } from 'next-auth/react'
 import { ExitIcon } from '@radix-ui/react-icons'
 
