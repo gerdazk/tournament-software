@@ -12,7 +12,7 @@ export default function Page() {
   const getUsers = async () => {
     const allUsers = await getAllUsers()
     const usersWithRequestedRoles = allUsers.filter(
-      ({ proposed_role }) => !!proposed_role
+      ({ proposed_role }: { proposed_role: string }) => !!proposed_role
     )
     usersWithRequestedRoles && setUsers(usersWithRequestedRoles)
   }

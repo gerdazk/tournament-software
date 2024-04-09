@@ -24,7 +24,7 @@ const formSchema = z.object({
   address_name: z.string().min(1)
 })
 
-export function EditTournamentForm({ tournament, id }) {
+export function EditTournamentForm({ tournament }) {
   const [mainDrawDates, setMainDrawDates] = useState({
     from: tournament.start_date || '',
     to: tournament.end_date || ''
