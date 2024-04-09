@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { CaretSortIcon, ChevronDownIcon } from '@radix-ui/react-icons'
+import dayjs from 'dayjs'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,6 +35,9 @@ import {
 
 // import { sportOptions } from '../data'
 
+import { useRouter } from 'next/navigation'
+import { normalizeDate } from '@/src/utils/normalizeDate'
+
 import { DataTableToolbar } from './Toolbar'
 
 export type Session = {
@@ -46,6 +50,21 @@ export type Session = {
 }
 
 export const columns: ColumnDef<Session>[] = [
+  {
+    accessorKey: 'id',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Id
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue('id')}</div>
+  },
   {
     accessorKey: 'name',
     header: ({ column }) => {
@@ -110,7 +129,7 @@ export const columns: ColumnDef<Session>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div>{row.getValue('start_date')}</div>,
+    cell: ({ row }) => <div>{normalizeDate(row.getValue('start_date'))}</div>,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
     }
@@ -128,7 +147,7 @@ export const columns: ColumnDef<Session>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div>{row.getValue('end_date')}</div>,
+    cell: ({ row }) => <div>{normalizeDate(row.getValue('end_date'))}</div>,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
     }
@@ -137,6 +156,7 @@ export const columns: ColumnDef<Session>[] = [
 
 export const TournamentList = ({ data }: { data: Session[] }) => {
   const [sorting, setSorting] = React.useState<SortingState>([])
+  const router = useRouter()
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
@@ -220,6 +240,10 @@ export const TournamentList = ({ data }: { data: Session[] }) => {
               table.getRowModel().rows.map(row => (
                 <TableRow
                   key={row.id}
+                  onClick={() =>
+                    router.push(`/tournaments/${row.getValue('id')}`)
+                  }
+                  className="cursor-pointer"
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map(cell => (

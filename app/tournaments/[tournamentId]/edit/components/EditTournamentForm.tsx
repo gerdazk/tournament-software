@@ -13,6 +13,7 @@ import { PageHeader } from '@/src/components/PageHeader'
 import { SuccessMessage } from '@/src/components/Labels/SuccessMessage'
 import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
 import { editTournament } from '@/src/utils/tournaments/editTournament'
+import { SwitchField } from '@/src/components/Input/SwitchField'
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -21,7 +22,9 @@ const formSchema = z.object({
   country: z.string().min(1),
   city: z.string().min(1),
   address_additional_info: z.string(),
-  address_name: z.string().min(1)
+  address_name: z.string().min(1),
+  is_visible: z.boolean(),
+  is_registration_open: z.boolean()
 })
 
 export function EditTournamentForm({ tournament }) {
@@ -34,8 +37,8 @@ export function EditTournamentForm({ tournament }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: tournament.name,
-      ...tournament
+      ...tournament,
+      no_of_courts: tournament.no_of_courts?.toString()
     }
   })
 
@@ -68,11 +71,17 @@ export function EditTournamentForm({ tournament }) {
     }
   }
 
+  //TODO: connect to endpoint
+  const handleDelete = () => {}
+
   return (
     <div className="w-full">
       <PageHeader
         title="Edit the tournament"
         subtitle="Edit all tournament data"
+        buttonText="Delete tournament"
+        buttonVariant="destructive"
+        onButtonClick={handleDelete}
       />
       <Card className="w-full p-8">
         <Form {...form}>
@@ -134,6 +143,18 @@ export function EditTournamentForm({ tournament }) {
               setDate={setMainDrawDates}
               name="dates"
               label="Tournament date"
+            />
+            <SwitchField
+              control={form.control}
+              name="is_visible"
+              title="Tournament visibility"
+              description="Make tournament visible/invisible to other users"
+            />
+            <SwitchField
+              control={form.control}
+              name="is_registration_open"
+              title="Open registration"
+              description="Open tournament registration. Users will be able to register."
             />
             {successMessage ? (
               <SuccessMessage message={successMessage} />

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SimpleCard } from '@/src/components/SimpleCard'
+import { normalizeDate } from '@/src/utils/normalizeDate'
 import { CalendarIcon, HomeIcon, InfoCircledIcon } from '@radix-ui/react-icons'
 
 type GeneralInfoTabProps = {
@@ -38,8 +39,8 @@ export const GeneralInfoTab: React.FC<GeneralInfoTabProps> = ({
           <CalendarIcon />
         </CardHeader>
         <CardContent className="space-y-2">
-          <SimpleCard title="Start date" subtitle={start_date} />
-          <SimpleCard title="End date" subtitle={end_date} />
+          <SimpleCard title="Start date" subtitle={normalizeDate(start_date)} />
+          <SimpleCard title="End date" subtitle={normalizeDate(end_date)} />
         </CardContent>
       </Card>
       <Card className="w-full">

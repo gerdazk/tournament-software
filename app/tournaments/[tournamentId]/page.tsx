@@ -32,7 +32,7 @@ export default function Page({ params }) {
   }, [])
   return (
     <>
-      <PageHeader title={params.tournamentId} />
+      <PageHeader title={tournament?.name || ''} />
       <Tabs defaultValue="general">
         <TabsList className="flex gap-2 justify-start w-fit mb-6">
           <TabsTrigger value="general">General information</TabsTrigger>

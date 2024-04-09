@@ -19,7 +19,6 @@ export default function Page({ params }) {
   }, [])
   return (
     <>
-      <PageHeader title={params.tournamentId} />
       {tournament?.name && (
         <EditTournamentForm tournament={tournament} id={params.tournamentId} />
       )}
