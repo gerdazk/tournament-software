@@ -22,9 +22,6 @@ import { PlayersTable } from './components/PlayersTable'
 export default function Page({ params }) {
   const [tournament, setTournament] = useState([])
 
-  // VEIKIA
-  console.log({ tournament })
-
   const getTournament = async () => {
     const allTournaments = await getTournamentById({ id: params.tournamentId })
     allTournaments && setTournament(allTournaments.tournaments)

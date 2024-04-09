@@ -15,8 +15,6 @@ export default function Page() {
       ({ proposed_role }) => !!proposed_role
     )
     usersWithRequestedRoles && setUsers(usersWithRequestedRoles)
-
-    console.log({ usersWithRequestedRoles, allUsers })
   }
 
   useEffect(() => {

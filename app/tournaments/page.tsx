@@ -20,7 +20,7 @@ export default function Tournaments() {
   return (
     <div>
       <PageHeader title="All tournaments" />
-      <TournamentList tournaments={tournaments} />
+      <TournamentList data={tournaments} />
     </div>
   )
 }

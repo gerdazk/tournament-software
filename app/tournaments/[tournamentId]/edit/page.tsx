@@ -1,7 +1,8 @@
 'use client'
 
-import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
+import { PageHeader } from '@/src/components/PageHeader'
 import { useEffect, useState } from 'react'
+import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 
 import { EditTournamentForm } from './components/EditTournamentForm'
 
@@ -16,10 +17,12 @@ export default function Page({ params }) {
   useEffect(() => {
     getTournament()
   }, [])
-
   return (
-    <div>
-      <EditTournamentForm defaultValues={tournament} />
-    </div>
+    <>
+      <PageHeader title={params.tournamentId} />
+      {tournament?.name && (
+        <EditTournamentForm tournament={tournament} id={params.tournamentId} />
+      )}
+    </>
   )
 }

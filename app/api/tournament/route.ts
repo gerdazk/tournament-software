@@ -77,3 +77,29 @@ export async function DELETE(req: NextRequest) {
     })
   }
 }
+
+export async function PUT(req: NextRequest) {
+  const body = await req.json()
+
+  const prisma = new PrismaClient()
+
+  try {
+    const user = await prisma.tournament.update({
+      where: {
+        id: body.id
+      },
+      data: {
+        ...body
+      }
+    })
+
+    return NextResponse.json({ success: true, user, status: 201 })
+  } catch (error) {
+    console.error('Error editing tournament:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Error editing tournament',
+      status: 500
+    })
+  }
+}

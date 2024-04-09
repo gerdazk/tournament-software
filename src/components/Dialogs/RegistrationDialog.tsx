@@ -56,7 +56,6 @@ export const RegistrationDialog = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log({ values })
     const result = await registerUser({ ...values })
 
     if (!result?.error) {

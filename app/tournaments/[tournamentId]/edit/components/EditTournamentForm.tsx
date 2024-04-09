@@ -7,16 +7,12 @@ import { Form } from '@/components/ui/form'
 import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PageHeader } from '@/src/components/PageHeader'
 import { TextField } from '@/src/components/Input/TextField'
 import { DoubleCalendarField } from '@/src/components/Input/DoubleCalendarField'
+import { PageHeader } from '@/src/components/PageHeader'
 import { SuccessMessage } from '@/src/components/Labels/SuccessMessage'
 import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
-import { Separator } from '@/components/ui/separator'
-import { Label } from '@/components/ui/label'
-import { TrashIcon } from '@radix-ui/react-icons'
-import { SwitchField } from '@/src/components/Input/SwithField'
-import { deleteTournament } from '@/src/utils/tournaments/deleteTournament'
+import { editTournament } from '@/src/utils/tournaments/editTournament'
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -28,13 +24,19 @@ const formSchema = z.object({
   address_name: z.string().min(1)
 })
 
-export function EditTournamentForm({ defaultValues }: { defaultValues: any }) {
-  const [mainDrawDates, setMainDrawDates] = useState({ from: '', to: '' })
+export function EditTournamentForm({ tournament, id }) {
+  const [mainDrawDates, setMainDrawDates] = useState({
+    from: tournament.start_date || '',
+    to: tournament.end_date || ''
+  })
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues
+    defaultValues: {
+      name: tournament.name,
+      ...tournament
+    }
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -45,26 +47,32 @@ export function EditTournamentForm({ defaultValues }: { defaultValues: any }) {
 
     if (!areValuesValid) {
       setErrorMessage(
-        'Failed to create tournament. Please enter valid date for tournament start and end.'
+        'Failed to edit tournament. Please enter valid date for tournament start and end.'
       )
       return
     }
 
-    // const data = await createTournament({...values, start_date, end_date, no_of_courts})
+    const data = await editTournament({
+      ...values,
+      start_date,
+      end_date,
+      no_of_courts,
+      id: tournament.id
+    })
 
-    // if(data.success) {
-    //   setErrorMessage('')
-    //   setSuccessMessage('Tournament created successfully.')
-    // } else {
-    //   setErrorMessage('Failed to create tournament.')
-    // }
+    if (data.success) {
+      setErrorMessage('')
+      setSuccessMessage('Tournament edited successfully.')
+    } else {
+      setErrorMessage('Failed to edit tournament.')
+    }
   }
 
   return (
     <div className="w-full">
       <PageHeader
-        title="Edit tournament"
-        subtitle="Form for all tournament data"
+        title="Edit the tournament"
+        subtitle="Edit all tournament data"
       />
       <Card className="w-full p-8">
         <Form {...form}>
@@ -127,36 +135,6 @@ export function EditTournamentForm({ defaultValues }: { defaultValues: any }) {
               name="dates"
               label="Tournament date"
             />
-
-            <Separator />
-            <Label>Optional parameters</Label>
-            <TextField
-              control={form.control}
-              label="Maximum number of participants"
-              description="Registration will be closed when this number is reached"
-              placeholder=""
-              name="no_of_participants"
-              type="number"
-              min="1"
-            />
-            <SwitchField
-              name="is_visible"
-              title="Is tournament visible for users"
-              control={form.control}
-            />
-            <SwitchField
-              name="is_registration_open"
-              title="Is registration open"
-              control={form.control}
-            />
-            <div
-              className="flex gap-3"
-              onClick={() => deleteTournament({ id: 1 })}
-            >
-              <TrashIcon className="w-6 h-6" />
-              Delete tournament
-            </div>
-            <Separator />
             {successMessage ? (
               <SuccessMessage message={successMessage} />
             ) : (
