@@ -1,6 +1,5 @@
 'use client'
 
-import { PageHeader } from '@/src/components/PageHeader'
 import { useEffect, useState } from 'react'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 

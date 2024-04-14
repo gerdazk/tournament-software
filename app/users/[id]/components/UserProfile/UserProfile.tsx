@@ -2,13 +2,20 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { User } from '@prisma/client'
 
 import { Header } from '../Header'
+import { RegistrationsList } from '../PersonalProfile/components/RegistrationsList'
 
 import { PersonalDataSection } from './components/PersonalDataSection'
 
-export const UserProfile: React.FC<User> = ({ name, role, ...rest }) => {
+export const UserProfile: React.FC<User> = ({
+  name,
+  role,
+  participant,
+  ...rest
+}) => {
+  console.log({ participant })
   return (
-    <>
-      <Card>
+    <div className="flex gap-6 w-full">
+      <Card className="w-full">
         <CardContent>
           <CardHeader className="pl-0">
             <Header name={name} role={role} />
@@ -16,6 +23,14 @@ export const UserProfile: React.FC<User> = ({ name, role, ...rest }) => {
           {name && <PersonalDataSection {...rest} />}
         </CardContent>
       </Card>
-    </>
+      <Card className="w-full">
+        <CardHeader className="">
+          <h1 className="text-2xl font-bold">Tournaments</h1>
+        </CardHeader>
+        <CardContent>
+          {participant && <RegistrationsList participantions={participant} />}
+        </CardContent>
+      </Card>
+    </div>
   )
 }

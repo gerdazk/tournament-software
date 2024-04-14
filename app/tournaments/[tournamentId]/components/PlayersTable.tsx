@@ -15,12 +15,16 @@ type PlayersTableProps = {
   players: (Participant & {
     user: User
   })[]
+  className?: string
 }
 
-export const PlayersTable: React.FC<PlayersTableProps> = ({ players = [] }) => {
+export const PlayersTable: React.FC<PlayersTableProps> = ({
+  players = [],
+  className
+}) => {
   const router = useRouter()
   return (
-    <Table className="w-1/2">
+    <Table className={`w-1/2 ${className || ''}`}>
       <TableCaption>A list of registered players.</TableCaption>
       <TableHeader>
         <TableRow>
