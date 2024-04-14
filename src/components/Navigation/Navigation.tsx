@@ -21,7 +21,6 @@ import { UserCard } from './components/UserCard'
 
 export const Navigation = () => {
   const { data } = useSession()
-  console.log({ data })
   return (
     <NavigationMenu className="mt-5 flex justify-between w-full max-w-full px-10">
       <NavigationMenuList>

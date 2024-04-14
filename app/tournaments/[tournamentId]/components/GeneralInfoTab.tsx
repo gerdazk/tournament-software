@@ -1,18 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SimpleCard } from '@/src/components/SimpleCard'
 import { normalizeDate } from '@/src/utils/normalizeDate'
+import { Tournament } from '@prisma/client'
 import { CalendarIcon, HomeIcon, InfoCircledIcon } from '@radix-ui/react-icons'
 
-type GeneralInfoTabProps = {
-  name: string
-  city: string
-  description: string
-  start_date: string
-  end_date: string
-  country: string
-}
-
-export const GeneralInfoTab: React.FC<GeneralInfoTabProps> = ({
+export const GeneralInfoTab: React.FC<Tournament> = ({
   name,
   city,
   description,

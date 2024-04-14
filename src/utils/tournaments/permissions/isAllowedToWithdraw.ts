@@ -6,7 +6,7 @@ type IsAllowedToWithdrawProps = {
     userId: number
     tournamentId: number
   }[]
-  is_registration_open: boolean
+  is_registration_open?: boolean
 }
 
 export const isAllowedToWithdraw = ({

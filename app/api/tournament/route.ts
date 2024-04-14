@@ -6,8 +6,6 @@ export async function POST(req: NextRequest) {
 
   const prisma = new PrismaClient()
 
-  console.log({ body })
-
   try {
     const user = await prisma.tournament.create({
       data: {
@@ -37,6 +35,9 @@ export async function GET(req: NextRequest) {
       ? await prisma.tournament.findUnique({
           where: {
             id: Number(id)
+          },
+          include: {
+            participants: true
           }
         })
       : await prisma.tournament.findMany({

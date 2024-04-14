@@ -7,5 +7,5 @@ type IsParticipantProps = {
 }
 
 export const isParticipant = ({ id, participants }: IsParticipantProps) => {
-  return participants.find(({ userId }) => id === userId)
+  return participants?.find(({ userId }) => id === userId)
 }

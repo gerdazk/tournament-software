@@ -12,19 +12,22 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { PageHeader } from '@/src/components/PageHeader'
 import { useEffect, useState } from 'react'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
+import { Separator } from '@/components/ui/separator'
+import { Tournament } from '@prisma/client'
 
 import { GeneralInfoTab } from './components/GeneralInfoTab'
 import { PlayersTable } from './components/PlayersTable'
+import { HeaderButtons } from './components/HeaderButtons'
 
 export default function Page({ params }) {
-  const [tournament, setTournament] = useState([])
+  const [tournament, setTournament] = useState<Tournament>({})
 
   const getTournament = async () => {
-    const allTournaments = await getTournamentById({ id: params.tournamentId })
-    allTournaments && setTournament(allTournaments.tournaments)
+    const tournaments = await getTournamentById({ id: params.tournamentId })
+    tournaments && setTournament(tournaments.tournaments)
+    console.log({ t: tournaments.tournaments })
   }
 
   useEffect(() => {
@@ -32,7 +35,17 @@ export default function Page({ params }) {
   }, [])
   return (
     <>
-      <PageHeader title={tournament?.name || ''} />
+      <div className="hidden space-y-6 pb-16 pt-8 md:block">
+        <div className="flex flex-row justify-between items-center">
+          <div className="space-y-0.5">
+            <h2 className="text-2xl font-bold tracking-tight">
+              {tournament?.name || ''}
+            </h2>
+          </div>
+          {tournament && <HeaderButtons {...tournament} />}
+        </div>
+        <Separator className="my-6" />
+      </div>
       <Tabs defaultValue="general">
         <TabsList className="flex gap-2 justify-start w-fit mb-6">
           <TabsTrigger value="general">General information</TabsTrigger>
