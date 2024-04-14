@@ -8,19 +8,21 @@ datasource db {
 }
 
 model User {
-  id            Int   @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   name          String
   password      String
-  email         String   @unique
-  role          String   @default("user")
+  email         String        @unique
+  role          String        @default("user")
   proposed_role String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   date_of_birth DateTime
+  tournaments   Tournament[]
+  participant   Participant[]
 }
 
 model Tournament {
-  id                      Int      @id @default(autoincrement())
+  id                      Int           @id @default(autoincrement())
   name                    String
   description             String
   no_of_courts            Int
@@ -30,7 +32,18 @@ model Tournament {
   address_name            String
   start_date              DateTime
   end_date                DateTime
-  is_visible              Boolean  @default(false)
-  is_registration_open    Boolean  @default(false)
+  is_visible              Boolean       @default(false)
+  is_registration_open    Boolean       @default(false)
   max_participants        Int?
+  organizer               User          @relation(fields: [organizerId], references: [id])
+  organizerId             Int
+  participants            Participant[]
+}
+
+model Participant {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
 }

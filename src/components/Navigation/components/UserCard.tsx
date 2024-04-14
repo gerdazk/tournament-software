@@ -4,7 +4,7 @@ type UserCardProps = {
   name: string
 }
 
-export const UserCard: React.FC<UserCardProps> = ({ name }) => {
+export const UserCard: React.FC<UserCardProps> = ({ name, id }) => {
   return (
     <div className="flex gap-2 items-center">
       <Avatar>

@@ -13,6 +13,7 @@ import { DoubleCalendarField } from '@/src/components/Input/DoubleCalendarField'
 import { PageHeader } from '@/src/components/PageHeader'
 import { SuccessMessage } from '@/src/components/Labels/SuccessMessage'
 import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
+import { useSession } from 'next-auth/react'
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -31,6 +32,7 @@ export function CreateTournamentForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
+  const { data: sessionData } = useSession()
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const start_date = mainDrawDates?.from
@@ -49,7 +51,8 @@ export function CreateTournamentForm() {
       ...values,
       start_date,
       end_date,
-      no_of_courts
+      no_of_courts,
+      organizerId: sessionData?.user?.id
     })
 
     if (data.success) {

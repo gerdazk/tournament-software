@@ -27,7 +27,22 @@ export const authOptions: AuthOptions = {
       }
     })
   ],
-  session: { strategy: 'jwt' }
+  session: { strategy: 'jwt' },
+  callbacks: {
+    async session({ session, token, user }) {
+      // @ts-ignore
+      session.user.role = user?.role ? user.role : token?.user?.role
+      // @ts-ignore
+      session.user.id = user?.id ? user.id : token?.user?.id
+      return session
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user
+      }
+      return Promise.resolve(token)
+    }
+  }
 }
 
 const handler = NextAuth(authOptions)
