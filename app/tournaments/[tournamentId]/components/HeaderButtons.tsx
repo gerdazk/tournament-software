@@ -30,7 +30,9 @@ export const HeaderButtons = ({
     !isOrganizer &&
     isAllowedToRegister({
       is_registration_open,
-      role: sessionData?.user?.role
+      role: sessionData?.user?.role,
+      participants,
+      id: sessionData?.user?.id
     })
 
   const shouldShowWithdrawButton =
@@ -41,9 +43,9 @@ export const HeaderButtons = ({
       participants
     })
 
-  const onParticipantRegistration = async ({ data }) => {
+  const onParticipantRegistration = async () => {
     try {
-      await addParticipant({ ...data })
+      await addParticipant({ userId: sessionData?.user?.id, tournamentId: id })
       setDialogOpen(false)
     } catch (e) {}
   }

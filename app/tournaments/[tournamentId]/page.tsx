@@ -27,7 +27,6 @@ export default function Page({ params }) {
   const getTournament = async () => {
     const tournaments = await getTournamentById({ id: params.tournamentId })
     tournaments && setTournament(tournaments.tournaments)
-    console.log({ t: tournaments.tournaments })
   }
 
   useEffect(() => {
@@ -60,11 +59,8 @@ export default function Page({ params }) {
         >
           <GeneralInfoTab {...tournament} />
         </TabsContent>
-        <TabsContent
-          value="players"
-          className="grid grid-cols-3 gap-x-4 gap-y-3"
-        >
-          <PlayersTable />
+        <TabsContent value="players" className="">
+          {tournament && <PlayersTable players={tournament.participants} />}
         </TabsContent>
         <TabsContent value="password">
           <Card>

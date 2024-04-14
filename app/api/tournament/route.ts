@@ -37,7 +37,11 @@ export async function GET(req: NextRequest) {
             id: Number(id)
           },
           include: {
-            participants: true
+            participants: {
+              include: {
+                user: true
+              }
+            }
           }
         })
       : await prisma.tournament.findMany({
