@@ -14,7 +14,7 @@ type Props = {
   control: any
   name: string
   label: string
-  description: string
+  description?: string
   type?: string
   min?: string
 }

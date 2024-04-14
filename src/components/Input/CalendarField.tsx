@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils'
 type Props = {
   control: any
   label: string
-  description: string
+  description?: string
   name: string
   placeholder?: string
 }

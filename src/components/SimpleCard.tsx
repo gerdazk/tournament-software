@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label'
 
 type SimpleCardProps = {
   title: string
-  subtitle: string
+  subtitle?: string
   Icon?: React.FC
 }
 
