@@ -50,7 +50,7 @@ export const Navigation = () => {
         {data?.user ? (
           <div className="flex gap-6 items-center">
             <div className="flex gap-3 items-center">
-              <UserCard name={data.user?.name || ''} />
+              <UserCard name={data.user?.name || ''} id={data.user?.id} />
               <ExitIcon
                 className="h-5 w-5 cursor-pointer"
                 onClick={() => signOut()}

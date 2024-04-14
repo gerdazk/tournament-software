@@ -11,6 +11,13 @@ export async function GET(req: NextRequest) {
       ? await prisma.user.findUnique({
           where: {
             id: Number(id)
+          },
+          include: {
+            participant: {
+              include: {
+                tournament: true
+              }
+            }
           }
         })
       : await prisma.user.findMany({

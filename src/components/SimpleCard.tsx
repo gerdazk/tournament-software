@@ -11,7 +11,7 @@ export const SimpleCard = ({ title, subtitle, Icon }: SimpleCardProps) => {
   return (
     <CardHeader className="flex flex-row items-center p-0">
       {Icon && <Icon />}
-      <div>
+      <div className={Icon && 'pl-3'}>
         <Label>{title}</Label>
         <CardDescription>{subtitle}</CardDescription>
       </div>
