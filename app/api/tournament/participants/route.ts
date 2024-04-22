@@ -31,7 +31,7 @@ export async function DELETE(req: NextRequest) {
   const prisma = new PrismaClient()
 
   try {
-    await prisma.tournament.delete({
+    await prisma.participant.delete({
       where: {
         id: Number(id)
       }
