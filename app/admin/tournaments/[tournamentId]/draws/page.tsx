@@ -1,10 +1,8 @@
 'use client'
 
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
-import { Tournament } from '@prisma/client'
 import { useEffect, useState } from 'react'
 
-import { RoundRobinDraw } from './components/RoundRobinDraw/RoundRobinDraw'
 import { CreateDrawDialog } from './components/CreateDrawDialog'
 import { ListOfDraws } from './components/ListOfDraws'
 import { getAllDraws } from './utils/getAllDraws'

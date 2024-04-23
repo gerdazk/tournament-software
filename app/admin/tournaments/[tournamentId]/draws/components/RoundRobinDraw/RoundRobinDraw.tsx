@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 
 import { Participant } from '../../types'
 import { updateParticipants } from '../../utils/updateParticipants'
+import { publishDraw } from '../../utils/publishDraw'
 
 import { Cell } from './Cell'
 import { Row } from './Row'
@@ -18,6 +19,7 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
   players
 }) => {
   const [participants, setParticipants] = useState(players)
+  const [isLoading, setLoading] = useState(false)
   const [isSaved, setSaved] = useState(true)
   const arrayOfParticipants = Array.from(
     { length: draw.numOfTeams },
@@ -64,7 +66,11 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
       tournamentId: draw.tournamentId,
       data: normalizedParticipants
     })
-    console.log({ normalizedParticipants })
+    setSaved(true)
+  }
+
+  const handlePublish = async () => {
+    await publishDraw(draw)
   }
 
   const findParticipant = (no: number) => {
@@ -77,9 +83,22 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
 
   return (
     <div className="flex gap-3 flex-col align-start">
-      <Button disabled={isSaved} variant="outline" onClick={() => handleSave()}>
-        Save your changes
-      </Button>
+      <div className="flex gap-3 my-3">
+        <Button
+          disabled={isSaved}
+          variant="default"
+          onClick={() => handleSave()}
+        >
+          Save your changes
+        </Button>
+        <Button
+          disabled={!isSaved || draw.isPublished}
+          variant="outline"
+          onClick={() => handlePublish()}
+        >
+          Publish the draw
+        </Button>
+      </div>
       <div className={`grid grid-rows-${draw.numOfTeams + 1}`}>
         <div className={`grid grid-cols-${draw.numOfTeams + 1}`}>
           <Cell></Cell>

@@ -50,6 +50,7 @@ model Participant {
   Draw         Draw?      @relation(fields: [drawId], references: [id])
   drawId       Int?
   drawOrderNo  Int?
+  matches      Match[]
 }
 
 model Draw {
@@ -58,5 +59,16 @@ model Draw {
   Tournament   Tournament?   @relation(fields: [tournamentId], references: [id])
   tournamentId Int?
   numOfTeams   Int           @default(2)
+  isPublished Boolean @default(false)
   participants Participant[]
+  matches      Match[]
+}
+
+model Match {
+  id           Int           @id @default(autoincrement())
+  participants Participant[]
+  draw         Draw          @relation(fields: [drawId], references: [id])
+  drawId       Int
+  winnerId     Int?
+  score        String?
 }

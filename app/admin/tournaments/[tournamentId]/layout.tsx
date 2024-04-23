@@ -27,8 +27,8 @@ export default function SettingsLayout({
       href: `/admin/tournaments/${tournamentId}/draws`
     },
     {
-      title: 'Results',
-      href: `/admin/tournaments/${tournamentId}/results`
+      title: 'Matches',
+      href: `/admin/tournaments/${tournamentId}/matches`
     },
     {
       title: 'Order of play',
