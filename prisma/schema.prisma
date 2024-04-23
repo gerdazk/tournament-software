@@ -47,12 +47,16 @@ model Participant {
   userId       Int
   tournament   Tournament @relation(fields: [tournamentId], references: [id])
   tournamentId Int
+  Draw         Draw?      @relation(fields: [drawId], references: [id])
+  drawId       Int?
+  drawOrderNo  Int?
 }
 
 model Draw {
-  id           Int         @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   name         String
-  Tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+  Tournament   Tournament?   @relation(fields: [tournamentId], references: [id])
   tournamentId Int?
-  numOfTeams   Int @default(2)
+  numOfTeams   Int           @default(2)
+  participants Participant[]
 }

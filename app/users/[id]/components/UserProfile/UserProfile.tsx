@@ -12,7 +12,6 @@ export const UserProfile: React.FC<User> = ({
   participant,
   ...rest
 }) => {
-  console.log({ participant })
   return (
     <div className="flex gap-6 w-full">
       <Card className="w-full">

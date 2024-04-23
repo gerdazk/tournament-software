@@ -25,7 +25,6 @@ export const CreateDrawDialog = ({ tournamentId }) => {
   })
 
   const onSubmit = async ({ name, numOfTeams, ...rest }) => {
-    console.log({ rest })
     // await createDraw({
     //   tournamentId,
     //   name,

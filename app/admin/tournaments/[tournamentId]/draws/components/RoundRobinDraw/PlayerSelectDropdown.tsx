@@ -11,22 +11,67 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { useEffect } from 'react'
 
-export const PlayerSelectDropdown = () => {
-  const [position, setPosition] = React.useState('bottom')
+import { Participant } from '../../types'
+
+type PlayersSelectDropdownProps = {
+  players: Participant[]
+  handleChange: (player: Participant) => void
+  drawId: number
+  drawOrderNo: number
+  index: number
+}
+
+export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
+  players = [],
+  index,
+  handleChange,
+  drawId,
+  drawOrderNo
+}) => {
+  const [selectedValue, setSelectedValue] = React.useState<Participant>({})
+
+  useEffect(() => {
+    const defaultValue = players.find(
+      ({ drawOrderNo }) => drawOrderNo === index
+    )
+    defaultValue && setSelectedValue(defaultValue)
+  }, [])
+
+  const handleValueChange = e => {
+    handleChange({ ...e, drawId, drawOrderNo })
+    setSelectedValue(e)
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">{position}</Button>
+        <Button variant="outline">{selectedValue?.label}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+        <DropdownMenuLabel>Players</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        <DropdownMenuRadioGroup
+          value={selectedValue?.label}
+          onValueChange={handleValueChange}
+        >
+          {players.map(({ label, value, drawOrderNo, ...rest }) => {
+            return (
+              <DropdownMenuRadioItem
+                key={value}
+                value={{
+                  label,
+                  value,
+                  drawOrderNo,
+                  ...rest
+                }}
+                disabled={!!drawOrderNo && index !== drawOrderNo}
+              >
+                {label}
+              </DropdownMenuRadioItem>
+            )
+          })}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

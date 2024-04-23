@@ -47,3 +47,32 @@ export async function DELETE(req: NextRequest) {
     })
   }
 }
+
+export async function PUT(req: NextRequest) {
+  const body = await req.json()
+
+  const prisma = new PrismaClient()
+
+  try {
+    Promise.all(
+      body.map(
+        async ({ id, ...rest }) =>
+          await prisma.participant.update({
+            where: {
+              id
+            },
+            data: rest
+          })
+      )
+    )
+
+    return NextResponse.json({ success: true, status: 200 })
+  } catch (error) {
+    console.error('Error updating participants:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Error updating participants',
+      status: 500
+    })
+  }
+}

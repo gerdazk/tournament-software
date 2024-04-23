@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(req: NextRequest, { params }) {
   const body = await req.json()
 
-  console.log({ body })
   const tournamentId = Number(params.tournamentId)
 
   const prisma = new PrismaClient()
@@ -64,11 +63,21 @@ export async function GET(req: NextRequest, { params }) {
       ? await prisma.draw.findUnique({
           where: {
             id: Number(id)
+          },
+          include: {
+            participants: true
           }
         })
       : await prisma.draw.findMany({
           where: {
             tournamentId
+          },
+          include: {
+            participants: {
+              include: {
+                user: true
+              }
+            }
           }
         })
 
