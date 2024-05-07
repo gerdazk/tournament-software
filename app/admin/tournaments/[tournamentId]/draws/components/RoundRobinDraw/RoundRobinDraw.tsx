@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Draw } from '@prisma/client'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 import { Participant } from '../../types'
 import { updateParticipants } from '../../utils/updateParticipants'
@@ -19,8 +20,8 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
   players
 }) => {
   const [participants, setParticipants] = useState(players)
-  const [isLoading, setLoading] = useState(false)
   const [isSaved, setSaved] = useState(true)
+  const router = useRouter()
   const arrayOfParticipants = Array.from(
     { length: draw.numOfTeams },
     (_, index) => index + 1
@@ -67,10 +68,12 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
       data: normalizedParticipants
     })
     setSaved(true)
+    router.refresh()
   }
 
   const handlePublish = async () => {
     await publishDraw(draw)
+    router.refresh()
   }
 
   const findParticipant = (no: number) => {

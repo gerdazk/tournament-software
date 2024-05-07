@@ -16,8 +16,6 @@ import { Form } from '@/components/ui/form'
 import { TextField } from '@/src/components/Input/TextField'
 import { signIn } from 'next-auth/react'
 
-import { SelectField } from '../Input/SelectField'
-
 export const LoginDialog = () => {
   const form = useForm({
     defaultValues: {}

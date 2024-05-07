@@ -1,5 +1,3 @@
-export type ParticipantDTO = {}
-
 export type Participant = {
   value: number
   label: string

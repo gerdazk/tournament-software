@@ -13,35 +13,41 @@ import {
 import { Form } from '@/components/ui/form'
 import { TextField } from '@/src/components/Input/TextField'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { Location } from '@prisma/client'
 
-import { createDraw } from '../utils/createDraw'
+type CreateLocationDialogProps = {
+  tournamentId: number
+  open: boolean
+  onOpenChange: (state: boolean) => void
+}
 
-export const CreateDrawDialog = ({ tournamentId }) => {
-  const [open, setOpen] = useState(false)
+export const CreateLocationDialog: React.FC<CreateLocationDialogProps> = ({
+  tournamentId,
+  open,
+  onOpenChange
+}) => {
   const form = useForm({
     defaultValues: {}
   })
 
-  const onSubmit = async ({ name, numOfTeams }) => {
-    await createDraw({
-      tournamentId,
-      name,
-      numOfTeams: Number(numOfTeams)
+  const onSubmit = async (props: Partial<Location>) => {
+    await fetch(`/api/tournament/${tournamentId}/locations`, {
+      method: 'POST',
+      body: JSON.stringify(props)
     })
-    setOpen(false)
+    onOpenChange(false)
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Create new draw</Button>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogTrigger asChild className="self-end">
+        <Button variant="outline">Create new location</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create a draw</DialogTitle>
+          <DialogTitle>Create a location</DialogTitle>
           <DialogDescription>
-            Create a draw for this tournament.
+            Create a location for this tournament.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -50,17 +56,8 @@ export const CreateDrawDialog = ({ tournamentId }) => {
               control={form.control}
               label="Name"
               description=""
-              placeholder="Name of the draw"
+              placeholder="Name of the location (e.g. Court 2)"
               name="name"
-            />
-            <TextField
-              control={form.control}
-              label="Number of participants"
-              description=""
-              placeholder=""
-              name="numOfTeams"
-              type="number"
-              min="1"
             />
             <DialogFooter>
               <Button type="submit">Submit</Button>

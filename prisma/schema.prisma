@@ -39,6 +39,8 @@ model Tournament {
   organizerId             Int
   participants            Participant[]
   draws                   Draw[]
+  OrderOfPlay             OrderOfPlay[]
+  Location                Location[]
 }
 
 model Participant {
@@ -59,16 +61,35 @@ model Draw {
   Tournament   Tournament?   @relation(fields: [tournamentId], references: [id])
   tournamentId Int?
   numOfTeams   Int           @default(2)
-  isPublished Boolean @default(false)
+  isPublished  Boolean       @default(false)
   participants Participant[]
   matches      Match[]
 }
 
 model Match {
+  id            Int           @id @default(autoincrement())
+  participants  Participant[]
+  draw          Draw          @relation(fields: [drawId], references: [id])
+  drawId        Int
+  winnerId      Int?
+  score         String?
+  OrderOfPlay   OrderOfPlay?  @relation(fields: [orderOfPlayId], references: [id])
+  orderOfPlayId Int?
+}
+
+model OrderOfPlay {
+  id           Int        @id @default(autoincrement())
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
+  matches      Match[]
+  Location     Location?  @relation(fields: [locationId], references: [id])
+  locationId   Int?
+}
+
+model Location {
   id           Int           @id @default(autoincrement())
-  participants Participant[]
-  draw         Draw          @relation(fields: [drawId], references: [id])
-  drawId       Int
-  winnerId     Int?
-  score        String?
+  ordersOfPlay OrderOfPlay[]
+  tournament   Tournament    @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
+  name String
 }

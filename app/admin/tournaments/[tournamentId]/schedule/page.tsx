@@ -6,7 +6,7 @@ import { PageHeader } from '@/src/components/PageHeader'
 
 import { getAllDraws } from '../draws/utils/getAllDraws'
 
-import { ListOfMatchesDraws } from './components/ListOfMatchesDraws'
+import { OrderOfPlay } from './components/OrderOfPlay'
 
 export default function Page({ params }) {
   const [draws, setDraws] = useState<Draw[]>([])
@@ -21,8 +21,12 @@ export default function Page({ params }) {
   }, [])
   return (
     <div className="w-full">
-      <PageHeader title="All tournament matches" isSmall />
-      <ListOfMatchesDraws draws={draws} />
+      <PageHeader
+        title="Tournament schedule"
+        subtitle="Order of play for all tournament matches"
+        isSmall
+      />
+      <OrderOfPlay />
     </div>
   )
 }

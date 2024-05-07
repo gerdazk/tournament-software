@@ -2,6 +2,7 @@
 
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 import { useEffect, useState } from 'react'
+import { PageHeader } from '@/src/components/PageHeader'
 
 import { CreateDrawDialog } from './components/CreateDrawDialog'
 import { ListOfDraws } from './components/ListOfDraws'
@@ -40,6 +41,11 @@ export default function Page({ params }) {
   }, [])
   return (
     <div className="w-full overflow-x-auto">
+      <PageHeader
+        title="Tournament draws"
+        subtitle="All draws for tournament matches"
+        isSmall
+      />
       <CreateDrawDialog tournamentId={params.tournamentId} />
       <ListOfDraws draws={draws} players={players} />
     </div>

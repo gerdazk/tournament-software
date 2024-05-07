@@ -5,7 +5,6 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { useState } from 'react'
-import { Card } from '@/components/ui/card'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TextField } from '@/src/components/Input/TextField'
 import { DoubleCalendarField } from '@/src/components/Input/DoubleCalendarField'
@@ -82,89 +81,88 @@ export function EditTournamentForm({ tournament }) {
         buttonText="Delete tournament"
         buttonVariant="destructive"
         onButtonClick={handleDelete}
+        isSmall
       />
-      <Card className="w-full p-8">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <TextField
-              control={form.control}
-              label="Name"
-              description="Display name of the tournament"
-              placeholder=""
-              name="name"
-            />
-            <TextField
-              control={form.control}
-              label="Description"
-              description="Display name of the tournament"
-              placeholder=""
-              name="description"
-            />
-            <TextField
-              control={form.control}
-              label="No of courts"
-              description=""
-              placeholder=""
-              name="no_of_courts"
-              type="number"
-              min="1"
-            />
-            <TextField
-              control={form.control}
-              label="Country"
-              description=""
-              placeholder=""
-              name="country"
-            />
-            <TextField
-              control={form.control}
-              label="City"
-              description=""
-              placeholder=""
-              name="city"
-            />
-            <TextField
-              control={form.control}
-              label="Additional address info"
-              description=""
-              placeholder=""
-              name="address_additional_info"
-            />
-            <TextField
-              control={form.control}
-              label="Venue name"
-              description=""
-              placeholder=""
-              name="address_name"
-            />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <TextField
+            control={form.control}
+            label="Name"
+            description="Display name of the tournament"
+            placeholder=""
+            name="name"
+          />
+          <TextField
+            control={form.control}
+            label="Description"
+            description="Display name of the tournament"
+            placeholder=""
+            name="description"
+          />
+          <TextField
+            control={form.control}
+            label="No of courts"
+            description=""
+            placeholder=""
+            name="no_of_courts"
+            type="number"
+            min="1"
+          />
+          <TextField
+            control={form.control}
+            label="Country"
+            description=""
+            placeholder=""
+            name="country"
+          />
+          <TextField
+            control={form.control}
+            label="City"
+            description=""
+            placeholder=""
+            name="city"
+          />
+          <TextField
+            control={form.control}
+            label="Additional address info"
+            description=""
+            placeholder=""
+            name="address_additional_info"
+          />
+          <TextField
+            control={form.control}
+            label="Venue name"
+            description=""
+            placeholder=""
+            name="address_name"
+          />
 
-            <DoubleCalendarField
-              date={mainDrawDates}
-              setDate={setMainDrawDates}
-              name="dates"
-              label="Tournament date"
-            />
-            <SwitchField
-              control={form.control}
-              name="is_visible"
-              title="Tournament visibility"
-              description="Make tournament visible/invisible to other users"
-            />
-            <SwitchField
-              control={form.control}
-              name="is_registration_open"
-              title="Open registration"
-              description="Open tournament registration. Users will be able to register."
-            />
-            {successMessage ? (
-              <SuccessMessage message={successMessage} />
-            ) : (
-              <Button type="submit">Submit</Button>
-            )}
-            {errorMessage && <ErrorMessage message={errorMessage} />}
-          </form>
-        </Form>
-      </Card>
+          <DoubleCalendarField
+            date={mainDrawDates}
+            setDate={setMainDrawDates}
+            name="dates"
+            label="Tournament date"
+          />
+          <SwitchField
+            control={form.control}
+            name="is_visible"
+            title="Tournament visibility"
+            description="Make tournament visible/invisible to other users"
+          />
+          <SwitchField
+            control={form.control}
+            name="is_registration_open"
+            title="Open registration"
+            description="Open tournament registration. Users will be able to register."
+          />
+          {successMessage ? (
+            <SuccessMessage message={successMessage} />
+          ) : (
+            <Button type="submit">Submit</Button>
+          )}
+          {errorMessage && <ErrorMessage message={errorMessage} />}
+        </form>
+      </Form>
     </div>
   )
 }

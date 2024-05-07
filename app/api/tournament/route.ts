@@ -41,7 +41,8 @@ export async function GET(req: NextRequest) {
               include: {
                 user: true
               }
-            }
+            },
+            Location: true
           }
         })
       : await prisma.tournament.findMany({

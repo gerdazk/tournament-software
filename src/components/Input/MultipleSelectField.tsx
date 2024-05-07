@@ -1,22 +1,14 @@
 import * as React from 'react'
 import {
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
 import MultipleSelector from '@/components/ui/multiple-selector'
 
-const OPTIONS: Option[] = [
+const OPTIONS = [
   { label: 'nextjs', value: 'Nextjs' },
   { label: 'React', value: 'react' },
   { label: 'Remix', value: 'remix' },
@@ -47,9 +39,7 @@ export const MultipleSelectField = ({
   control,
   description,
   label,
-  name,
-  placeholder,
-  items
+  name
 }: Props) => {
   return (
     <FormField

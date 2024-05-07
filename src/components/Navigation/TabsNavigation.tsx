@@ -3,9 +3,6 @@ type TabsNavigationProps = {
   selectedItem: number
 }
 
-export const TabsNavigation: React.FC<TabsNavigationProps> = ({
-  items,
-  selectedItem
-}) => {
+export const TabsNavigation: React.FC<TabsNavigationProps> = () => {
   return <div>nav</div>
 }

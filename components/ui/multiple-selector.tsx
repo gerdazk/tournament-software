@@ -14,13 +14,13 @@ import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
 export interface Option {
+  [key: string]: string | boolean | undefined
   value: string
   label: string
   disable?: boolean
   /** fixed option that can't be removed. */
   fixed?: boolean
   /** Group the options by providing key. */
-  [key: string]: string | boolean | undefined
 }
 interface GroupOption {
   [key: string]: Option[]

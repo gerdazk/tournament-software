@@ -19,6 +19,10 @@ export default function SettingsLayout({
       href: `/admin/tournaments/${tournamentId}/general`
     },
     {
+      title: 'Locations',
+      href: `/admin/tournaments/${tournamentId}/locations`
+    },
+    {
       title: 'Players',
       href: `/admin/tournaments/${tournamentId}/players`
     },

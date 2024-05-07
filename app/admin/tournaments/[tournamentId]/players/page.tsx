@@ -1,6 +1,7 @@
 'use client'
 
 import { PlayersTable } from '@/app/tournaments/[tournamentId]/components/PlayersTable'
+import { PageHeader } from '@/src/components/PageHeader'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 import { Tournament } from '@prisma/client'
 import { useEffect, useState } from 'react'
@@ -18,6 +19,11 @@ export default function Page({ params }) {
   }, [])
   return (
     <div className="w-full">
+      <PageHeader
+        title="Players"
+        subtitle="All players registered to this tournament"
+        isSmall
+      />
       <PlayersTable players={tournament.participants} className="w-full" />
     </div>
   )

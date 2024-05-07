@@ -2,7 +2,6 @@ import { CalendarIcon } from 'lucide-react'
 import * as React from 'react'
 import { format } from 'date-fns'
 import {
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
@@ -31,7 +30,6 @@ export const DoubleCalendarField = ({
   label,
   description,
   name,
-  placeholder,
   date,
   setDate
 }: Props) => {
