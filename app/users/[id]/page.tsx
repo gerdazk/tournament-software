@@ -4,6 +4,7 @@ import { getUserById } from '@/src/utils/users/getUserById'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { User } from '@prisma/client'
+import { PageHeader } from '@/src/components/PageHeader'
 
 import { UserProfile } from './components/UserProfile/UserProfile'
 import { PersonalProfile } from './components/PersonalProfile/PersonalProfile'
@@ -24,7 +25,8 @@ export default function Page({ params }) {
     getUser()
   }, [])
   return (
-    <div className="pt-6">
+    <div>
+      <PageHeader title="Player profile" />
       {user ? (
         isPersonalProfile ? (
           <PersonalProfile {...user} />

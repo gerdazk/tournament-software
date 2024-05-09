@@ -1,6 +1,6 @@
-export const getAllTournaments = async () => {
+export const getAllTournaments = async ({ isArchive = false }) => {
   try {
-    const response = await fetch('/api/tournament')
+    const response = await fetch(`/api/tournament?isArchive=${isArchive || ''}`)
 
     if (response.ok) {
       const data = await response.json()

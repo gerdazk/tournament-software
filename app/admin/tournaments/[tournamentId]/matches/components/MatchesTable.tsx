@@ -16,7 +16,6 @@ type MatchesTableProps = {
 }
 
 export const MatchesTable: React.FC<MatchesTableProps> = ({ matches = [] }) => {
-  console.log({ matches })
   return (
     <Table className={`w-full`}>
       <TableHeader>

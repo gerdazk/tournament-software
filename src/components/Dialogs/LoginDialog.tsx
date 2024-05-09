@@ -36,7 +36,7 @@ export const LoginDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Log in</Button>
+        <Button variant="default">Log in</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

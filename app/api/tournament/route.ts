@@ -27,6 +27,9 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams
   const id = params.get('id')
+  const isArchive = !!params.get('isArchive') || false
+
+  console.log({ isArchive })
 
   const prisma = new PrismaClient()
 
@@ -47,7 +50,13 @@ export async function GET(req: NextRequest) {
         })
       : await prisma.tournament.findMany({
           where: {
-            is_visible: true
+            is_visible: true,
+            start_date: {
+              gte: !isArchive ? new Date() : new Date('1990-01-01')
+            },
+            end_date: {
+              lte: isArchive ? new Date() : new Date('3000-01-01')
+            }
           }
         })
 

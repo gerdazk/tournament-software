@@ -13,6 +13,7 @@ import {
 import { ModeToggle } from '@/src/components/Navigation/components/ModeToggle'
 import { signOut, useSession } from 'next-auth/react'
 import { ExitIcon } from '@radix-ui/react-icons'
+import { HomeIcon } from 'lucide-react'
 
 import { LoginDialog } from '../Dialogs/LoginDialog'
 import { RegistrationDialog } from '../Dialogs/RegistrationDialog'
@@ -21,9 +22,18 @@ import { UserCard } from './components/UserCard'
 
 export const Navigation = () => {
   const { data } = useSession()
+  const isPlayer = !data?.user?.role || data.user.role === 'user'
+  const isAdmin = data?.user?.role && data.user.role === 'admin'
   return (
     <NavigationMenu className="mt-5 flex justify-between w-full max-w-full px-10">
       <NavigationMenuList>
+        <NavigationMenuItem>
+          <Link href="/" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <HomeIcon className="pr-2" /> Home
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/tournaments" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -32,19 +42,21 @@ export const Navigation = () => {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/users" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Rankings
+              Players
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+        {isAdmin && (
+          <NavigationMenuItem>
+            <Link href="/admin/users/roleApprovals" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Role approvals
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        )}
       </NavigationMenuList>
       <div>
         {data?.user ? (

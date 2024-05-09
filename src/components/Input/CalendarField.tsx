@@ -24,6 +24,7 @@ type Props = {
   description?: string
   name: string
   placeholder?: string
+  defaultValue?: any
 }
 
 export const CalendarField = ({
@@ -31,7 +32,9 @@ export const CalendarField = ({
   label,
   description,
   name,
-  placeholder
+  placeholder,
+  defaultValue,
+  ...rest
 }: Props) => {
   return (
     <FormField
@@ -68,6 +71,7 @@ export const CalendarField = ({
                   date > new Date() || date < new Date('1900-01-01')
                 }
                 initialFocus
+                defaultMonth={new Date(2000, 1)}
               />
             </PopoverContent>
           </Popover>

@@ -36,22 +36,20 @@ const roleOptions = [
   }
 ]
 
-const formSchema = z
-  .object({
-    email: z.string().min(1),
-    name: z.string().min(5),
-    password: z.string().min(8),
-    date_of_birth: z.date(),
-    proposed_role: z.string().optional()
-  })
-  .required()
+const formSchema = z.object({
+  email: z.string().min(1),
+  name: z.string().min(5),
+  password: z.string().min(8),
+  date_of_birth: z.date(),
+  proposed_role: z.string().optional()
+})
 
 export const RegistrationDialog = () => {
   const [successMessage, setSuccessMessage] = useState('')
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // username: ""
+      proposed_role: undefined
     }
   })
 
@@ -89,6 +87,7 @@ export const RegistrationDialog = () => {
               name="date_of_birth"
               label="Date of birth"
               description=""
+              defaultValue="1999-01-01"
             />
             <TextField
               control={form.control}

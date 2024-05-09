@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { PageHeader } from '@/src/components/PageHeader'
 import { useRouter } from 'next/navigation'
 
-import { TournamentList } from './components/TournamentList'
+import { TournamentList } from '../components/TournamentList'
 
 export default function Tournaments() {
   const [tournaments, setTournaments] = useState([])
@@ -13,7 +13,7 @@ export default function Tournaments() {
   const router = useRouter()
 
   const getTournaments = async () => {
-    const allTournaments = await getAllTournaments({})
+    const allTournaments = await getAllTournaments({ isArchive: true })
     allTournaments && setTournaments(allTournaments.tournaments)
   }
 
@@ -23,9 +23,10 @@ export default function Tournaments() {
   return (
     <div>
       <PageHeader
-        title="All tournaments"
-        buttonText="Tournaments archive"
-        onButtonClick={() => router.push('/tournaments/archive')}
+        title="Tournaments archive"
+        subtitle="All past tournaments"
+        buttonText="Upcoming tournaments"
+        onButtonClick={() => router.push('/tournaments')}
         buttonVariant="outline"
       />
       <TournamentList data={tournaments} />
