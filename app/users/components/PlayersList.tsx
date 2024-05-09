@@ -119,7 +119,6 @@ export const columns: ColumnDef<Session>[] = [
 ]
 
 export const PlayersList = ({ data }: { data: Session[] }) => {
-  console.log({ data })
   const [sorting, setSorting] = React.useState<SortingState>([])
   const router = useRouter()
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

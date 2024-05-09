@@ -29,8 +29,6 @@ export async function GET(req: NextRequest) {
   const id = params.get('id')
   const isArchive = !!params.get('isArchive') || false
 
-  console.log({ isArchive })
-
   const prisma = new PrismaClient()
 
   try {

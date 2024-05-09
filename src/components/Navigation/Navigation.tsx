@@ -37,7 +37,14 @@ export const Navigation = () => {
         <NavigationMenuItem>
           <Link href="/tournaments" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Tournaments
+              Upcoming Tournaments
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/tournaments/archive" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Tournament Archive
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
