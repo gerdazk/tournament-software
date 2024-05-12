@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
           include: {
             participant: {
               include: {
-                tournament: true
+                tournament: true,
+                matches: true
               }
             }
           }
