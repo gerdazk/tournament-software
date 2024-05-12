@@ -63,7 +63,7 @@ export const columns: ColumnDef<Session>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('id')}</div>
+    cell: ({ row }) => <div>{row.getValue('id')}</div>
   },
   {
     accessorKey: 'name',
@@ -78,7 +78,7 @@ export const columns: ColumnDef<Session>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('name')}</div>
+    cell: ({ row }) => <div>{row.getValue('name')}</div>
   },
   {
     accessorKey: 'city',

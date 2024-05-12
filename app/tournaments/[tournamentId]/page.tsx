@@ -15,11 +15,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useEffect, useState } from 'react'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 import { Separator } from '@/components/ui/separator'
-import { Tournament } from '@prisma/client'
+import { Draw, Tournament } from '@prisma/client'
+import { getAllDraws } from '@/app/admin/tournaments/[tournamentId]/draws/utils/getAllDraws'
+import { ListOfMatchesDraws } from '@/app/admin/tournaments/[tournamentId]/matches/components/ListOfMatchesDraws'
 
 import { GeneralInfoTab } from './components/GeneralInfoTab'
 import { PlayersTable } from './components/PlayersTable'
 import { HeaderButtons } from './components/HeaderButtons'
+import { DrawsTab } from './components/DrawsTab/DrawsTab'
 
 export default function Page({ params }) {
   const [tournament, setTournament] = useState<Tournament>({})
@@ -31,7 +34,15 @@ export default function Page({ params }) {
 
   useEffect(() => {
     getTournament()
+    getDraws()
   }, [])
+
+  const [draws, setDraws] = useState<Draw[]>([])
+
+  const getDraws = async () => {
+    const allDraws = await getAllDraws({ tournamentId: params.tournamentId })
+    allDraws && setDraws(allDraws)
+  }
   return (
     <>
       <div className="hidden space-y-6 pb-16 pt-8 md:block">
@@ -51,7 +62,7 @@ export default function Page({ params }) {
           <TabsTrigger value="players">Players</TabsTrigger>
           <TabsTrigger value="draws">Draws</TabsTrigger>
           <TabsTrigger value="order">Order of play</TabsTrigger>
-          <TabsTrigger value="results">Results</TabsTrigger>
+          <TabsTrigger value="matches">Matches</TabsTrigger>
         </TabsList>
         <TabsContent
           value="general"
@@ -62,28 +73,11 @@ export default function Page({ params }) {
         <TabsContent value="players" className="">
           {tournament && <PlayersTable players={tournament.participants} />}
         </TabsContent>
-        <TabsContent value="password">
-          <Card>
-            <CardHeader>
-              <CardTitle>Password</CardTitle>
-              <CardDescription>
-                {`Change your password here. After saving, you'll be logged out.`}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="current">Current password</Label>
-                <Input id="current" type="password" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="new">New password</Label>
-                <Input id="new" type="password" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button>Save password</Button>
-            </CardFooter>
-          </Card>
+        <TabsContent value="draws">
+          <DrawsTab tournamentId={params.tournamentId} />
+        </TabsContent>
+        <TabsContent value="matches">
+          <ListOfMatchesDraws draws={draws} />
         </TabsContent>
       </Tabs>
     </>
