@@ -39,7 +39,7 @@ export function ApprovalsTable({ requests }: { requests: User[] }) {
             <TableCell>{request.proposed_role}</TableCell>
             <TableCell className="flex gap-2 items-center">
               <CheckIcon
-                className="h-5 w-5"
+                className="h-5 w-5 cursor-pointer"
                 onClick={() =>
                   handleRoleUpdate({
                     isApproved: true,
@@ -49,11 +49,12 @@ export function ApprovalsTable({ requests }: { requests: User[] }) {
                 }
               />
               <Cross2Icon
+                className="cursor-pointer"
                 onClick={() =>
                   handleRoleUpdate({
                     isApproved: false,
                     role: request.proposed_role,
-                    id: request.id
+                    id: Number(request.id)
                   })
                 }
               />

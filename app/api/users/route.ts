@@ -59,7 +59,7 @@ export async function PATCH(req: NextRequest) {
     const users = isApproved
       ? await prisma.user.update({
           where: {
-            id
+            id: Number(id)
           },
           data: {
             role,
@@ -68,7 +68,7 @@ export async function PATCH(req: NextRequest) {
         })
       : await prisma.user.update({
           where: {
-            id
+            id: Number(id)
           },
           data: {
             proposed_role: ''
