@@ -7,7 +7,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Match, Participant } from '@prisma/client'
-import { CheckIcon, ClockIcon } from 'lucide-react'
+import { CheckIcon, ClockIcon, UserIcon } from 'lucide-react'
 import { useState } from 'react'
 
 import { ScoreEntryDialog } from './ScoreEntryDialog'
@@ -16,14 +16,17 @@ type MatchesTableProps = {
   matches: (Match & {
     participants: Participant[]
   })[]
+  shouldDisplayHeader?: boolean
 }
 
-export const MatchesTable: React.FC<MatchesTableProps> = ({ matches = [] }) => {
+export const MatchesTable: React.FC<MatchesTableProps> = ({
+  matches = [],
+  shouldDisplayHeader = true
+}) => {
   const [isScoreEntryModalOpen, setScoreEntryModalOpen] = useState(false)
   const [selectedMatch, setSelectedMatch] = useState({})
 
   const handleRowClick = match => {
-    console.log({ match })
     setSelectedMatch(match)
     setScoreEntryModalOpen(true)
   }
@@ -31,17 +34,19 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({ matches = [] }) => {
   return (
     <>
       <Table className={`w-full`}>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]"></TableHead>
-            <TableHead className="w-[100px]">Player 1</TableHead>
-            <TableHead>Player 2</TableHead>
-            <TableHead>Score</TableHead>
-          </TableRow>
-        </TableHeader>
+        {shouldDisplayHeader && (
+          <TableHeader className="w-full">
+            <TableRow className="w-full">
+              <TableHead className="w-[100px]"></TableHead>
+              <TableHead className="w-[100px]">Player 1</TableHead>
+              <TableHead>Player 2</TableHead>
+              <TableHead>Score</TableHead>
+            </TableRow>
+          </TableHeader>
+        )}
         <TableBody>
-          {matches.map(({ participants, score, id, winnerId }) =>
-            participants?.length ? (
+          {matches.map(({ participants, score, id, winnerId }) => {
+            return participants?.length ? (
               <TableRow
                 key={id}
                 className="cursor-pointer"
@@ -77,14 +82,14 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({ matches = [] }) => {
             ) : (
               ''
             )
-          )}
+          })}
         </TableBody>
       </Table>
-      <ScoreEntryDialog
+      {/* <ScoreEntryDialog
         {...selectedMatch}
         isOpen={isScoreEntryModalOpen}
         setOpen={setScoreEntryModalOpen}
-      />
+      /> */}
     </>
   )
 }

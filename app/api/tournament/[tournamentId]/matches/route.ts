@@ -45,3 +45,41 @@ export async function POST(req: NextRequest, { params }) {
     })
   }
 }
+
+export async function GET(req: NextRequest, { params }) {
+  const tournamentId = Number(params.tournamentId)
+
+  const prisma = new PrismaClient()
+
+  try {
+    const allMatches: any[] = []
+    const draws = await prisma.draw.findMany({
+      where: {
+        tournamentId
+      },
+      include: {
+        matches: {
+          include: {
+            participants: {
+              include: {
+                user: true
+              }
+            },
+            draw: true
+          }
+        }
+      }
+    })
+
+    draws.map(({ matches }) => allMatches.push(...matches))
+
+    return NextResponse.json({ success: true, allMatches, status: 201 })
+  } catch (error) {
+    console.error('Error finding matches:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Error finding matches',
+      status: 500
+    })
+  }
+}

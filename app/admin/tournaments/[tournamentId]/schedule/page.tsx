@@ -3,21 +3,31 @@
 import { Draw } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { PageHeader } from '@/src/components/PageHeader'
+import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 
 import { getAllDraws } from '../draws/utils/getAllDraws'
 
 import { OrderOfPlay } from './components/OrderOfPlay'
 
 export default function Page({ params }) {
-  const [draws, setDraws] = useState<Draw[]>([])
+  const [schedules, setSchedules] = useState([])
+  const [isDialogOpen, setDialogOpen] = useState(false)
+  const [tournament, setTournament] = useState()
 
-  const getDraws = async () => {
-    const allDraws = await getAllDraws({ tournamentId: params.tournamentId })
-    allDraws && setDraws(allDraws)
+  const getSchedules = async () => {
+    const res = await fetch(`/api/tournament/${params.tournamentId}/schedules`)
+    const allSchedules = await res.json()
+    allSchedules && setSchedules(allSchedules.schedules)
+  }
+
+  const getTournaments = async () => {
+    const allTournaments = await getTournamentById({ id: params.tournamentId })
+    setTournament(allTournaments.tournaments)
   }
 
   useEffect(() => {
-    getDraws()
+    getSchedules()
+    getTournaments()
   }, [])
   return (
     <div className="w-full">
@@ -25,8 +35,14 @@ export default function Page({ params }) {
         title="Tournament schedule"
         subtitle="Order of play for all tournament matches"
         isSmall
+        buttonText="Create new schedule"
+        onButtonClick={() => setDialogOpen(!isDialogOpen)}
       />
-      <OrderOfPlay />
+      <OrderOfPlay
+        schedules={schedules}
+        tournament={tournament}
+        tournamentId={params.tournamentId}
+      />
     </div>
   )
 }

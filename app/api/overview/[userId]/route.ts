@@ -13,8 +13,6 @@ export async function GET(_req, { params }) {
       select: {}
     })
 
-    console.log({ user })
-
     // const participations = await prisma.participant.findMany({
     //     where: {
     //         id: {

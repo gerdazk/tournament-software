@@ -87,6 +87,7 @@ model OrderOfPlay {
   matches      Match[]
   Location     Location?  @relation(fields: [locationId], references: [id])
   locationId   Int?
+  date         DateTime
 }
 
 model Location {
