@@ -13,6 +13,7 @@ import { normalizeDate } from '@/src/utils/normalizeDate'
 import { Button } from '@/components/ui/button'
 
 import { ScoreEntryDialog } from './ScoreEntryDialog'
+import { MatchRow } from './MatchRow'
 
 type MatchesTableProps = {
   matches: (Match & {
@@ -47,64 +48,19 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {matches.map(
-            ({ participants, score, id, winnerId, startTime, OrderOfPlay }) => {
-              return participants?.length ? (
-                <TableRow
-                  key={id}
-                  className="cursor-pointer"
-                  onClick={e => e.preventDefault()}
-                >
-                  <TableCell className="font-medium">
-                    {score ? (
-                      <CheckIcon className="w-3 h-3" />
-                    ) : (
-                      <ClockIcon className="w-3 h-3" />
-                    )}
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    {(startTime && normalizeDate(startTime, true)) || 'TBD'}
-                  </TableCell>
-                  <TableCell className="font-medium">
-                    {OrderOfPlay?.Location?.name || 'TBD'}
-                  </TableCell>
-                  <TableCell
-                    className={`font-medium ${winnerId === participants?.[0]?.id ? `text-primary font-bold` : `text-muted-foreground`}`}
-                  >
-                    {participants?.[0]?.user?.name}
-                  </TableCell>
-                  <TableCell
-                    className={`font-medium ${winnerId === participants?.[1]?.id ? `text-primary font-bold` : `text-muted-foreground`}`}
-                  >
-                    {participants?.[1]?.user?.name}
-                  </TableCell>
-                  {score ? (
-                    <TableCell className="font-medium">{score}</TableCell>
-                  ) : shouldAllowEditing ? (
-                    <TableCell
-                      className="cursor-pointer"
-                      onClick={() =>
-                        handleRowClick({ players: participants, matchId: id })
-                      }
-                    >
-                      <Button variant="outline"> Enter match score</Button>
-                    </TableCell>
-                  ) : (
-                    <TableCell className="font-medium">-</TableCell>
-                  )}
-                </TableRow>
-              ) : (
-                ''
-              )
-            }
-          )}
+          {matches.map(({ participants, ...match }) => {
+            return participants?.length ? (
+              <MatchRow
+                {...match}
+                shouldAllowEditing={shouldAllowEditing}
+                participants={participants}
+              />
+            ) : (
+              ''
+            )
+          })}
         </TableBody>
       </Table>
-      {/* <ScoreEntryDialog
-        {...selectedMatch}
-        isOpen={isScoreEntryModalOpen}
-        setOpen={setScoreEntryModalOpen}
-      /> */}
     </>
   )
 }

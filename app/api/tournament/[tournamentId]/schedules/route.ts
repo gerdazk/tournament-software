@@ -83,13 +83,16 @@ export async function PATCH(req: NextRequest) {
 
 export async function GET(req: NextRequest, { params }) {
   const tournamentId = Number(params.tournamentId)
+  const searchParams = req.nextUrl.searchParams
+  const isPublished = !!searchParams.get('isPublished')
 
   const prisma = new PrismaClient()
 
   try {
     const schedules = await prisma.orderOfPlay.findMany({
       where: {
-        tournamentId
+        tournamentId,
+        isPublished
       },
       include: {
         Location: true,

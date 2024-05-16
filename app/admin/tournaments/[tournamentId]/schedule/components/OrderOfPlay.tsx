@@ -10,7 +10,8 @@ export const OrderOfPlay = ({
   schedules,
   tournament,
   tournamentId,
-  shouldAllowEditing
+  shouldAllowEditing,
+  onUpdate
 }) => {
   const dates = getDaysBetweenDates({ ...tournament })
   return (
@@ -46,6 +47,7 @@ export const OrderOfPlay = ({
                     schedule={schedule}
                     tournamentId={tournamentId}
                     shouldAllowEditing={shouldAllowEditing}
+                    onUpdate={onUpdate}
                   />
                 )
               })}

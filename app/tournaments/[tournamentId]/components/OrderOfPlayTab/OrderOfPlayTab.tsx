@@ -9,7 +9,9 @@ export const OrderOfPlayTab = ({ tournamentId }) => {
   const [tournament, setTournament] = useState()
 
   const getSchedules = async () => {
-    const res = await fetch(`/api/tournament/${tournamentId}/schedules`)
+    const res = await fetch(
+      `/api/tournament/${tournamentId}/schedules?isPublished=true`
+    )
     const allSchedules = await res.json()
     allSchedules && setSchedules(allSchedules.schedules)
   }
@@ -23,12 +25,19 @@ export const OrderOfPlayTab = ({ tournamentId }) => {
     getSchedules()
     getTournaments()
   }, [])
+
+  const onUpdate = () => {
+    getSchedules()
+    getTournaments()
+  }
+
   return (
     <OrderOfPlay
       schedules={schedules}
       tournament={tournament}
       tournamentId={tournamentId}
       shouldAllowEditing={false}
+      onUpdate={onUpdate}
     />
   )
 }

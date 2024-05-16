@@ -26,6 +26,12 @@ export default function Page({ params }) {
     getSchedules()
     getTournaments()
   }, [])
+
+  const onUpdate = () => {
+    getSchedules()
+    getTournaments()
+  }
+
   return (
     <div className="w-full">
       <PageHeader
@@ -40,6 +46,7 @@ export default function Page({ params }) {
         tournament={tournament}
         tournamentId={params.tournamentId}
         shouldAllowEditing={true}
+        onUpdate={onUpdate}
       />
     </div>
   )

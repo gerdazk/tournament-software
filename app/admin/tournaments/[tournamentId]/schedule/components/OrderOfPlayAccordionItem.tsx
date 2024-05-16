@@ -17,7 +17,8 @@ export const OrderOfPlayAccordionItem = ({
   date,
   schedule,
   tournamentId,
-  shouldAllowEditing
+  shouldAllowEditing,
+  onUpdate
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
 
@@ -29,6 +30,7 @@ export const OrderOfPlayAccordionItem = ({
         id: schedule[0].id
       })
     })
+    onUpdate()
   }
 
   return (
@@ -57,13 +59,17 @@ export const OrderOfPlayAccordionItem = ({
               >
                 Add a match
               </Button>
-              <Button
-                className="mb-3"
-                variant="outline"
-                onClick={handlePublishButtonClick}
-              >
-                {schedule[0]?.isPublished ? 'Unpublish' : 'Publish'}
-              </Button>
+              {schedule?.length ? (
+                <Button
+                  className="mb-3"
+                  variant="outline"
+                  onClick={handlePublishButtonClick}
+                >
+                  {schedule[0]?.isPublished ? 'Unpublish' : 'Publish'}
+                </Button>
+              ) : (
+                ''
+              )}
             </div>
           )}
           {hasMatches ? (
