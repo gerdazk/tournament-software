@@ -8,7 +8,6 @@ import { OrderOfPlay } from './components/OrderOfPlay'
 
 export default function Page({ params }) {
   const [schedules, setSchedules] = useState([])
-  const [isDialogOpen, setDialogOpen] = useState(false)
   const [tournament, setTournament] = useState()
 
   const getSchedules = async () => {
@@ -38,8 +37,6 @@ export default function Page({ params }) {
         title="Tournament schedule"
         subtitle="Order of play for all tournament matches"
         isSmall
-        buttonText="Create new schedule"
-        onButtonClick={() => setDialogOpen(!isDialogOpen)}
       />
       <OrderOfPlay
         schedules={schedules}
