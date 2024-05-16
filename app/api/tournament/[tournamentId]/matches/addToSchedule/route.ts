@@ -8,8 +8,6 @@ export async function POST(req: NextRequest, { params }) {
 
     const { locationId, date, matchId } = body
 
-    console.log({ body })
-
     const prisma = new PrismaClient()
 
     let orderOfPlay = await prisma.orderOfPlay.findFirst({

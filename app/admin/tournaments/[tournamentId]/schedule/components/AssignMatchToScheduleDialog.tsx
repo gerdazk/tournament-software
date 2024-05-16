@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/dialog'
 import { Form, FormLabel } from '@/components/ui/form'
 import { TimePicker } from '@/components/ui/time-picker-demo'
-import { CalendarField } from '@/src/components/Input/CalendarField'
 import { SelectField } from '@/src/components/Input/SelectField'
 import { getAllTournamentMatches } from '@/src/utils/tournaments/getAllTournamentMatches'
 import { Match } from '@prisma/client'
