@@ -10,10 +10,12 @@ import { MatchesTable } from './MatchesTable'
 
 type ListOfMatchesDrawsProps = {
   draws: Draw[]
+  shouldAllowEditing?: boolean
 }
 
 export const ListOfMatchesDraws: React.FC<ListOfMatchesDrawsProps> = ({
-  draws
+  draws,
+  shouldAllowEditing
 }) => {
   return (
     <Accordion type="single" collapsible className="w-full">
@@ -22,7 +24,10 @@ export const ListOfMatchesDraws: React.FC<ListOfMatchesDrawsProps> = ({
           <AccordionItem value={name} key={id}>
             <AccordionTrigger>{name}</AccordionTrigger>
             <AccordionContent>
-              <MatchesTable matches={matches} />
+              <MatchesTable
+                matches={matches}
+                shouldAllowEditing={shouldAllowEditing}
+              />
             </AccordionContent>
           </AccordionItem>
         ) : (

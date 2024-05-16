@@ -6,7 +6,12 @@ import { getDaysBetweenDates } from '../utils/getDaysBetweenDates'
 
 import { OrderOfPlayAccordionItem } from './OrderOfPlayAccordionItem'
 
-export const OrderOfPlay = ({ schedules, tournament, tournamentId }) => {
+export const OrderOfPlay = ({
+  schedules,
+  tournament,
+  tournamentId,
+  shouldAllowEditing
+}) => {
   const dates = getDaysBetweenDates({ ...tournament })
   return (
     <>
@@ -40,6 +45,7 @@ export const OrderOfPlay = ({ schedules, tournament, tournamentId }) => {
                     date={date}
                     schedule={schedule}
                     tournamentId={tournamentId}
+                    shouldAllowEditing={shouldAllowEditing}
                   />
                 )
               })}

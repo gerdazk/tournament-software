@@ -1,11 +1,8 @@
 'use client'
 
-import { Draw } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { PageHeader } from '@/src/components/PageHeader'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
-
-import { getAllDraws } from '../draws/utils/getAllDraws'
 
 import { OrderOfPlay } from './components/OrderOfPlay'
 
@@ -42,6 +39,7 @@ export default function Page({ params }) {
         schedules={schedules}
         tournament={tournament}
         tournamentId={params.tournamentId}
+        shouldAllowEditing={true}
       />
     </div>
   )

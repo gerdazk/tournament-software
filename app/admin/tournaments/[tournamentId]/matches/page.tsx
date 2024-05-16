@@ -7,7 +7,6 @@ import { PageHeader } from '@/src/components/PageHeader'
 import { getAllDraws } from '../draws/utils/getAllDraws'
 
 import { ListOfMatchesDraws } from './components/ListOfMatchesDraws'
-import { ScoreEntryDialog } from './components/ScoreEntryDialog'
 
 export default function Page({ params }) {
   const [draws, setDraws] = useState<Draw[]>([])
@@ -23,7 +22,7 @@ export default function Page({ params }) {
   return (
     <div className="w-full">
       <PageHeader title="All tournament matches" isSmall />
-      <ListOfMatchesDraws draws={draws} />
+      <ListOfMatchesDraws draws={draws} shouldAllowEditing={true} />
     </div>
   )
 }

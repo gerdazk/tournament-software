@@ -1,16 +1,5 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useEffect, useState } from 'react'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
@@ -23,6 +12,7 @@ import { GeneralInfoTab } from './components/GeneralInfoTab'
 import { PlayersTable } from './components/PlayersTable'
 import { HeaderButtons } from './components/HeaderButtons'
 import { DrawsTab } from './components/DrawsTab/DrawsTab'
+import { OrderOfPlayTab } from './components/OrderOfPlayTab/OrderOfPlayTab'
 
 export default function Page({ params }) {
   const [tournament, setTournament] = useState<Tournament>({})
@@ -61,7 +51,7 @@ export default function Page({ params }) {
           <TabsTrigger value="general">General information</TabsTrigger>
           <TabsTrigger value="players">Players</TabsTrigger>
           <TabsTrigger value="draws">Draws</TabsTrigger>
-          <TabsTrigger value="order">Order of play</TabsTrigger>
+          <TabsTrigger value="schedules">Order of play</TabsTrigger>
           <TabsTrigger value="matches">Matches</TabsTrigger>
         </TabsList>
         <TabsContent
@@ -78,6 +68,9 @@ export default function Page({ params }) {
         </TabsContent>
         <TabsContent value="matches">
           <ListOfMatchesDraws draws={draws} />
+        </TabsContent>
+        <TabsContent value="schedules">
+          <OrderOfPlayTab tournamentId={params.tournamentId} />
         </TabsContent>
       </Tabs>
     </>

@@ -71,6 +71,11 @@ export async function GET(req: NextRequest, { params }) {
               include: {
                 user: true
               }
+            },
+            OrderOfPlay: {
+              include: {
+                Location: true
+              }
             }
           }
         }

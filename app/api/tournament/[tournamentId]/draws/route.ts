@@ -80,6 +80,12 @@ export async function GET(req: NextRequest, { params }) {
                   include: {
                     user: true
                   }
+                },
+                draw: true,
+                OrderOfPlay: {
+                  include: {
+                    Location: true
+                  }
                 }
               }
             },

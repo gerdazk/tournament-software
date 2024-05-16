@@ -16,35 +16,40 @@ export const OrderOfPlayAccordionItem = ({
   name,
   date,
   schedule,
-  tournamentId
+  tournamentId,
+  shouldAllowEditing
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
   return (
     <>
-      <AssignMatchToScheduleDialog
-        isOpen={isDialogOpen}
-        setOpen={setDialogOpen}
-        tournamentId={tournamentId}
-        locationId={id}
-        locationName={name}
-        date={date}
-      />
+      {shouldAllowEditing && (
+        <AssignMatchToScheduleDialog
+          isOpen={isDialogOpen}
+          setOpen={setDialogOpen}
+          tournamentId={tournamentId}
+          locationId={id}
+          locationName={name}
+          date={date}
+        />
+      )}
       <AccordionItem value={id + date} key={id + date}>
         <AccordionTrigger>{name}</AccordionTrigger>
         <AccordionContent>
-          <Button
-            className="mb-3"
-            variant="outline"
-            onClick={() => {
-              setDialogOpen(true)
-            }}
-          >
-            Add a match
-          </Button>
+          {shouldAllowEditing && (
+            <Button
+              className="mb-3"
+              variant="outline"
+              onClick={() => {
+                setDialogOpen(true)
+              }}
+            >
+              Add a match
+            </Button>
+          )}
           {hasMatches ? (
             <MatchesTable
               matches={schedule[0].matches}
-              shouldDisplayHeader={false}
+              shouldAllowEditing={shouldAllowEditing}
             />
           ) : (
             <div>No matches available for selected location and time.</div>
