@@ -12,6 +12,9 @@ import { SelectField } from '@/src/components/Input/SelectField'
 import { Participant } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 
+import { ScoreEntryItem } from './ScoreEntryItem'
+import { PlayerScoreRow } from './PlayerScoreRow'
+
 type ScoreEntryDialogProps = {
   matchId: number
   players: Participant[]
@@ -86,6 +89,10 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
               name="winnerId"
               items={playersOptions}
             />
+            {players.map(({ user }) => (
+              <PlayerScoreRow key={user.id} playerName={user.name} />
+            ))}
+
             <DialogFooter>
               <Button type="submit">Submit</Button>
             </DialogFooter>

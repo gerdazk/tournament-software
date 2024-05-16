@@ -1,11 +1,15 @@
-import { InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
+import { Input } from '@/components/ui/input'
 
 export const ScoreEntryItem = () => {
   return (
-    <InputOTPGroup>
-      <InputOTPSlot index={0} />
-      <InputOTPSlot index={1} />
-      <InputOTPSlot index={2} />
-    </InputOTPGroup>
+    <div>
+      <Input
+        type="number"
+        className="w-9 remove-arrow"
+        max="99"
+        min="0"
+        defaultValue="0"
+      ></Input>
+    </div>
   )
 }
