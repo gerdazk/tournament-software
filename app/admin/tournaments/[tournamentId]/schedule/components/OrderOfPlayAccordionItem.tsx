@@ -12,7 +12,7 @@ import { AssignMatchToScheduleDialog } from './AssignMatchToScheduleDialog'
 
 export const OrderOfPlayAccordionItem = ({
   hasMatches,
-  id,
+  locationId,
   name,
   date,
   schedule,
@@ -20,6 +20,17 @@ export const OrderOfPlayAccordionItem = ({
   shouldAllowEditing
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
+
+  const handlePublishButtonClick = async () => {
+    const res = await fetch(`/api/tournament/${tournamentId}/schedules`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        isPublished: !schedule[0].isPublished,
+        id: schedule[0].id
+      })
+    })
+  }
+
   return (
     <>
       {shouldAllowEditing && (
@@ -27,28 +38,37 @@ export const OrderOfPlayAccordionItem = ({
           isOpen={isDialogOpen}
           setOpen={setDialogOpen}
           tournamentId={tournamentId}
-          locationId={id}
+          locationId={locationId}
           locationName={name}
           date={date}
         />
       )}
-      <AccordionItem value={id + date} key={id + date}>
+      <AccordionItem value={locationId + date} key={locationId + date}>
         <AccordionTrigger>{name}</AccordionTrigger>
         <AccordionContent>
           {shouldAllowEditing && (
-            <Button
-              className="mb-3"
-              variant="outline"
-              onClick={() => {
-                setDialogOpen(true)
-              }}
-            >
-              Add a match
-            </Button>
+            <div className="flex gap-3">
+              <Button
+                className="mb-3"
+                variant="outline"
+                onClick={() => {
+                  setDialogOpen(true)
+                }}
+              >
+                Add a match
+              </Button>
+              <Button
+                className="mb-3"
+                variant="outline"
+                onClick={handlePublishButtonClick}
+              >
+                {schedule[0]?.isPublished ? 'Unpublish' : 'Publish'}
+              </Button>
+            </div>
           )}
           {hasMatches ? (
             <MatchesTable
-              matches={schedule[0].matches}
+              matches={schedule[0]?.matches}
               shouldAllowEditing={shouldAllowEditing}
             />
           ) : (

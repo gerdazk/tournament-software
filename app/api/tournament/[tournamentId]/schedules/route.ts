@@ -53,6 +53,34 @@ export async function POST(req: NextRequest, { params }) {
   }
 }
 
+export async function PATCH(req: NextRequest) {
+  const body = await req.json()
+
+  const prisma = new PrismaClient()
+
+  const { id, ...restBody } = body
+
+  try {
+    await prisma.orderOfPlay.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        ...restBody
+      }
+    })
+
+    return NextResponse.json({ success: true, status: 200 })
+  } catch (error) {
+    console.error('Error updating schedule:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Error updating schedule',
+      status: 500
+    })
+  }
+}
+
 export async function GET(req: NextRequest, { params }) {
   const tournamentId = Number(params.tournamentId)
 

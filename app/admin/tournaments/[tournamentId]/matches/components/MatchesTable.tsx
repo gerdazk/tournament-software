@@ -7,7 +7,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Match, Participant } from '@prisma/client'
-import { CheckIcon, ClockIcon, UserIcon } from 'lucide-react'
+import { CheckIcon, ClockIcon } from 'lucide-react'
 import { useState } from 'react'
 import { normalizeDate } from '@/src/utils/normalizeDate'
 import { Button } from '@/components/ui/button'
@@ -41,7 +41,7 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
             <TableHead className="w-[100px]"></TableHead>
             <TableHead>Match time</TableHead>
             <TableHead>Location</TableHead>
-            <TableHead className="w-[100px]">Player 1</TableHead>
+            <TableHead>Player 1</TableHead>
             <TableHead>Player 2</TableHead>
             <TableHead>Score</TableHead>
           </TableRow>

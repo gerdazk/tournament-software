@@ -40,7 +40,7 @@ export const OrderOfPlay = ({
                   <OrderOfPlayAccordionItem
                     key={id}
                     hasMatches={hasMatches}
-                    id={id}
+                    locationId={id}
                     name={name}
                     date={date}
                     schedule={schedule}
