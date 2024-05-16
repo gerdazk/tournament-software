@@ -5,12 +5,26 @@ import {
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
+import { OrderOfPlay } from '@prisma/client'
 
 import { MatchesTable } from '../../matches/components/MatchesTable'
 
 import { AssignMatchToScheduleDialog } from './AssignMatchToScheduleDialog'
 
-export const OrderOfPlayAccordionItem = ({
+type OrderOfPlayAccordionItemProps = {
+  hasMatches?: boolean
+  locationId: number
+  name: string
+  date: Date
+  schedule: OrderOfPlay[]
+  tournamentId: number
+  shouldAllowEditing?: boolean
+  onUpdate: () => void
+}
+
+export const OrderOfPlayAccordionItem: React.FC<
+  OrderOfPlayAccordionItemProps
+> = ({
   hasMatches,
   locationId,
   name,

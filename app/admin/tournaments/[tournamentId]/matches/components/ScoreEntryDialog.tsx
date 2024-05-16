@@ -9,15 +9,22 @@ import {
 } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
 import { SelectField } from '@/src/components/Input/SelectField'
+import { Participant } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 
-export const ScoreEntryDialog = ({
+type ScoreEntryDialogProps = {
+  matchId: number
+  players: Participant[]
+  isOpen: boolean
+  setOpen: (val: boolean) => void
+}
+
+export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
   matchId,
   players = [],
   isOpen,
   setOpen
 }) => {
-  console.log({ matchId, players })
   const [scoringUnits, setScoringUnits] = [
     {
       matchId,

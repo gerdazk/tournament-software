@@ -1,18 +1,12 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow
 } from '@/components/ui/table'
 import { Match, Participant } from '@prisma/client'
-import { CheckIcon, ClockIcon } from 'lucide-react'
-import { useState } from 'react'
-import { normalizeDate } from '@/src/utils/normalizeDate'
-import { Button } from '@/components/ui/button'
 
-import { ScoreEntryDialog } from './ScoreEntryDialog'
 import { MatchRow } from './MatchRow'
 
 type MatchesTableProps = {
@@ -26,14 +20,6 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
   matches = [],
   shouldAllowEditing
 }) => {
-  const [isScoreEntryModalOpen, setScoreEntryModalOpen] = useState(false)
-  const [selectedMatch, setSelectedMatch] = useState({})
-
-  const handleRowClick = match => {
-    setSelectedMatch(match)
-    setScoreEntryModalOpen(true)
-  }
-
   return (
     <>
       <Table className={`w-full`}>

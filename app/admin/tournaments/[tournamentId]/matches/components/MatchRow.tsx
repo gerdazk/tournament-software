@@ -5,10 +5,21 @@ import { TableCell, TableRow } from '@/components/ui/table'
 import { normalizeDate } from '@/src/utils/normalizeDate'
 import { CheckIcon, ClockIcon } from 'lucide-react'
 import { useState } from 'react'
+import { OrderOfPlay, Participant } from '@prisma/client'
 
 import { ScoreEntryDialog } from './ScoreEntryDialog'
 
-export const MatchRow = ({
+type MatchRowProps = {
+  participants: Participant[]
+  score: string
+  id: number
+  startTime: Date
+  OrderOfPlay: OrderOfPlay
+  shouldAllowEditing?: boolean
+  winnerId?: number
+}
+
+export const MatchRow: React.FC<MatchRowProps> = ({
   participants,
   score,
   id,

@@ -1,12 +1,21 @@
 import { Accordion } from '@/components/ui/accordion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { normalizeDate } from '@/src/utils/normalizeDate'
+import { OrderOfPlay as OrderOfPlayType, Tournament } from '@prisma/client'
 
 import { getDaysBetweenDates } from '../utils/getDaysBetweenDates'
 
 import { OrderOfPlayAccordionItem } from './OrderOfPlayAccordionItem'
 
-export const OrderOfPlay = ({
+type OrderOfPlayProps = {
+  schedules: OrderOfPlayType[]
+  tournament: Tournament
+  tournamentId: number
+  shouldAllowEditing?: boolean
+  onUpdate: () => void
+}
+
+export const OrderOfPlay: React.FC<OrderOfPlayProps> = ({
   schedules,
   tournament,
   tournamentId,
