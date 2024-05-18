@@ -30,3 +30,30 @@ export async function POST(req: NextRequest) {
     })
   }
 }
+
+export async function GET(req: NextRequest, { params }) {
+  const searchParams = req.nextUrl.searchParams
+  const participants = searchParams.get('participants')
+  const normalizedParticipants = participants?.split(',').map(id => Number(id))
+  const drawId = searchParams.get('drawId')
+
+  const prisma = new PrismaClient()
+
+  const res = await prisma.match.findFirst({
+    where: {
+      drawId: Number(drawId),
+      participants: {
+        every: {
+          id: {
+            in: normalizedParticipants
+          }
+        }
+      }
+    },
+    include: {
+      ScoreUnit: true
+    }
+  })
+
+  return NextResponse.json({ success: true, res, status: 201 })
+}
