@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useEffect } from 'react'
+import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
 
 import { Participant } from '../../types'
 
@@ -31,9 +32,10 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
   const [selectedValue, setSelectedValue] = React.useState<Participant>({})
 
   useEffect(() => {
-    const defaultValue = players.find(
-      ({ drawOrderNo: playerDrawOrderNo }) => playerDrawOrderNo === drawOrderNo
-    )
+    const defaultValue = findPlayerByDrawOrderNo({
+      players,
+      orderNo: drawOrderNo
+    })
     defaultValue && setSelectedValue(defaultValue)
   }, [])
 

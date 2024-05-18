@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Draw } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
 
 import { Participant } from '../../types'
 import { updateParticipants } from '../../utils/updateParticipants'
@@ -78,14 +79,6 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
     router.refresh()
   }
 
-  const findParticipant = (no: number) => {
-    return (
-      participants.find(({ drawOrderNo }) => {
-        return drawOrderNo === no
-      }) || null
-    )
-  }
-
   return (
     <div className="flex gap-3 flex-col align-start">
       <div className="flex gap-3 my-3">
@@ -108,12 +101,18 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
         <div className={`grid grid-cols-${draw.numOfTeams + 1}`}>
           <Cell></Cell>
           {drawPositions.map((position, i) => {
-            const participant = findParticipant(i + 1)
+            const participant = findPlayerByDrawOrderNo({
+              players: participants,
+              orderNo: i + 1
+            })
             return <Cell key={position}>{participant?.label || position}</Cell>
           })}
         </div>
         {drawPositions.map((position, i) => {
-          const participant = findParticipant(i + 1)
+          const participant = findPlayerByDrawOrderNo({
+            players: participants,
+            orderNo: i + 1
+          })
           return (
             <Row
               participantIds={participantIds}

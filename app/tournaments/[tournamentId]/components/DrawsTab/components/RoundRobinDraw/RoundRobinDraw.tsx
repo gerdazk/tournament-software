@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Draw } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { Participant } from '@/app/admin/tournaments/[tournamentId]/draws/types'
+import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
 
 import { Cell } from './Cell'
 import { Row } from './Row'
@@ -48,14 +49,6 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
     setParticipants([...filteredParticipants, newParticipantEntry])
   }
 
-  const findParticipant = (no: number) => {
-    return (
-      participants.find(({ drawOrderNo }) => {
-        return drawOrderNo === no
-      }) || null
-    )
-  }
-
   return (
     <div className="flex gap-3 flex-col align-start">
       <div className="flex gap-3 my-3"></div>
@@ -63,7 +56,10 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
         <div className={`grid grid-cols-${draw.numOfTeams + 1}`}>
           <Cell></Cell>
           {arrayOfParticipants.map(name => {
-            const participant = findParticipant(name)
+            const participant = findPlayerByDrawOrderNo({
+              players: participants,
+              orderNo: name
+            })
             return <Cell key={name}>{participant?.label || name}</Cell>
           })}
         </div>

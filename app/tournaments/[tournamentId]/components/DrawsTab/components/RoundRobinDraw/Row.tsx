@@ -1,4 +1,5 @@
 import { Participant } from '@/app/admin/tournaments/[tournamentId]/draws/types'
+import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
 
 import { BlankCell } from './BlankCell'
 import { Cell } from './Cell'
@@ -18,14 +19,10 @@ export const Row: React.FC<RowProps> = ({
   handlePlayerChange,
   drawId
 }) => {
-  const findParticipant = (no: number) => {
-    return (
-      players.find(({ drawOrderNo }) => {
-        return drawOrderNo === no
-      }) || null
-    )
-  }
-  const participant = findParticipant(teamName)
+  const participant = findPlayerByDrawOrderNo({
+    players: players,
+    orderNo: teamName
+  })
   return (
     <div className={`grid grid-cols-${teams?.length + 1} grid-rows-1`}>
       <Cell>{participant?.label}</Cell>
