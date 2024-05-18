@@ -1,6 +1,16 @@
 import { Input } from '@/components/ui/input'
 
-export const ScoreEntryItem = () => {
+type ScoreEntryItemProps = {
+  handleScoreChange: (e: any) => void
+  participantId: number
+  index: number
+}
+
+export const ScoreEntryItem: React.FC<ScoreEntryItemProps> = ({
+  handleScoreChange,
+  participantId,
+  index
+}) => {
   return (
     <div>
       <Input
@@ -9,6 +19,9 @@ export const ScoreEntryItem = () => {
         max="99"
         min="0"
         defaultValue="0"
+        onChange={e =>
+          handleScoreChange({ score: e.target.value, participantId, index })
+        }
       ></Input>
     </div>
   )

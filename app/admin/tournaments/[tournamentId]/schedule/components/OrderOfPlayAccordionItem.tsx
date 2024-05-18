@@ -37,7 +37,7 @@ export const OrderOfPlayAccordionItem: React.FC<
   const [isDialogOpen, setDialogOpen] = useState(false)
 
   const handlePublishButtonClick = async () => {
-    const res = await fetch(`/api/tournament/${tournamentId}/schedules`, {
+    await fetch(`/api/tournament/${tournamentId}/schedules`, {
       method: 'PATCH',
       body: JSON.stringify({
         isPublished: !schedule[0].isPublished,

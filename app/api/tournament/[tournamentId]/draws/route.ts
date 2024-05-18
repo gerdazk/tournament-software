@@ -86,7 +86,8 @@ export async function GET(req: NextRequest, { params }) {
                   include: {
                     Location: true
                   }
-                }
+                },
+                ScoreUnit: true
               }
             },
             participants: {

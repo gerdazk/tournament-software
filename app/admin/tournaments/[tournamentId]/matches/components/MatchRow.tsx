@@ -5,7 +5,8 @@ import { TableCell, TableRow } from '@/components/ui/table'
 import { normalizeDate } from '@/src/utils/normalizeDate'
 import { CheckIcon, ClockIcon } from 'lucide-react'
 import { useState } from 'react'
-import { OrderOfPlay, Participant } from '@prisma/client'
+import { OrderOfPlay, Participant, ScoreUnit } from '@prisma/client'
+import { normalizeScore } from '@/src/utils/normalizeScore'
 
 import { ScoreEntryDialog } from './ScoreEntryDialog'
 
@@ -17,18 +18,22 @@ type MatchRowProps = {
   OrderOfPlay: OrderOfPlay
   shouldAllowEditing?: boolean
   winnerId?: number
+  tournamentId: number
+  ScoreUnit: ScoreUnit[]
 }
 
 export const MatchRow: React.FC<MatchRowProps> = ({
   participants,
-  score,
   id,
   winnerId,
   startTime,
   OrderOfPlay,
-  shouldAllowEditing
+  shouldAllowEditing,
+  tournamentId,
+  ScoreUnit
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
+  const hasScore = ScoreUnit?.length
   return (
     <>
       <TableRow
@@ -37,7 +42,7 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         onClick={e => e.preventDefault()}
       >
         <TableCell className="font-medium">
-          {score ? (
+          {hasScore ? (
             <CheckIcon className="w-3 h-3" />
           ) : (
             <ClockIcon className="w-3 h-3" />
@@ -59,8 +64,10 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         >
           {participants?.[1]?.user?.name}
         </TableCell>
-        {score ? (
-          <TableCell className="font-medium">{score}</TableCell>
+        {hasScore ? (
+          <TableCell className="font-medium">
+            {normalizeScore(ScoreUnit)}
+          </TableCell>
         ) : shouldAllowEditing ? (
           <TableCell
             className="cursor-pointer"
@@ -77,6 +84,7 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         players={participants}
         isOpen={isDialogOpen}
         setOpen={setDialogOpen}
+        tournamentId={tournamentId}
       />
     </>
   )

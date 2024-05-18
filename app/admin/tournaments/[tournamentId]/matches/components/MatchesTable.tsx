@@ -14,11 +14,13 @@ type MatchesTableProps = {
     participants: Participant[]
   })[]
   shouldAllowEditing?: boolean
+  tournamentId: number
 }
 
 export const MatchesTable: React.FC<MatchesTableProps> = ({
   matches = [],
-  shouldAllowEditing
+  shouldAllowEditing,
+  tournamentId
 }) => {
   return (
     <>
@@ -40,6 +42,7 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
                 {...match}
                 shouldAllowEditing={shouldAllowEditing}
                 participants={participants}
+                tournamentId={tournamentId}
               />
             ) : (
               ''

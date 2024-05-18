@@ -22,7 +22,11 @@ export default function Page({ params }) {
   return (
     <div className="w-full">
       <PageHeader title="All tournament matches" isSmall />
-      <ListOfMatchesDraws draws={draws} shouldAllowEditing={true} />
+      <ListOfMatchesDraws
+        draws={draws}
+        shouldAllowEditing={true}
+        tournamentId={params.tournamentId}
+      />
     </div>
   )
 }

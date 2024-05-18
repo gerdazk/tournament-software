@@ -11,8 +11,11 @@ import { Form } from '@/components/ui/form'
 import { SelectField } from '@/src/components/Input/SelectField'
 import { Participant } from '@prisma/client'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
 
-import { ScoreEntryItem } from './ScoreEntryItem'
+import { buildInitialEntries, updateScore } from '../utils/scoreHandlers'
+
 import { PlayerScoreRow } from './PlayerScoreRow'
 
 type ScoreEntryDialogProps = {
@@ -20,28 +23,20 @@ type ScoreEntryDialogProps = {
   players: Participant[]
   isOpen: boolean
   setOpen: (val: boolean) => void
+  tournamentId: number
 }
 
 export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
   matchId,
   players = [],
   isOpen,
-  setOpen
+  setOpen,
+  tournamentId
 }) => {
-  const [scoringUnits, setScoringUnits] = [
-    {
-      matchId,
-      index: 0,
-      participantId: players[0].user.id,
-      score: 0
-    },
-    {
-      matchId,
-      index: 0,
-      participantId: players[1].user.id,
-      score: 0
-    }
-  ]
+  const [scoringUnits, setScoringUnits] = useState(
+    buildInitialEntries({ players, matchId })
+  )
+  const [error, setError] = useState('')
 
   const form = useForm({
     defaultValues: {}
@@ -52,22 +47,32 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
     value: user?.id?.toString()
   }))
 
-  console.log({ playersOptions })
+  const handleScoreChange = ({ participantId, index, score }) => {
+    const entries = [...scoringUnits]
+    console.log({ participantId, index, score })
+    updateScore({
+      entries,
+      participantId,
+      index,
+      score
+    })
+
+    setScoringUnits(entries)
+  }
 
   const onSubmit = async (values: any) => {
-    // const result = await signIn('credentials', {
-    //   redirect: false,
-    //   ...values
-    // })
-
-    console.log({ values })
-
-    const result = {}
+    const result = await fetch(
+      `/api/tournament/${tournamentId}/matches/score`,
+      {
+        method: 'POST',
+        body: JSON.stringify(scoringUnits)
+      }
+    )
 
     if (!result?.error) {
-      console.log('Successfully logged in:', result)
+      setOpen(false)
     } else {
-      console.error('Login failed:', result?.error)
+      setError('Failed to save match score. Please try again.')
     }
   }
   return (
@@ -89,12 +94,18 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
               name="winnerId"
               items={playersOptions}
             />
-            {players.map(({ user }) => (
-              <PlayerScoreRow key={user.id} playerName={user.name} />
+            {players.map(({ user, id }) => (
+              <PlayerScoreRow
+                key={user.id}
+                playerName={user.name}
+                handleScoreChange={handleScoreChange}
+                participantId={id}
+              />
             ))}
 
             <DialogFooter>
               <Button type="submit">Submit</Button>
+              {error && <ErrorMessage message={error} />}
             </DialogFooter>
           </form>
         </Form>
