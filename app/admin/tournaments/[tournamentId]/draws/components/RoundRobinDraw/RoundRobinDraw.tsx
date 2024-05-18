@@ -22,7 +22,9 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
   const [participants, setParticipants] = useState(players)
   const [isSaved, setSaved] = useState(true)
   const router = useRouter()
-  const arrayOfParticipants = Array.from(
+  const participantIds = participants.map(({ id }) => id)
+
+  const drawPositions = Array.from(
     { length: draw.numOfTeams },
     (_, index) => index + 1
   )
@@ -105,21 +107,26 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
       <div className={`grid grid-rows-${draw.numOfTeams + 1}`}>
         <div className={`grid grid-cols-${draw.numOfTeams + 1}`}>
           <Cell></Cell>
-          {arrayOfParticipants.map(name => {
-            const participant = findParticipant(name)
-            return <Cell key={name}>{participant?.label || name}</Cell>
+          {drawPositions.map((position, i) => {
+            const participant = findParticipant(i + 1)
+            return <Cell key={position}>{participant?.label || position}</Cell>
           })}
         </div>
-        {arrayOfParticipants.map(name => (
-          <Row
-            teams={arrayOfParticipants}
-            teamName={name}
-            key={name}
-            players={participants}
-            handlePlayerChange={handlePlayerChange}
-            drawId={draw.id}
-          />
-        ))}
+        {drawPositions.map((position, i) => {
+          const participant = findParticipant(i + 1)
+          return (
+            <Row
+              participantIds={participantIds}
+              drawPositions={drawPositions}
+              drawPositionNo={position}
+              key={position}
+              players={participants}
+              handlePlayerChange={handlePlayerChange}
+              drawId={draw.id}
+              teamId={participant?.value}
+            />
+          )
+        })}
       </div>
     </div>
   )

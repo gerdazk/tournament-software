@@ -20,12 +20,10 @@ type PlayersSelectDropdownProps = {
   handleChange: (player: Participant) => void
   drawId: number
   drawOrderNo: number
-  index: number
 }
 
 export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
   players = [],
-  index,
   handleChange,
   drawId,
   drawOrderNo
@@ -34,7 +32,7 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
 
   useEffect(() => {
     const defaultValue = players.find(
-      ({ drawOrderNo }) => drawOrderNo === index
+      ({ drawOrderNo: playerDrawOrderNo }) => playerDrawOrderNo === drawOrderNo
     )
     defaultValue && setSelectedValue(defaultValue)
   }, [])
@@ -56,22 +54,26 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
           value={selectedValue?.label}
           onValueChange={handleValueChange}
         >
-          {players.map(({ label, value, drawOrderNo, ...rest }) => {
-            return (
-              <DropdownMenuRadioItem
-                key={value}
-                value={{
-                  label,
-                  value,
-                  drawOrderNo,
-                  ...rest
-                }}
-                disabled={!!drawOrderNo && index !== drawOrderNo}
-              >
-                {label}
-              </DropdownMenuRadioItem>
-            )
-          })}
+          {players.map(
+            ({ label, value, drawOrderNo: playerDrawOrderNo, ...rest }) => {
+              return (
+                <DropdownMenuRadioItem
+                  key={value}
+                  value={{
+                    label,
+                    value,
+                    drawOrderNo,
+                    ...rest
+                  }}
+                  disabled={
+                    !!playerDrawOrderNo && playerDrawOrderNo !== drawOrderNo
+                  }
+                >
+                  {label}
+                </DropdownMenuRadioItem>
+              )
+            }
+          )}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
