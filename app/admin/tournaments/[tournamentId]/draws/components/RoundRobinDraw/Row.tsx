@@ -1,3 +1,5 @@
+import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
+
 import { Participant } from '../../types'
 
 import { BlankCell } from './BlankCell'
@@ -30,11 +32,23 @@ export const Row: React.FC<RowProps> = ({
         drawOrderNo={drawPositionNo}
       />
       {drawPositions.map(position => {
+        console.log({ drawPositionNo, position })
         const shouldBeBlank = position === drawPositionNo
+        const participant1 = findPlayerByDrawOrderNo({
+          players,
+          orderNo: drawPositionNo
+        })
+        const participant2 = findPlayerByDrawOrderNo({
+          players,
+          orderNo: position
+        })
+
+        const participants = `${participant1?.value},${participant2?.value}`
+
         return shouldBeBlank ? (
           <BlankCell key={position} />
         ) : (
-          <Cell key={position} />
+          <Cell key={position} drawId={drawId} participants={participants} />
         )
       })}
     </div>
