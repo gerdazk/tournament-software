@@ -69,7 +69,7 @@ export const HeaderButtons = ({
         <div className="flex gap-4">
           <Button
             variant="outline"
-            onClick={() => router.push(`/tournaments/${id}/edit`)}
+            onClick={() => router.push(`/admin/tournaments/${id}/general`)}
           >
             Edit tournament
           </Button>

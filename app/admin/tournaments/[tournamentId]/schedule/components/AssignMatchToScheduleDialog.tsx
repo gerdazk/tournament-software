@@ -51,7 +51,6 @@ export const AssignMatchToScheduleDialog: React.FC<
   }, [isOpen])
 
   const onSubmit = async (values: any) => {
-    console.log({ date })
     const result = await fetch(
       `/api/tournament/${tournamentId}/matches/addToSchedule`,
       {

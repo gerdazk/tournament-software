@@ -60,12 +60,12 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
     setScoringUnits(entries)
   }
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async ({ winnerId }) => {
     const result = await fetch(
       `/api/tournament/${tournamentId}/matches/score`,
       {
         method: 'POST',
-        body: JSON.stringify(scoringUnits)
+        body: JSON.stringify({ scoringUnits, winnerId, matchId })
       }
     )
 

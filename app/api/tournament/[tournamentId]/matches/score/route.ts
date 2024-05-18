@@ -3,14 +3,21 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
-    const scoreUnits = await req.json()
-
-    console.log({ scoreUnits })
+    const { scoreUnits, winnerId, matchId } = await req.json()
 
     const prisma = new PrismaClient()
 
     const res = await prisma.scoreUnit.createMany({
       data: scoreUnits
+    })
+
+    await prisma.match.update({
+      where: {
+        id: Number(matchId)
+      },
+      data: {
+        winnerId: Number(winnerId)
+      }
     })
 
     return NextResponse.json({ success: true, res, status: 201 })

@@ -90,6 +90,7 @@ export const OrderOfPlayAccordionItem: React.FC<
             <MatchesTable
               matches={schedule[0]?.matches}
               shouldAllowEditing={shouldAllowEditing}
+              tournamentId={tournamentId}
             />
           ) : (
             <div>No matches available for selected location and time.</div>
