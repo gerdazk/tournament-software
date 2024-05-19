@@ -5,30 +5,44 @@ import { BlankCell } from './BlankCell'
 import { Cell } from './Cell'
 
 type RowProps = {
-  teams: number[]
-  teamName: number
+  drawPositions: number[]
+  participantIds: number[]
+  drawPositionNo: number
   players: Participant[]
-  handlePlayerChange: (player: Participant) => void
   drawId: number
 }
 
 export const Row: React.FC<RowProps> = ({
-  teams,
-  teamName,
+  drawPositions,
+  drawPositionNo,
   players = [],
-  handlePlayerChange,
   drawId
 }) => {
   const participant = findPlayerByDrawOrderNo({
     players: players,
-    orderNo: teamName
+    orderNo: drawPositionNo
   })
   return (
-    <div className={`grid grid-cols-${teams?.length + 1} grid-rows-1`}>
+    <div className={`grid grid-cols-${drawPositions?.length + 1} grid-rows-1`}>
       <Cell>{participant?.label}</Cell>
-      {teams.map(name => {
-        const shouldBeBlank = name === teamName
-        return shouldBeBlank ? <BlankCell key={name} /> : <Cell key={name} />
+      {drawPositions.map(position => {
+        const shouldBeBlank = position === drawPositionNo
+        const participant1 = findPlayerByDrawOrderNo({
+          players,
+          orderNo: drawPositionNo
+        })
+        const participant2 = findPlayerByDrawOrderNo({
+          players,
+          orderNo: position
+        })
+
+        const participants = `${participant1?.value},${participant2?.value}`
+
+        return shouldBeBlank ? (
+          <BlankCell key={position} />
+        ) : (
+          <Cell key={position} drawId={drawId} participants={participants} />
+        )
       })}
     </div>
   )

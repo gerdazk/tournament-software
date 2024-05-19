@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Draw } from '@prisma/client'
-import { useRouter } from 'next/navigation'
 import { Participant } from '@/app/admin/tournaments/[tournamentId]/draws/types'
 import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
 
@@ -16,38 +15,17 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
   draw,
   players
 }) => {
-  const [participants, setParticipants] = useState(players)
-  const [isSaved, setSaved] = useState(true)
-  const router = useRouter()
   const arrayOfParticipants = Array.from(
     { length: draw.numOfTeams },
     (_, index) => index + 1
   )
 
-  const handlePlayerChange = ({
-    value: newValue,
-    drawId: newDrawId,
-    drawOrderNo: newDrawOrderNo,
-    label,
-    ...rest
-  }: Participant) => {
-    setSaved(false)
-    const filteredParticipants = participants.filter(
-      ({ drawOrderNo, drawId, value }) =>
-        (newDrawId !== drawId && newDrawOrderNo !== drawOrderNo) ||
-        value !== newValue
-    )
+  const participantIds = players.map(({ id }) => id)
 
-    const newParticipantEntry = {
-      value: newValue,
-      drawId: newDrawId,
-      drawOrderNo: newDrawOrderNo,
-      label,
-      ...rest
-    }
-
-    setParticipants([...filteredParticipants, newParticipantEntry])
-  }
+  const drawPositions = Array.from(
+    { length: draw.numOfTeams },
+    (_, index) => index + 1
+  )
 
   return (
     <div className="flex gap-3 flex-col align-start">
@@ -57,22 +35,24 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
           <Cell></Cell>
           {arrayOfParticipants.map(name => {
             const participant = findPlayerByDrawOrderNo({
-              players: participants,
+              players,
               orderNo: name
             })
             return <Cell key={name}>{participant?.label || name}</Cell>
           })}
         </div>
-        {arrayOfParticipants.map(name => (
-          <Row
-            teams={arrayOfParticipants}
-            teamName={name}
-            key={name}
-            players={participants}
-            handlePlayerChange={handlePlayerChange}
-            drawId={draw.id}
-          />
-        ))}
+        {drawPositions.map(position => {
+          return (
+            <Row
+              participantIds={participantIds}
+              drawPositions={drawPositions}
+              drawPositionNo={position}
+              key={position}
+              players={players}
+              drawId={draw.id}
+            />
+          )
+        })}
       </div>
     </div>
   )
