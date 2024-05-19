@@ -15,18 +15,22 @@ type MatchesTableProps = {
   })[]
   shouldAllowEditing?: boolean
   tournamentId: number
+  shouldAllowAdminEditing?: boolean
 }
 
 export const MatchesTable: React.FC<MatchesTableProps> = ({
   matches = [],
   shouldAllowEditing,
-  tournamentId
+  tournamentId,
+  shouldAllowAdminEditing
 }) => {
   return (
     <>
       <Table className={`w-full`}>
         <TableHeader className="w-full">
-          <TableRow className="w-full">
+          <TableRow className="w-full cursor-default">
+            {shouldAllowAdminEditing && <TableHead></TableHead>}
+            {shouldAllowAdminEditing && <TableHead></TableHead>}
             <TableHead>Match time</TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Player 1</TableHead>
@@ -40,6 +44,7 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
               <MatchRow
                 {...match}
                 shouldAllowEditing={shouldAllowEditing}
+                shouldAllowAdminEditing={shouldAllowAdminEditing}
                 participants={participants}
                 tournamentId={tournamentId}
               />

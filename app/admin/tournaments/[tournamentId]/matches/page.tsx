@@ -25,6 +25,7 @@ export default function Page({ params }) {
       <ListOfMatchesDraws
         draws={draws}
         shouldAllowEditing={true}
+        shouldAllowAdminEditing={true}
         tournamentId={params.tournamentId}
       />
     </div>

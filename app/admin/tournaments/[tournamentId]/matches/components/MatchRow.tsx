@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { normalizeDate } from '@/src/utils/normalizeDate'
-import { CheckIcon, ClockIcon } from 'lucide-react'
+import { CheckIcon, ClockIcon, Pencil, PinIcon, Users } from 'lucide-react'
 import { useState } from 'react'
 import { OrderOfPlay, Participant, ScoreUnit } from '@prisma/client'
 import { normalizeScore } from '@/src/utils/normalizeScore'
@@ -20,6 +20,7 @@ type MatchRowProps = {
   winnerId?: number
   tournamentId: number
   ScoreUnit: ScoreUnit[]
+  shouldAllowAdminEditing?: boolean
 }
 
 export const MatchRow: React.FC<MatchRowProps> = ({
@@ -30,7 +31,8 @@ export const MatchRow: React.FC<MatchRowProps> = ({
   OrderOfPlay,
   shouldAllowEditing,
   tournamentId,
-  ScoreUnit
+  ScoreUnit,
+  shouldAllowAdminEditing
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
   const hasScore = ScoreUnit?.length
@@ -38,9 +40,19 @@ export const MatchRow: React.FC<MatchRowProps> = ({
     <>
       <TableRow
         key={id}
-        className="cursor-pointer"
+        className="cursor-default hover:bg-transparent"
         onClick={e => e.preventDefault()}
       >
+        {shouldAllowAdminEditing && (
+          <TableCell className="font-medium cursor-pointer">
+            <Pencil className="w-4 h-4 hover:opacity-50" />
+          </TableCell>
+        )}
+        {shouldAllowAdminEditing && (
+          <TableCell className="font-medium cursor-pointer">
+            <Users className="w-4 h-4 hover:opacity-50" />
+          </TableCell>
+        )}
         <TableCell className="font-medium">
           {(startTime && normalizeDate(startTime, true)) || 'TBD'}
         </TableCell>
