@@ -27,7 +27,6 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
       <Table className={`w-full`}>
         <TableHeader className="w-full">
           <TableRow className="w-full">
-            <TableHead className="w-[100px]"></TableHead>
             <TableHead>Match time</TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Player 1</TableHead>

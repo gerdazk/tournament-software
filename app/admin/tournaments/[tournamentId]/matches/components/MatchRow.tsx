@@ -42,25 +42,18 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         onClick={e => e.preventDefault()}
       >
         <TableCell className="font-medium">
-          {hasScore ? (
-            <CheckIcon className="w-3 h-3" />
-          ) : (
-            <ClockIcon className="w-3 h-3" />
-          )}
-        </TableCell>
-        <TableCell className="font-medium">
           {(startTime && normalizeDate(startTime, true)) || 'TBD'}
         </TableCell>
         <TableCell className="font-medium">
           {OrderOfPlay?.Location?.name || 'TBD'}
         </TableCell>
         <TableCell
-          className={`font-medium ${winnerId === participants?.[0]?.id ? `text-primary font-bold` : `text-muted-foreground`}`}
+          className={`font-medium ${winnerId === participants?.[0]?.id && `text-primary font-bold`}`}
         >
           {participants?.[0]?.user?.name}
         </TableCell>
         <TableCell
-          className={`font-medium ${winnerId === participants?.[1]?.id ? `text-primary font-bold` : `text-muted-foreground`}`}
+          className={`font-medium ${winnerId === participants?.[1]?.id && `text-primary font-bold`}`}
         >
           {participants?.[1]?.user?.name}
         </TableCell>

@@ -3,10 +3,17 @@ import { useEffect, useState } from 'react'
 
 export const Cell: React.FC<React.PropsWithChildren> = ({
   children,
-  participants,
-  drawId
+  drawId,
+  targetParticipantId,
+  opponentParticipantId
 }) => {
   const [score, setScore] = useState('')
+  const [winnerId, setWinnerId] = useState(null)
+
+  const participants =
+    targetParticipantId &&
+    opponentParticipantId &&
+    `${targetParticipantId},${opponentParticipantId}`
 
   const getScore = async () => {
     if (!participants || !drawId) return
@@ -18,13 +25,16 @@ export const Cell: React.FC<React.PropsWithChildren> = ({
     const normalizedScore =
       data?.res?.ScoreUnit && normalizeScore(data.res.ScoreUnit)
     normalizedScore && setScore(normalizedScore)
+    data?.res?.winnerId && setWinnerId(data.res.winnerId)
   }
 
   useEffect(() => {
     getScore()
   }, [])
   return (
-    <div className="p-3 border border-secondary">
+    <div
+      className={`p-3 border border-secondary ${winnerId === targetParticipantId && `font-bold`}`}
+    >
       {score || ''}
       {children}
     </div>

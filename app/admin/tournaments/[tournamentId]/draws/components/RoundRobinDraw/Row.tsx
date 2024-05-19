@@ -42,12 +42,15 @@ export const Row: React.FC<RowProps> = ({
           orderNo: position
         })
 
-        const participants = `${participant1?.value},${participant2?.value}`
-
         return shouldBeBlank ? (
           <BlankCell key={position} />
         ) : (
-          <Cell key={position} drawId={drawId} participants={participants} />
+          <Cell
+            key={position}
+            drawId={drawId}
+            targetParticipantId={participant1?.value}
+            opponentParticipantId={participant2?.value}
+          />
         )
       })}
     </div>
