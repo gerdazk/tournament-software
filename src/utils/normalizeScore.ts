@@ -5,7 +5,6 @@ export const normalizeScore = (
   leadParticipantId?: number
 ): string => {
   if (!scores) return ''
-  console.log({ scores })
   scores.sort((a, b) => a.index - b.index)
 
   const participantScores = new Map<number, number[]>()
