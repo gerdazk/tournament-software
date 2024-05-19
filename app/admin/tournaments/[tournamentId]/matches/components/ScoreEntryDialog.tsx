@@ -49,7 +49,6 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
 
   const handleScoreChange = ({ participantId, index, score }) => {
     const entries = [...scoringUnits]
-    console.log({ participantId, index, score })
     updateScore({
       entries,
       participantId,

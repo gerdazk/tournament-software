@@ -22,14 +22,16 @@ export const PersonalProfile: React.FC<User> = ({
           {name && <PersonalDataForm defaultValues={{ name, role, ...rest }} />}
         </CardContent>
       </Card>
-      <Card className="w-full">
-        <CardHeader className="">
-          <h1 className="text-2xl font-bold">Tournaments</h1>
-        </CardHeader>
-        <CardContent>
-          {participant && <RegistrationsList participantions={participant} />}
-        </CardContent>
-      </Card>
+      {!!participant?.length && (
+        <Card className="w-full">
+          <CardHeader className="">
+            <h1 className="text-2xl font-bold">Tournaments</h1>
+          </CardHeader>
+          <CardContent>
+            {participant && <RegistrationsList participantions={participant} />}
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }

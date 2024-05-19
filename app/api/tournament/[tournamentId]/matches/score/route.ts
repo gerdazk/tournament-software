@@ -55,7 +55,5 @@ export async function GET(req: NextRequest, { params }) {
     }
   })
 
-  console.log({ res })
-
   return NextResponse.json({ success: true, res, status: 201 })
 }

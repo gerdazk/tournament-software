@@ -32,7 +32,6 @@ export const Row: React.FC<RowProps> = ({
         drawOrderNo={drawPositionNo}
       />
       {drawPositions.map(position => {
-        console.log({ drawPositionNo, position })
         const shouldBeBlank = position === drawPositionNo
         const participant1 = findPlayerByDrawOrderNo({
           players,

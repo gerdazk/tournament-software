@@ -49,3 +49,26 @@ export async function POST(req: NextRequest, { params }) {
     })
   }
 }
+
+export async function GET(req: NextRequest, { params }) {
+  const tournamentId = Number(params.tournamentId)
+
+  const prisma = new PrismaClient()
+
+  try {
+    const locations = await prisma.location.findMany({
+      where: {
+        tournamentId
+      }
+    })
+
+    return NextResponse.json({ success: true, locations, status: 201 })
+  } catch (error) {
+    console.error('Error finding locations:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Error finding locations',
+      status: 500
+    })
+  }
+}

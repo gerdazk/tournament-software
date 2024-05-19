@@ -22,8 +22,6 @@ export default function Page({ params }) {
     fetchedUser && setUser(fetchedUser)
     const isProfile = fetchedUser?.email === session?.data?.user?.email
     isProfile && setPersonalProfile(true)
-
-    console.log({ fetchedUser })
   }
 
   useEffect(() => {

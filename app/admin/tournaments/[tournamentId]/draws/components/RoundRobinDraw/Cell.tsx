@@ -8,7 +8,6 @@ export const Cell: React.FC<React.PropsWithChildren> = ({
 }) => {
   const [score, setScore] = useState('')
 
-  console.log({ drawId, participants })
 
   const getScore = async () => {
     if (!participants || !drawId) return
