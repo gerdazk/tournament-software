@@ -26,6 +26,7 @@ type Props = {
     text: string
     value: string
   }[]
+  defaultValue?: string
 }
 
 export const SelectField = ({
@@ -34,7 +35,8 @@ export const SelectField = ({
   label,
   name,
   placeholder,
-  items
+  items,
+  defaultValue
 }: Props) => {
   return (
     <FormField
@@ -43,7 +45,10 @@ export const SelectField = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={defaultValue || field.value}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={placeholder || ''} />

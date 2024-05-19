@@ -11,7 +11,6 @@ import { PinIcon } from 'lucide-react'
 import { MatchesTable } from '../../matches/components/MatchesTable'
 
 import { AssignMatchToScheduleDialog } from './AssignMatchToScheduleDialog'
-import { EditMatchAssignmentDialog } from './EditMatchAssignmentDialog'
 
 type OrderOfPlayAccordionItemProps = {
   hasMatches?: boolean
@@ -37,7 +36,6 @@ export const OrderOfPlayAccordionItem: React.FC<
   onUpdate
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
-  const [isEditDialogOpen, setEditDialogOpen] = useState(false)
 
   const handlePublishButtonClick = async () => {
     await fetch(`/api/tournament/${tournamentId}/schedules`, {
@@ -62,14 +60,6 @@ export const OrderOfPlayAccordionItem: React.FC<
           date={date}
         />
       )}
-      {shouldAllowEditing && (
-        <EditMatchAssignmentDialog
-          isOpen={isEditDialogOpen}
-          setOpen={setEditDialogOpen}
-          tournamentId={tournamentId}
-          date={date}
-        />
-      )}
       <AccordionItem value={locationId + date} key={locationId + date}>
         <AccordionTrigger>{name}</AccordionTrigger>
         <AccordionContent>
@@ -83,15 +73,6 @@ export const OrderOfPlayAccordionItem: React.FC<
                 }}
               >
                 Add a match
-              </Button>
-              <Button
-                className="mb-3"
-                variant="outline"
-                onClick={() => {
-                  setEditDialogOpen(true)
-                }}
-              >
-                <PinIcon />
               </Button>
               {schedule?.length && hasMatches ? (
                 <Button

@@ -10,9 +10,12 @@ import {
 import { Form, FormLabel } from '@/components/ui/form'
 import { TimePicker } from '@/components/ui/time-picker-demo'
 import { SelectField } from '@/src/components/Input/SelectField'
+import { normalizeDate } from '@/src/utils/normalizeDate'
 import { Location } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import dayjs from 'dayjs'
+import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
 
 type EditMatchAssignmentDialogProps = {
   isOpen: boolean
@@ -20,21 +23,28 @@ type EditMatchAssignmentDialogProps = {
   tournamentId: number
   date: Date
   matchId: number
+  dates: Date[]
+  initialLocationId: number
 }
-
-// TODO: add date field and combine with time field somehow?
-// TODO: should accept matchId as a prop
-// TODO: move to appropriate place in draws
 
 export const EditMatchAssignmentDialog: React.FC<
   EditMatchAssignmentDialogProps
-> = ({ isOpen, setOpen, tournamentId, date: tournamentDate, matchId }) => {
+> = ({
+  isOpen,
+  setOpen,
+  tournamentId,
+  date,
+  matchId,
+  dates,
+  initialLocationId
+}) => {
   const form = useForm({
     defaultValues: {}
   })
 
   const [locations, setLocations] = useState<Location[]>([])
-  const [date, setDate] = useState(new Date(tournamentDate))
+  const [startTime, setStartTime] = useState(new Date(date))
+  const [error, setError] = useState('')
 
   const getLocations = async () => {
     const res = await fetch(`/api/tournament/${tournamentId}/locations`)
@@ -46,16 +56,35 @@ export const EditMatchAssignmentDialog: React.FC<
     getLocations()
   }, [isOpen])
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async ({ day, locationId }) => {
+    console.log({ day, locationId, startTime })
+    if (
+      !(day || normalizeDate(date)) ||
+      !startTime ||
+      !(locationId || initialLocationId)
+    ) {
+      setError('Please fill all form fields')
+      return
+    }
+    const dateFromDay = dayjs(day || normalizeDate(date))
+    const hours = startTime.getHours()
+    const minutes = startTime.getMinutes()
+
+    const combinedDate = dateFromDay
+      .hour(hours)
+      .minute(minutes)
+      .second(0)
+      .millisecond(0)
+
     const result = await fetch(
       `/api/tournament/${tournamentId}/matches/addToSchedule`,
       {
         method: 'POST',
         body: JSON.stringify({
-          ...values,
+          locationId: locationId || initialLocationId,
           tournamentId,
           matchId,
-          date
+          date: combinedDate
         })
       }
     )
@@ -87,16 +116,32 @@ export const EditMatchAssignmentDialog: React.FC<
                 description=""
                 placeholder=""
                 name="locationId"
+                defaultValue={initialLocationId?.toString()}
                 items={locations.map(({ id, name }) => ({
                   text: name,
                   value: id?.toString()
                 }))}
               />
             )}
+            {!!dates?.length && (
+              <SelectField
+                control={form.control}
+                label="Day of the match"
+                description=""
+                placeholder=""
+                name="day"
+                defaultValue={normalizeDate(date)}
+                items={dates.map(date => ({
+                  text: normalizeDate(date),
+                  value: normalizeDate(date)
+                }))}
+              />
+            )}
             <FormLabel className="mt-3">Time of the match</FormLabel>
-            <TimePicker date={date} setDate={setDate} />
-            <DialogFooter>
+            <TimePicker date={startTime} setDate={setStartTime} />
+            <DialogFooter className="flex flex-col sm:flex sm:flex-col items-end gap-2">
               <Button type="submit">Submit</Button>
+              {error && <ErrorMessage message={error} />}
             </DialogFooter>
           </form>
         </Form>

@@ -3,10 +3,13 @@
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { normalizeDate } from '@/src/utils/normalizeDate'
-import { CheckIcon, ClockIcon, Pencil, PinIcon, Users } from 'lucide-react'
+import { Pencil, Users } from 'lucide-react'
 import { useState } from 'react'
-import { OrderOfPlay, Participant, ScoreUnit } from '@prisma/client'
+import { OrderOfPlay, Participant, ScoreUnit, Tournament } from '@prisma/client'
 import { normalizeScore } from '@/src/utils/normalizeScore'
+
+import { EditMatchAssignmentDialog } from '../../schedule/components/EditMatchAssignmentDialog'
+import { getDaysBetweenDates } from '../../schedule/utils/getDaysBetweenDates'
 
 import { ScoreEntryDialog } from './ScoreEntryDialog'
 
@@ -21,6 +24,7 @@ type MatchRowProps = {
   tournamentId: number
   ScoreUnit: ScoreUnit[]
   shouldAllowAdminEditing?: boolean
+  tournament?: Tournament
 }
 
 export const MatchRow: React.FC<MatchRowProps> = ({
@@ -32,10 +36,13 @@ export const MatchRow: React.FC<MatchRowProps> = ({
   shouldAllowEditing,
   tournamentId,
   ScoreUnit,
-  shouldAllowAdminEditing
+  shouldAllowAdminEditing,
+  tournament
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
+  const [isEditDialogOpen, setEditDialogOpen] = useState(false)
   const hasScore = ScoreUnit?.length
+  const dates = getDaysBetweenDates({ ...tournament })
   return (
     <>
       <TableRow
@@ -44,7 +51,10 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         onClick={e => e.preventDefault()}
       >
         {shouldAllowAdminEditing && (
-          <TableCell className="font-medium cursor-pointer">
+          <TableCell
+            className="font-medium cursor-pointer"
+            onClick={() => setEditDialogOpen(true)}
+          >
             <Pencil className="w-4 h-4 hover:opacity-50" />
           </TableCell>
         )}
@@ -91,6 +101,17 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         setOpen={setDialogOpen}
         tournamentId={tournamentId}
       />
+      {shouldAllowAdminEditing && (
+        <EditMatchAssignmentDialog
+          isOpen={isEditDialogOpen}
+          setOpen={setEditDialogOpen}
+          tournamentId={tournamentId}
+          matchId={id}
+          date={startTime}
+          dates={dates}
+          initialLocationId={OrderOfPlay.locationId}
+        />
+      )}
     </>
   )
 }

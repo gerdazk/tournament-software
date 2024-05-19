@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Table,
   TableBody,
@@ -6,6 +8,8 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Match, Participant } from '@prisma/client'
+import { useEffect, useState } from 'react'
+import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 
 import { MatchRow } from './MatchRow'
 
@@ -24,6 +28,16 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
   tournamentId,
   shouldAllowAdminEditing
 }) => {
+  const [tournament, setTournament] = useState()
+
+  const getTournament = async () => {
+    const allTournaments = await getTournamentById({ id: tournamentId })
+    setTournament(allTournaments.tournaments)
+  }
+
+  useEffect(() => {
+    getTournament()
+  }, [])
   return (
     <>
       <Table className={`w-full`}>
@@ -47,6 +61,7 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
                 shouldAllowAdminEditing={shouldAllowAdminEditing}
                 participants={participants}
                 tournamentId={tournamentId}
+                tournament={tournament}
               />
             ) : (
               ''
