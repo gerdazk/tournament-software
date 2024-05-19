@@ -9,43 +9,53 @@ import {
 } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
 import { SelectField } from '@/src/components/Input/SelectField'
-import { Participant } from '@prisma/client'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
 
-import { buildInitialEntries, updateScore } from '../utils/scoreHandlers'
+import { updateScore } from '../utils/scoreHandlers'
 
 import { PlayerScoreRow } from './PlayerScoreRow'
 
-type ScoreEntryDialogProps = {
+type ScoreEditDialogProps = {
   matchId: number
-  players: Participant[]
   isOpen: boolean
   setOpen: (val: boolean) => void
   tournamentId: number
 }
 
-export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
+export const ScoreEditDialog: React.FC<ScoreEditDialogProps> = ({
   matchId,
-  players = [],
   isOpen,
   setOpen,
   tournamentId
 }) => {
-  const [scoringUnits, setScoringUnits] = useState(
-    buildInitialEntries({ players, matchId })
-  )
+  const [scoringUnits, setScoringUnits] = useState([])
+  const [players, setPlayers] = useState([])
+  const [initialWinnerId, setInitialWinnerId] = useState()
   const [error, setError] = useState('')
+
+  const getMatch = async () => {
+    const res = await fetch(`/api/tournament/1/matches/${matchId}`)
+    const body = await res.json()
+    body?.match?.ScoreUnit && setScoringUnits(body.match.ScoreUnit)
+    body?.match?.participants && setPlayers(body.match.participants)
+    body?.match?.winnerId && setInitialWinnerId(body.match.winnerId)
+  }
+
+  useEffect(() => {
+    getMatch()
+  }, [])
 
   const form = useForm({
     defaultValues: {}
   })
 
-  const playersOptions = players.map(({ user }) => ({
-    text: user?.name,
-    value: user?.id?.toString()
-  }))
+  const playersOptions =
+    players?.map(({ user }) => ({
+      text: user?.name,
+      value: user?.id?.toString()
+    })) || []
 
   const handleScoreChange = ({ participantId, index, score }) => {
     const entries = [...scoringUnits]
@@ -92,22 +102,23 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
               placeholder=""
               name="winnerId"
               items={playersOptions}
+              defaultValue={initialWinnerId?.toString()}
             />
-            {players.map(({ user, id }) => {
-              const playerScoringUnits = scoringUnits.filter(
-                ({ participantId }) => participantId === id
-              )
-
-              return (
-                <PlayerScoreRow
-                  key={user.id}
-                  playerName={user.name}
-                  handleScoreChange={handleScoreChange}
-                  participantId={id}
-                  playerScoringUnits={playerScoringUnits}
-                />
-              )
-            })}
+            {players?.length &&
+              players.map(({ user, id }) => {
+                const playerScoringUnits = scoringUnits.filter(
+                  ({ participantId }) => participantId === id
+                )
+                return (
+                  <PlayerScoreRow
+                    key={user.id}
+                    playerName={user.name}
+                    handleScoreChange={handleScoreChange}
+                    participantId={id}
+                    playerScoringUnits={playerScoringUnits}
+                  />
+                )
+              })}
 
             <DialogFooter>
               <Button type="submit">Submit</Button>

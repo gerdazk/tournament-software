@@ -53,7 +53,7 @@ export const updateScore = ({
     e => e.participantId === participantId && e.index === index
   )
   if (entry) {
-    entry.score = Number(score)
+    entry.score = Number(score) || 0
   } else {
     console.error(
       `Entry not found for participantId: ${participantId} and index: ${index}`

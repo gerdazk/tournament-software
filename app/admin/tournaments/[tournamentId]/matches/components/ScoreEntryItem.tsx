@@ -4,12 +4,14 @@ type ScoreEntryItemProps = {
   handleScoreChange: (e: any) => void
   participantId: number
   index: number
+  defaultValue?: string
 }
 
 export const ScoreEntryItem: React.FC<ScoreEntryItemProps> = ({
   handleScoreChange,
   participantId,
-  index
+  index,
+  defaultValue
 }) => {
   return (
     <div>
@@ -18,7 +20,7 @@ export const ScoreEntryItem: React.FC<ScoreEntryItemProps> = ({
         className="w-9 remove-arrow"
         max="99"
         min="0"
-        defaultValue="0"
+        defaultValue={defaultValue}
         onChange={e =>
           handleScoreChange({ score: e.target.value, participantId, index })
         }

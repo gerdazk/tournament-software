@@ -22,7 +22,7 @@ export const normalizeScore = (
 
   const formattedScores = leadScores?.map((leadScore, index) => {
     const opponentScore = opponentScores?.[index]
-    return `${leadScore}/${opponentScore}`
+    return leadScore || opponentScore ? `${leadScore}/${opponentScore}` : ''
   })
 
   return formattedScores?.join(' ')

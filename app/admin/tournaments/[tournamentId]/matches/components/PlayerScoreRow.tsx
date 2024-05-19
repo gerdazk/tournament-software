@@ -1,27 +1,31 @@
+import { ScoreUnit } from '@prisma/client'
+
 import { ScoreEntryItem } from './ScoreEntryItem'
 
 type PlayerScoreRowProps = {
   playerName: string
   handleScoreChange: (e: any) => void
   participantId: number
+  playerScoringUnits: ScoreUnit[]
 }
 
 export const PlayerScoreRow: React.FC<PlayerScoreRowProps> = ({
   playerName,
   handleScoreChange,
-  participantId
+  participantId,
+  playerScoringUnits
 }) => {
-  const arr = [1, 2, 3]
   return (
     <div className="flex gap-3 justify-between">
       <div>{playerName}</div>
       <div className="flex gap-2">
-        {arr.map(item => (
+        {playerScoringUnits.map(item => (
           <ScoreEntryItem
-            key={item}
+            key={item.id}
             handleScoreChange={handleScoreChange}
             participantId={participantId}
-            index={item}
+            index={item.index}
+            defaultValue={item.score?.toString()}
           />
         ))}
       </div>

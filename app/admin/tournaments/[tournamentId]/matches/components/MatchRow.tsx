@@ -12,6 +12,7 @@ import { EditMatchAssignmentDialog } from '../../schedule/components/EditMatchAs
 import { getDaysBetweenDates } from '../../schedule/utils/getDaysBetweenDates'
 
 import { ScoreEntryDialog } from './ScoreEntryDialog'
+import { ScoreEditDialog } from './ScoreEditDialog'
 
 type MatchRowProps = {
   participants: Participant[]
@@ -41,6 +42,7 @@ export const MatchRow: React.FC<MatchRowProps> = ({
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [isEditDialogOpen, setEditDialogOpen] = useState(false)
+  const [isScoreEditDialogOpen, setScoreEditDialogOpen] = useState(false)
   const hasScore = ScoreUnit?.length
   const dates = getDaysBetweenDates({ ...tournament })
   return (
@@ -59,7 +61,10 @@ export const MatchRow: React.FC<MatchRowProps> = ({
           </TableCell>
         )}
         {shouldAllowAdminEditing && (
-          <TableCell className="font-medium cursor-pointer">
+          <TableCell
+            className="font-medium cursor-pointer"
+            onClick={() => setScoreEditDialogOpen(true)}
+          >
             <Users className="w-4 h-4 hover:opacity-50" />
           </TableCell>
         )}
@@ -70,12 +75,12 @@ export const MatchRow: React.FC<MatchRowProps> = ({
           {OrderOfPlay?.Location?.name || 'TBD'}
         </TableCell>
         <TableCell
-          className={`font-medium ${winnerId === participants?.[0]?.id && `text-primary font-bold`}`}
+          className={`font-medium ${winnerId?.toString() === participants?.[0]?.user?.id?.toString() && `text-primary font-bold`}`}
         >
           {participants?.[0]?.user?.name}
         </TableCell>
         <TableCell
-          className={`font-medium ${winnerId === participants?.[1]?.id && `text-primary font-bold`}`}
+          className={`font-medium ${winnerId?.toString() === participants?.[1]?.user?.id?.toString() && `text-primary font-bold`}`}
         >
           {participants?.[1]?.user?.name}
         </TableCell>
@@ -109,7 +114,15 @@ export const MatchRow: React.FC<MatchRowProps> = ({
           matchId={id}
           date={startTime}
           dates={dates}
-          initialLocationId={OrderOfPlay.locationId}
+          initialLocationId={OrderOfPlay?.locationId}
+        />
+      )}
+      {shouldAllowAdminEditing && (
+        <ScoreEditDialog
+          matchId={id}
+          isOpen={isScoreEditDialogOpen}
+          setOpen={setScoreEditDialogOpen}
+          tournamentId={tournamentId}
         />
       )}
     </>
