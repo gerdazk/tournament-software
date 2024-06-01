@@ -52,14 +52,17 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         className="cursor-default hover:bg-transparent"
         onClick={e => e.preventDefault()}
       >
-        {shouldAllowAdminEditing && (
-          <TableCell
-            className="font-medium cursor-pointer"
-            onClick={() => setEditDialogOpen(true)}
-          >
-            <Pencil className="w-4 h-4 hover:opacity-50" />
-          </TableCell>
-        )}
+        {shouldAllowAdminEditing &&
+          (ScoreUnit?.length ? (
+            <TableCell
+              className="font-medium cursor-pointer"
+              onClick={() => setEditDialogOpen(true)}
+            >
+              <Pencil className="w-4 h-4 hover:opacity-50" />
+            </TableCell>
+          ) : (
+            <TableCell></TableCell>
+          ))}
         {shouldAllowAdminEditing && (
           <TableCell
             className="font-medium cursor-pointer"

@@ -1,0 +1,134 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  name String [not null]
+  password String [not null]
+  email String [unique, not null]
+  role String [not null, default: 'user']
+  proposed_role String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  date_of_birth DateTime [not null]
+  tournaments Tournament [not null]
+  participant Participant [not null]
+}
+
+Table Tournament {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  no_of_courts Int [not null]
+  country String [not null]
+  city String [not null]
+  address_additional_info String
+  address_name String [not null]
+  start_date DateTime [not null]
+  end_date DateTime [not null]
+  is_visible Boolean [not null, default: false]
+  is_registration_open Boolean [not null, default: false]
+  max_participants Int
+  organizer User [not null]
+  organizerId Int [not null]
+  participants Participant [not null]
+  draws Draw [not null]
+  OrderOfPlay OrderOfPlay [not null]
+  Location Location [not null]
+}
+
+Table Participant {
+  id Int [pk, increment]
+  user User [not null]
+  userId Int [not null]
+  tournament Tournament [not null]
+  tournamentId Int [not null]
+  Draw Draw
+  drawId Int
+  drawOrderNo Int
+  matches Match [not null]
+  ScoreUnit ScoreUnit [not null]
+}
+
+Table Draw {
+  id Int [pk, increment]
+  name String [not null]
+  Tournament Tournament
+  tournamentId Int
+  numOfTeams Int [not null, default: 2]
+  isPublished Boolean [not null, default: false]
+  participants Participant [not null]
+  matches Match [not null]
+}
+
+Table Match {
+  id Int [pk, increment]
+  participants Participant [not null]
+  draw Draw [not null]
+  drawId Int [not null]
+  winnerId Int
+  score String
+  startTime DateTime
+  OrderOfPlay OrderOfPlay
+  orderOfPlayId Int
+  ScoreUnit ScoreUnit [not null]
+}
+
+Table OrderOfPlay {
+  id Int [pk, increment]
+  tournament Tournament [not null]
+  tournamentId Int [not null]
+  matches Match [not null]
+  Location Location
+  locationId Int
+  date DateTime [not null]
+  isPublished Boolean [not null, default: false]
+}
+
+Table Location {
+  id Int [pk, increment]
+  ordersOfPlay OrderOfPlay [not null]
+  tournament Tournament [not null]
+  tournamentId Int [not null]
+  name String [not null]
+}
+
+Table ScoreUnit {
+  id Int [pk, increment]
+  match Match [not null]
+  participant Participant [not null]
+  index Int [not null]
+  score Int [not null]
+  matchId Int [not null]
+  participantId Int [not null]
+}
+
+Table MatchToParticipant {
+  matchesId Int [ref: > Match.id]
+  participantsId Int [ref: > Participant.id]
+}
+
+Ref: Tournament.organizerId > User.id
+
+Ref: Participant.userId > User.id
+
+Ref: Participant.tournamentId > Tournament.id
+
+Ref: Participant.drawId > Draw.id
+
+Ref: Draw.tournamentId > Tournament.id
+
+Ref: Match.drawId > Draw.id
+
+Ref: Match.orderOfPlayId > OrderOfPlay.id
+
+Ref: OrderOfPlay.tournamentId > Tournament.id
+
+Ref: OrderOfPlay.locationId > Location.id
+
+Ref: Location.tournamentId > Tournament.id
+
+Ref: ScoreUnit.matchId > Match.id
+
+Ref: ScoreUnit.participantId > Participant.id

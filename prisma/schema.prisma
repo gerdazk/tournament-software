@@ -7,6 +7,18 @@ datasource db {
   url      = "mysql://root:newrootpassword@127.0.0.1:3306/api"
 }
 
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "../ERD.png"
+//   includeRelationFromFields = true
+//   disableEmoji = true
+//   theme = "forest"
+// }
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 model User {
   id            Int           @id @default(autoincrement())
   name          String

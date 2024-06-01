@@ -67,9 +67,7 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
                     drawOrderNo,
                     ...rest
                   }}
-                  disabled={
-                    !!playerDrawOrderNo && playerDrawOrderNo !== drawOrderNo
-                  }
+                  disabled={playerDrawOrderNo === drawOrderNo}
                 >
                   {label}
                 </DropdownMenuRadioItem>

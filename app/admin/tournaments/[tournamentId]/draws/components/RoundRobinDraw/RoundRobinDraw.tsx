@@ -38,11 +38,17 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
     ...rest
   }: Participant) => {
     setSaved(false)
+    console.log({ participants })
     const filteredParticipants = participants.filter(
-      ({ drawOrderNo, drawId, value }) =>
-        (newDrawId !== drawId && newDrawOrderNo !== drawOrderNo) ||
-        value !== newValue
+      ({ value }) => value !== newValue
     )
+
+    console.log({
+      value: newValue,
+      drawId: newDrawId,
+      drawOrderNo: newDrawOrderNo,
+      filteredParticipants
+    })
 
     const newParticipantEntry = {
       value: newValue,
