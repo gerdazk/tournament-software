@@ -24,7 +24,7 @@ export const OrderOfPlay: React.FC<OrderOfPlayProps> = ({
 }) => {
   const dates = getDaysBetweenDates({ ...tournament })
   return (
-    <>
+    !!dates?.length && (
       <Tabs defaultValue={dates[0]}>
         <TabsList className="flex gap-2 justify-start w-fit mb-6">
           {dates.map(date => (
@@ -64,6 +64,6 @@ export const OrderOfPlay: React.FC<OrderOfPlayProps> = ({
           </TabsContent>
         ))}
       </Tabs>
-    </>
+    )
   )
 }
