@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  mysql:
+  db:
     image: mysql:8
-    container_name: mysql
+    container_name: db
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -14,3 +14,19 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql-data:/var/lib/mysql
+      # version: '3.8'
+  web:
+    build: .
+    container_name: tournament-software
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql://root:root@db:3306/api
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    entrypoint: ["/bin/sh", "-c", "npx prisma db push && npm start"]

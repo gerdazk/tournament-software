@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:newrootpassword@127.0.0.1:3306/api"
+  // url      = "mysql://root:newrootpassword@db:3306/api"
+  url      = env("DATABASE_URL")
 }
 
 // generator erd {
