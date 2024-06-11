@@ -21,13 +21,15 @@ type PlayersSelectDropdownProps = {
   handleChange: (player: Participant) => void
   drawId: number
   drawOrderNo: number
+  disabled?: boolean
 }
 
 export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
   players = [],
   handleChange,
   drawId,
-  drawOrderNo
+  drawOrderNo,
+  disabled
 }) => {
   const [selectedValue, setSelectedValue] = React.useState<Participant>({})
 
@@ -47,7 +49,9 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">{selectedValue?.label}</Button>
+        <Button disabled={disabled} variant="outline" className="h-full">
+          {selectedValue?.label}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Players</DropdownMenuLabel>

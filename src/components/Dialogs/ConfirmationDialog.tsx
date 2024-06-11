@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
+import { useState } from 'react'
 
 type ConfirmationDialogProps = {
   onSubmit: (data: any) => void
@@ -26,15 +27,28 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   isOpen,
   onOpenChange
 }) => {
+  const [isLoading, setLoading] = useState(false)
+  const handleSubmit = async e => {
+    try {
+      setLoading(true)
+      await onSubmit(e)
+    } catch {}
+    setLoading(false)
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] flex flex-col justify-between min-h-[200px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{subtitle}</DialogDescription>
         </DialogHeader>
         <div className="flex gap-3">
-          <Button type="submit" onClick={onSubmit}>
+          <Button
+            type="submit"
+            onClick={e => handleSubmit(e)}
+            isLoading={isLoading}
+          >
             Confirm
           </Button>
           <Button type="submit" variant="outline" onClick={onCancel}>

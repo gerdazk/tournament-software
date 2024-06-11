@@ -46,8 +46,15 @@ export default function Page({ params }) {
         subtitle="All draws for tournament matches"
         isSmall
       />
-      <CreateDrawDialog tournamentId={params.tournamentId} />
-      <ListOfDraws draws={draws} players={players} />
+      <CreateDrawDialog
+        tournamentId={params.tournamentId}
+        onUpdate={() => getDraws()}
+      />
+      <ListOfDraws
+        draws={draws}
+        players={players}
+        onUpdate={() => getDraws()}
+      />
     </div>
   )
 }

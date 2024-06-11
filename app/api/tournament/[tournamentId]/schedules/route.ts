@@ -108,7 +108,8 @@ export async function GET(req: NextRequest, { params }) {
                 Location: true
               }
             },
-            ScoreUnit: true
+            ScoreUnit: true,
+            draw: true
           }
         }
       }

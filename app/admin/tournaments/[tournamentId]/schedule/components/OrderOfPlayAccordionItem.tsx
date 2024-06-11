@@ -6,7 +6,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { OrderOfPlay } from '@prisma/client'
-import { PinIcon } from 'lucide-react'
 
 import { MatchesTable } from '../../matches/components/MatchesTable'
 
@@ -58,6 +57,7 @@ export const OrderOfPlayAccordionItem: React.FC<
           locationId={locationId}
           locationName={name}
           date={date}
+          onUpdate={onUpdate}
         />
       )}
       <AccordionItem value={locationId + date} key={locationId + date}>

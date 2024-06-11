@@ -3,6 +3,7 @@ import { Draw } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
+import { ConfirmationDialog } from '@/src/components/Dialogs/ConfirmationDialog'
 
 import { Participant } from '../../types'
 import { updateParticipants } from '../../utils/updateParticipants'
@@ -14,13 +15,17 @@ import { Row } from './Row'
 type RoundRobinDrawProps = {
   draw: Draw
   players: Participant[]
+  onUpdate: () => void
 }
 
 export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
   draw,
-  players
+  players,
+  onUpdate
 }) => {
   const [participants, setParticipants] = useState(players)
+  const [isDeleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =
+    useState(false)
   const [isSaved, setSaved] = useState(true)
   const router = useRouter()
   const participantIds = participants.map(({ id }) => id)
@@ -38,17 +43,9 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
     ...rest
   }: Participant) => {
     setSaved(false)
-    console.log({ participants })
     const filteredParticipants = participants.filter(
       ({ value }) => value !== newValue
     )
-
-    console.log({
-      value: newValue,
-      drawId: newDrawId,
-      drawOrderNo: newDrawOrderNo,
-      filteredParticipants
-    })
 
     const newParticipantEntry = {
       value: newValue,
@@ -77,12 +74,24 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
       data: normalizedParticipants
     })
     setSaved(true)
-    router.refresh()
+    onUpdate()
   }
 
   const handlePublish = async () => {
     await publishDraw(draw)
-    router.refresh()
+    onUpdate()
+  }
+
+  const handleDelete = async () => {
+    try {
+      await fetch(`/api/tournament/1/draws?id=${draw.id}`, {
+        method: 'DELETE'
+      })
+      onUpdate()
+      setDeleteConfirmationDialogOpen(false)
+    } catch (e) {
+      console.log({ e })
+    }
   }
 
   return (
@@ -101,6 +110,13 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
           onClick={() => handlePublish()}
         >
           Publish the draw
+        </Button>
+        <Button
+          disabled={draw.isPublished}
+          variant="destructive"
+          onClick={() => setDeleteConfirmationDialogOpen(true)}
+        >
+          Delete the draw
         </Button>
       </div>
       <div className={`grid grid-rows-${draw.numOfTeams + 1}`}>
@@ -129,10 +145,21 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
               handlePlayerChange={handlePlayerChange}
               drawId={draw.id}
               teamId={participant?.value}
+              isPublished={draw.isPublished}
             />
           )
         })}
       </div>
+      {isDeleteConfirmationDialogOpen && (
+        <ConfirmationDialog
+          onSubmit={handleDelete}
+          onCancel={() => setDeleteConfirmationDialogOpen(false)}
+          title="Are you sure you want to delete this draw?"
+          subtitle="This action can not be undone."
+          isOpen={isDeleteConfirmationDialogOpen}
+          onOpenChange={setDeleteConfirmationDialogOpen}
+        />
+      )}
     </div>
   )
 }

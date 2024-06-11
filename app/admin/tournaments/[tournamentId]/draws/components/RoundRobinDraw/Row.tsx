@@ -8,25 +8,26 @@ import { PlayerSelectDropdown } from './PlayerSelectDropdown'
 
 type RowProps = {
   drawPositions: number[]
-  participantIds: number[]
   drawPositionNo: number
   players: Participant[]
   handlePlayerChange: (player: Participant) => void
   drawId: number
+  isPublished?: boolean
 }
 
 export const Row: React.FC<RowProps> = ({
-  participantIds,
   drawPositions,
   drawPositionNo,
   players = [],
   handlePlayerChange,
-  drawId
+  drawId,
+  isPublished
 }) => {
   return (
     <div className={`grid grid-cols-${drawPositions?.length + 1} grid-rows-1`}>
       <PlayerSelectDropdown
         players={players}
+        disabled={isPublished}
         handleChange={handlePlayerChange}
         drawId={drawId}
         drawOrderNo={drawPositionNo}

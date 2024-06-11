@@ -37,7 +37,7 @@ export default function Page({ params }) {
     <div className="w-full">
       <PageHeader
         title="Locations"
-        subtitle="All tournament locations (courts, fields, sports halls, etc)"
+        subtitle="All tournament locations where matches will be played (courts, fields, sports halls, etc)"
         isSmall
       />
       <div className="flex flex-col gap-2">

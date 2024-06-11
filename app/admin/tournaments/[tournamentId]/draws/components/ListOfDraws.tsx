@@ -13,9 +13,14 @@ import { RoundRobinDraw } from './RoundRobinDraw/RoundRobinDraw'
 type ListOfDrawsProps = {
   draws: Draw[]
   players: Participant[]
+  onUpdate: () => void
 }
 
-export const ListOfDraws: React.FC<ListOfDrawsProps> = ({ draws, players }) => {
+export const ListOfDraws: React.FC<ListOfDrawsProps> = ({
+  draws,
+  players,
+  onUpdate
+}) => {
   return (
     <Accordion type="single" collapsible className="w-full">
       {draws.map(({ name, id, ...draw }) => {
@@ -29,6 +34,7 @@ export const ListOfDraws: React.FC<ListOfDrawsProps> = ({ draws, players }) => {
               <RoundRobinDraw
                 draw={{ ...draw, name, id }}
                 players={filteredPlayers}
+                onUpdate={onUpdate}
               />
             </AccordionContent>
           </AccordionItem>

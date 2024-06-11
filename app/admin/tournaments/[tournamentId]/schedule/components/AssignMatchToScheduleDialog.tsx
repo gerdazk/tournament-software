@@ -22,6 +22,7 @@ type AssignMatchToScheduleDialogProps = {
   locationName: string
   locationId: number
   date: Date
+  onUpdate: () => void
 }
 
 export const AssignMatchToScheduleDialog: React.FC<
@@ -32,7 +33,8 @@ export const AssignMatchToScheduleDialog: React.FC<
   tournamentId,
   locationName,
   locationId,
-  date: tournamentDate
+  date: tournamentDate,
+  onUpdate
 }) => {
   const form = useForm({
     defaultValues: {}
@@ -66,6 +68,7 @@ export const AssignMatchToScheduleDialog: React.FC<
       }
     )
     setLoading(false)
+    onUpdate()
 
     if (result?.error) {
       // console.error('Login failed:', result?.error)

@@ -1,10 +1,22 @@
+import { isRequestBodyValid } from '@/src/utils/isRequestBodyValid'
 import { PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { tournamentSchema } from './schemas'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
 
   const prisma = new PrismaClient()
+
+  const isBodyValid = isRequestBodyValid({
+    schema: tournamentSchema,
+    body
+  })
+
+  if (!isBodyValid) {
+    return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
+  }
 
   try {
     const user = await prisma.tournament.create({
@@ -40,7 +52,8 @@ export async function GET(req: NextRequest) {
           include: {
             participants: {
               include: {
-                user: true
+                user: true,
+                Draw: true
               }
             },
             Location: true
@@ -95,6 +108,15 @@ export async function DELETE(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   const body = await req.json()
+
+  const isBodyValid = isRequestBodyValid({
+    schema: tournamentSchema,
+    body
+  })
+
+  if (!isBodyValid) {
+    return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
+  }
 
   const prisma = new PrismaClient()
 
