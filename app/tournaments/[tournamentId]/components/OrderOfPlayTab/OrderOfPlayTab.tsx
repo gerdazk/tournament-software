@@ -1,12 +1,14 @@
 'use client'
 
 import { OrderOfPlay } from '@/app/admin/tournaments/[tournamentId]/schedule/components/OrderOfPlay'
+import { Loader } from '@/components/ui/loader'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 import { useEffect, useState } from 'react'
 
 export const OrderOfPlayTab = ({ tournamentId }) => {
   const [schedules, setSchedules] = useState([])
   const [tournament, setTournament] = useState()
+  const [isLoading, setLoading] = useState(false)
 
   const getSchedules = async () => {
     const res = await fetch(
@@ -14,6 +16,7 @@ export const OrderOfPlayTab = ({ tournamentId }) => {
     )
     const allSchedules = await res.json()
     allSchedules && setSchedules(allSchedules.schedules)
+    setLoading(false)
   }
 
   const getTournaments = async () => {
@@ -22,6 +25,7 @@ export const OrderOfPlayTab = ({ tournamentId }) => {
   }
 
   useEffect(() => {
+    setLoading(true)
     getSchedules()
     getTournaments()
   }, [])
@@ -31,7 +35,9 @@ export const OrderOfPlayTab = ({ tournamentId }) => {
     getTournaments()
   }
 
-  return (
+  return isLoading ? (
+    <Loader className="w-10 h-10" />
+  ) : (
     <OrderOfPlay
       schedules={schedules}
       tournament={tournament}

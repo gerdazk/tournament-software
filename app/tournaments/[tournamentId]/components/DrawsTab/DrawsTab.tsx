@@ -2,15 +2,18 @@ import { getAllDraws } from '@/app/admin/tournaments/[tournamentId]/draws/utils/
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 import { Participant } from '@prisma/client'
 import { useEffect, useState } from 'react'
+import { Loader } from '@/components/ui/loader'
 
 import { ListOfDraws } from './components/ListOfDraws'
 
 export const DrawsTab = ({ tournamentId }) => {
   const [draws, setDraws] = useState([])
+  const [isLoading, setLoading] = useState(false)
 
   const getDraws = async () => {
     const allDraws = await getAllDraws({ tournamentId })
     allDraws && setDraws(allDraws)
+    setLoading(false)
   }
 
   const [players, setPlayers] = useState<Participant[]>([])
@@ -32,8 +35,13 @@ export const DrawsTab = ({ tournamentId }) => {
   }
 
   useEffect(() => {
+    setLoading(true)
     getDraws()
     getPlayers()
   }, [])
-  return <ListOfDraws draws={draws} players={players} />
+  return isLoading ? (
+    <Loader className="w-10 h-10" />
+  ) : (
+    <ListOfDraws draws={draws} players={players} />
+  )
 }

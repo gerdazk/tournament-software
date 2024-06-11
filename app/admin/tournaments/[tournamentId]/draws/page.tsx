@@ -3,6 +3,7 @@
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
 import { useEffect, useState } from 'react'
 import { PageHeader } from '@/src/components/PageHeader'
+import { Loader } from '@/components/ui/loader'
 
 import { CreateDrawDialog } from './components/CreateDrawDialog'
 import { ListOfDraws } from './components/ListOfDraws'
@@ -11,10 +12,12 @@ import { Participant } from './types'
 
 export default function Page({ params }) {
   const [draws, setDraws] = useState([])
+  const [isLoading, setLoading] = useState(false)
 
   const getDraws = async () => {
     const allDraws = await getAllDraws({ tournamentId: params.tournamentId })
     allDraws && setDraws(allDraws)
+    setLoading(false)
   }
 
   const [players, setPlayers] = useState<Participant[]>([])
@@ -36,6 +39,7 @@ export default function Page({ params }) {
   }
 
   useEffect(() => {
+    setLoading(true)
     getDraws()
     getPlayers()
   }, [])
@@ -50,11 +54,15 @@ export default function Page({ params }) {
         tournamentId={params.tournamentId}
         onUpdate={() => getDraws()}
       />
-      <ListOfDraws
-        draws={draws}
-        players={players}
-        onUpdate={() => getDraws()}
-      />
+      {isLoading ? (
+        <Loader className="h-10 w-10" />
+      ) : (
+        <ListOfDraws
+          draws={draws}
+          players={players}
+          onUpdate={() => getDraws()}
+        />
+      )}
     </div>
   )
 }
