@@ -20,6 +20,7 @@ import { registerUser } from '@/src/utils/users/registerNewUser'
 import { CalendarField } from '@/src/components/Input/CalendarField'
 
 import { SelectField } from '../Input/SelectField'
+import { ErrorMessage } from '../Labels/ErrorMessage'
 
 const roleOptions = [
   {
@@ -37,15 +38,16 @@ const roleOptions = [
 ]
 
 const formSchema = z.object({
-  email: z.string().min(1),
-  name: z.string().min(5),
-  password: z.string().min(8),
+  email: z.string().email().min(1).max(191),
+  name: z.string().min(5).max(191),
+  password: z.string().min(8).max(191),
   date_of_birth: z.date(),
   proposed_role: z.string().optional()
 })
 
 export const RegistrationDialog = () => {
   const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,9 +60,8 @@ export const RegistrationDialog = () => {
 
     if (!result?.error) {
       setSuccessMessage('Sign up successful. You can now log in.')
-      console.log('Successfully logged in:', result)
     } else {
-      console.error('Login failed:', result?.error)
+      setErrorMessage('Sign up failed.')
     }
   }
   return (
@@ -109,7 +110,7 @@ export const RegistrationDialog = () => {
               control={form.control}
               label="Do you want to register as one of these roles?"
               name="proposed_role"
-              description="You will need approval form administrator for this action"
+              description="You will need approval from administrator for this action"
               items={roleOptions}
             />
             <DialogFooter>
@@ -118,6 +119,7 @@ export const RegistrationDialog = () => {
               ) : (
                 <Button type="submit">Submit</Button>
               )}
+              {errorMessage && <ErrorMessage message={errorMessage} />}
             </DialogFooter>
           </form>
         </Form>

@@ -24,7 +24,7 @@ export const UserProfile: React.FC<User> = ({
       </Card>
       <Card className="w-full">
         <CardHeader className="">
-          <h1 className="text-2xl font-bold">Tournaments</h1>
+          <h2 className="text-xl font-bold">Most recent tournaments</h2>
         </CardHeader>
         <CardContent>
           {participant && <RegistrationsList participantions={participant} />}

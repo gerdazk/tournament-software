@@ -28,7 +28,8 @@ export async function GET(req: NextRequest) {
             email: true,
             proposed_role: true,
             date_of_birth: true,
-            tournaments: true
+            tournaments: true,
+            participant: true
           }
         })
 

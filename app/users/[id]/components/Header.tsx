@@ -16,7 +16,7 @@ export const Header: React.FC<HeaderProps> = ({ name, role }) => {
             </Avatar>
           )}
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold">{name}</h1>
+            <h2 className="text-xl font-bold">{name}</h2>
             <p className="text-gray-500 dark:text-gray-400">{role}</p>
           </div>
         </div>

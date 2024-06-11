@@ -97,24 +97,23 @@ export const columns: ColumnDef<Session>[] = [
     }
   },
   {
-    accessorKey: 'tournaments',
+    accessorKey: 'participant',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Tournaments played
+          Tournament participations
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      return <div>{row.getValue('tournaments')?.length || 0}</div>
+      console.log(row.getValue('participant'))
+      return <div>{row.getValue('participant')?.length || 0}</div>
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    }
+    filterFn: (row, id, value) => value.includes(row.getValue(id))
   }
 ]
 
@@ -127,6 +126,8 @@ export const PlayersList = ({ data }: { data: Session[] }) => {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
+  console.log({ data })
 
   const table = useReactTable({
     data,

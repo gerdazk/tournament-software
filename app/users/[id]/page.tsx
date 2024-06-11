@@ -27,14 +27,15 @@ export default function Page({ params }) {
   useEffect(() => {
     getUser()
   }, [])
+
   return (
     <div>
       <PageHeader title="Player profile" />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
         <OverviewCard
-          label="Tournaments played"
+          label="Tournament participations"
           title={user?.participant?.length || 0}
-          subtitle="Total number of tournaments played"
+          subtitle="Total number of tournament participations"
           Icon={TrophyIcon}
         />
         {user?.createdAt && (

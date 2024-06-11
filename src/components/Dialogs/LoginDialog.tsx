@@ -11,14 +11,21 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { useForm } from 'react-hook-form'
-// import { z } from "zod"
+import { z } from 'zod'
 import { Form } from '@/components/ui/form'
 import { TextField } from '@/src/components/Input/TextField'
 import { signIn } from 'next-auth/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const formSchema = z.object({
+  email: z.string().email().min(1).max(191),
+  password: z.string().min(8).max(191)
+})
 
 export const LoginDialog = () => {
   const form = useForm({
-    defaultValues: {}
+    defaultValues: {},
+    resolver: zodResolver(formSchema)
   })
 
   const onSubmit = async (values: any) => {
@@ -28,9 +35,9 @@ export const LoginDialog = () => {
     })
 
     if (!result?.error) {
-      console.log('Successfully logged in:', result)
+      // console.log('Successfully logged in:', result)
     } else {
-      console.error('Login failed:', result?.error)
+      // console.error('Login failed:', result?.error)
     }
   }
   return (
@@ -50,7 +57,7 @@ export const LoginDialog = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <TextField
               control={form.control}
-              label="Username"
+              label="Email"
               description=""
               placeholder=""
               name="email"

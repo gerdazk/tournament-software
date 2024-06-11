@@ -2,7 +2,7 @@ import { RegistrationCard } from './RegistrationCard'
 
 export const RegistrationsList = ({ participantions }) => {
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {participantions.map(({ tournament, id }) => (
         <RegistrationCard key={id} {...tournament} />
       ))}
