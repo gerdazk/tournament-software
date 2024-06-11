@@ -20,13 +20,15 @@ type MatchesTableProps = {
   shouldAllowEditing?: boolean
   tournamentId: number
   shouldAllowAdminEditing?: boolean
+  onUpdate: () => void
 }
 
 export const MatchesTable: React.FC<MatchesTableProps> = ({
   matches = [],
   shouldAllowEditing,
   tournamentId,
-  shouldAllowAdminEditing
+  shouldAllowAdminEditing,
+  onUpdate
 }) => {
   const [tournament, setTournament] = useState()
 
@@ -64,6 +66,7 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
                 participants={participants}
                 tournamentId={tournamentId}
                 tournament={tournament}
+                onUpdate={onUpdate}
               />
             ) : (
               ''

@@ -22,13 +22,15 @@ type ScoreEditDialogProps = {
   isOpen: boolean
   setOpen: (val: boolean) => void
   tournamentId: number
+  onUpdate: () => void
 }
 
 export const ScoreEditDialog: React.FC<ScoreEditDialogProps> = ({
   matchId,
   isOpen,
   setOpen,
-  tournamentId
+  tournamentId,
+  onUpdate
 }) => {
   const [scoringUnits, setScoringUnits] = useState([])
   const [players, setPlayers] = useState([])
@@ -79,6 +81,8 @@ export const ScoreEditDialog: React.FC<ScoreEditDialogProps> = ({
         body: JSON.stringify({ scoringUnits, winnerId, matchId })
       }
     )
+
+    onUpdate()
     setLoading(false)
 
     if (!result?.error) {

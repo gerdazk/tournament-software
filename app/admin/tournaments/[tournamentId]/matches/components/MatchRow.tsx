@@ -33,6 +33,7 @@ type MatchRowProps = {
   shouldAllowAdminEditing?: boolean
   tournament?: Tournament
   draw: Draw
+  onUpdate: () => void
 }
 
 export const MatchRow: React.FC<MatchRowProps> = ({
@@ -46,7 +47,8 @@ export const MatchRow: React.FC<MatchRowProps> = ({
   ScoreUnit,
   shouldAllowAdminEditing,
   tournament,
-  draw
+  draw,
+  onUpdate
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [isEditDialogOpen, setEditDialogOpen] = useState(false)
@@ -113,6 +115,7 @@ export const MatchRow: React.FC<MatchRowProps> = ({
       </TableRow>
       <ScoreEntryDialog
         matchId={id}
+        onUpdate={onUpdate}
         players={participants}
         isOpen={isDialogOpen}
         setOpen={setDialogOpen}
@@ -124,6 +127,7 @@ export const MatchRow: React.FC<MatchRowProps> = ({
           setOpen={setEditDialogOpen}
           tournamentId={tournamentId}
           matchId={id}
+          onUpdate={onUpdate}
           date={startTime}
           dates={dates}
           initialLocationId={OrderOfPlay?.locationId}
@@ -135,6 +139,7 @@ export const MatchRow: React.FC<MatchRowProps> = ({
           isOpen={isScoreEditDialogOpen}
           setOpen={setScoreEditDialogOpen}
           tournamentId={tournamentId}
+          onUpdate={onUpdate}
         />
       )}
     </>

@@ -13,13 +13,15 @@ type ListOfMatchesDrawsProps = {
   shouldAllowEditing?: boolean
   tournamentId: number
   shouldAllowAdminEditing?: boolean
+  onUpdate: () => void
 }
 
 export const ListOfMatchesDraws: React.FC<ListOfMatchesDrawsProps> = ({
   draws,
   shouldAllowEditing,
   tournamentId,
-  shouldAllowAdminEditing
+  shouldAllowAdminEditing,
+  onUpdate
 }) => {
   return (
     <Accordion type="single" collapsible className="w-full">
@@ -33,6 +35,7 @@ export const ListOfMatchesDraws: React.FC<ListOfMatchesDrawsProps> = ({
                 shouldAllowEditing={shouldAllowEditing}
                 shouldAllowAdminEditing={shouldAllowAdminEditing}
                 tournamentId={tournamentId}
+                onUpdate={onUpdate}
               />
             </AccordionContent>
           </AccordionItem>

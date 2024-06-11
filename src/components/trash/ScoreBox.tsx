@@ -1,8 +1,6 @@
 export const ScoreBox = ({ statistics }) => {
   // {"game":{"scoreTeam1":"30","scoreTeam2":"30"},"match":{"scoreTeam1":"0","scoreTeam2":"0"},"sets":{"1":{"scoreTeam1":"1","scoreTeam2":"0"},"2":{"scoreTeam1":"0","scoreTeam2":"0"},"3":{"scoreTeam1":"0","scoreTeam2":"0"}}}
 
-  console.log({ statistics })
-
   return (
     statistics && (
       <div style={{ display: 'flex', gap: '20px' }}>

@@ -36,7 +36,8 @@ export const EditMatchAssignmentDialog: React.FC<
   date,
   matchId,
   dates,
-  initialLocationId
+  initialLocationId,
+  onUpdate
 }) => {
   const form = useForm({
     defaultValues: {}
@@ -65,6 +66,7 @@ export const EditMatchAssignmentDialog: React.FC<
       !(locationId || initialLocationId)
     ) {
       setError('Please fill all form fields')
+      setLoading(false)
       return
     }
     const dateFromDay = dayjs(day || normalizeDate(date))
@@ -91,6 +93,7 @@ export const EditMatchAssignmentDialog: React.FC<
     )
 
     setLoading(false)
+    onUpdate()
 
     if (result?.error) {
       console.error('Submit failed:', result?.error)

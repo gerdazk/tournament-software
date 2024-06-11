@@ -67,7 +67,7 @@ export default function Page({ params }) {
           <DrawsTab tournamentId={params.tournamentId} />
         </TabsContent>
         <TabsContent value="matches">
-          <ListOfMatchesDraws draws={draws} />
+          <ListOfMatchesDraws draws={draws} onUpdate={() => getDraws()} />
         </TabsContent>
         <TabsContent value="schedules">
           <OrderOfPlayTab tournamentId={params.tournamentId} />

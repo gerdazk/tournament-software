@@ -19,11 +19,13 @@ export default function Page({ params }) {
   useEffect(() => {
     getDraws()
   }, [])
+
   return (
     <div className="w-full">
       <PageHeader title="All tournament matches" isSmall />
       <ListOfMatchesDraws
         draws={draws}
+        onUpdate={getDraws}
         shouldAllowEditing={true}
         shouldAllowAdminEditing={true}
         tournamentId={params.tournamentId}

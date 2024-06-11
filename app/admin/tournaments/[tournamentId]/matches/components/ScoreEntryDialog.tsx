@@ -24,6 +24,7 @@ type ScoreEntryDialogProps = {
   isOpen: boolean
   setOpen: (val: boolean) => void
   tournamentId: number
+  onUpdate: () => void
 }
 
 export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
@@ -31,11 +32,13 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
   players = [],
   isOpen,
   setOpen,
-  tournamentId
+  tournamentId,
+  onUpdate
 }) => {
   const [scoringUnits, setScoringUnits] = useState(
     buildInitialEntries({ players, matchId })
   )
+
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -69,6 +72,7 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
         body: JSON.stringify({ scoringUnits, winnerId, matchId })
       }
     )
+    await onUpdate()
     setLoading(false)
 
     if (!result?.error) {

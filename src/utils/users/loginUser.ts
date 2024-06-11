@@ -18,7 +18,7 @@ export async function loginUser({ email, password }: Props) {
       return data.user
     } else {
       const error = await response.json()
-      console.error('Login failed:', error)
+      // console.error('Login failed:', error)
       return
     }
   } catch (error) {

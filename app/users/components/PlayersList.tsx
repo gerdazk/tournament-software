@@ -110,7 +110,6 @@ export const columns: ColumnDef<Session>[] = [
       )
     },
     cell: ({ row }) => {
-      console.log(row.getValue('participant'))
       return <div>{row.getValue('participant')?.length || 0}</div>
     },
     filterFn: (row, id, value) => value.includes(row.getValue(id))
@@ -126,8 +125,6 @@ export const PlayersList = ({ data }: { data: Session[] }) => {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-
-  console.log({ data })
 
   const table = useReactTable({
     data,
