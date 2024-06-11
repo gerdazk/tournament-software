@@ -10,6 +10,7 @@ import {
 import { Match, Participant } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'
+import { Loader } from '@/components/ui/loader'
 
 import { MatchRow } from './MatchRow'
 
@@ -31,10 +32,13 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
   onUpdate
 }) => {
   const [tournament, setTournament] = useState()
+  const [isLoading, setLoading] = useState(false)
 
   const getTournament = async () => {
+    setLoading(true)
     const allTournaments = await getTournamentById({ id: tournamentId })
     setTournament(allTournaments.tournaments)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -43,37 +47,41 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
 
   return (
     <>
-      <Table className={`w-full`}>
-        <TableHeader className="w-full">
-          <TableRow className="w-full cursor-default">
-            {shouldAllowAdminEditing && <TableHead></TableHead>}
-            {shouldAllowAdminEditing && <TableHead></TableHead>}
-            <TableHead>Date and Time</TableHead>
-            <TableHead>Draw name</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Player 1</TableHead>
-            <TableHead>Player 2</TableHead>
-            <TableHead>Score</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {matches.map(({ participants, ...match }) => {
-            return participants?.length ? (
-              <MatchRow
-                {...match}
-                shouldAllowEditing={shouldAllowEditing}
-                shouldAllowAdminEditing={shouldAllowAdminEditing}
-                participants={participants}
-                tournamentId={tournamentId}
-                tournament={tournament}
-                onUpdate={onUpdate}
-              />
-            ) : (
-              ''
-            )
-          })}
-        </TableBody>
-      </Table>
+      {isLoading ? (
+        <Loader className="w-10 h-10" />
+      ) : (
+        <Table className={`w-full`}>
+          <TableHeader className="w-full">
+            <TableRow className="w-full cursor-default">
+              {shouldAllowAdminEditing && <TableHead></TableHead>}
+              {shouldAllowAdminEditing && <TableHead></TableHead>}
+              <TableHead>Date and Time</TableHead>
+              <TableHead>Draw name</TableHead>
+              <TableHead>Location</TableHead>
+              <TableHead>Player 1</TableHead>
+              <TableHead>Player 2</TableHead>
+              <TableHead>Score</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {matches.map(({ participants, ...match }) => {
+              return participants?.length ? (
+                <MatchRow
+                  {...match}
+                  shouldAllowEditing={shouldAllowEditing}
+                  shouldAllowAdminEditing={shouldAllowAdminEditing}
+                  participants={participants}
+                  tournamentId={tournamentId}
+                  tournament={tournament}
+                  onUpdate={onUpdate}
+                />
+              ) : (
+                ''
+              )
+            })}
+          </TableBody>
+        </Table>
+      )}
     </>
   )
 }

@@ -9,17 +9,21 @@ import { TournamentList } from '../components/TournamentList'
 
 export default function Tournaments() {
   const [tournaments, setTournaments] = useState([])
+  const [isLoading, setLoading] = useState(false)
 
   const router = useRouter()
 
   const getTournaments = async () => {
+    setLoading(true)
     const allTournaments = await getAllTournaments({ isArchive: true })
     allTournaments && setTournaments(allTournaments.tournaments)
+    setLoading(false)
   }
 
   useEffect(() => {
     getTournaments()
   }, [])
+
   return (
     <div>
       <PageHeader
@@ -29,7 +33,7 @@ export default function Tournaments() {
         onButtonClick={() => router.push('/tournaments')}
         buttonVariant="outline"
       />
-      <TournamentList data={tournaments} />
+      <TournamentList data={tournaments} isLoading={isLoading} />
     </div>
   )
 }
