@@ -26,7 +26,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center md:p-24 p-6">
       <HomeHero />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <OverviewCard

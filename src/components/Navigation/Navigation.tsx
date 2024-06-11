@@ -22,10 +22,10 @@ import { UserCard } from './components/UserCard'
 
 export const Navigation = () => {
   const { data } = useSession()
-  const isPlayer = !data?.user?.role || data.user.role === 'user'
   const isAdmin = data?.user?.role && data.user.role === 'admin'
+
   return (
-    <NavigationMenu className="mt-5 flex justify-between w-full max-w-full px-10">
+    <NavigationMenu className="mt-5 flex justify-between w-full max-w-full md:px-10 px-3 overflow-auto">
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>

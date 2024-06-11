@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -22,7 +21,6 @@ export function ApprovalsTable({ requests }: { requests: User[] }) {
 
   return (
     <Table>
-      <TableCaption>A list of all role requests.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Name</TableHead>
@@ -32,35 +30,43 @@ export function ApprovalsTable({ requests }: { requests: User[] }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {requests.map(request => (
-          <TableRow key={request.id}>
-            <TableCell className="font-medium">{request.name}</TableCell>
-            <TableCell>{request.email}</TableCell>
-            <TableCell>{request.proposed_role}</TableCell>
-            <TableCell className="flex gap-2 items-center">
-              <CheckIcon
-                className="h-5 w-5 cursor-pointer"
-                onClick={() =>
-                  handleRoleUpdate({
-                    isApproved: true,
-                    role: request.proposed_role,
-                    id: request.id
-                  })
-                }
-              />
-              <Cross2Icon
-                className="cursor-pointer"
-                onClick={() =>
-                  handleRoleUpdate({
-                    isApproved: false,
-                    role: request.proposed_role,
-                    id: Number(request.id)
-                  })
-                }
-              />
+        {requests?.length ? (
+          requests.map(request => (
+            <TableRow key={request.id}>
+              <TableCell className="font-medium">{request.name}</TableCell>
+              <TableCell>{request.email}</TableCell>
+              <TableCell>{request.proposed_role}</TableCell>
+              <TableCell className="flex gap-2 items-center">
+                <CheckIcon
+                  className="h-5 w-5 cursor-pointer"
+                  onClick={() =>
+                    handleRoleUpdate({
+                      isApproved: true,
+                      role: request.proposed_role,
+                      id: request.id
+                    })
+                  }
+                />
+                <Cross2Icon
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleRoleUpdate({
+                      isApproved: false,
+                      role: request.proposed_role,
+                      id: Number(request.id)
+                    })
+                  }
+                />
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={4} className="h-24 text-center">
+              No requests were found.
             </TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   )

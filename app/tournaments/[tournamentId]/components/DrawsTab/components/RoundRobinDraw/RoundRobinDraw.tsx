@@ -29,7 +29,7 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
 
   return (
     <div className="flex gap-3 flex-col align-start">
-      <div className="flex gap-3 my-3"></div>
+      <div className="flex gap-3 my-3 overflow-auto"></div>
       <div className={`grid grid-rows-${draw.numOfTeams + 1}`}>
         <div className={`grid grid-cols-${draw.numOfTeams + 1}`}>
           <Cell></Cell>

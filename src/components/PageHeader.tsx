@@ -19,9 +19,7 @@ export const PageHeader: React.FC<Props> = ({
   onButtonClick
 }) => {
   return (
-    <div
-      className={`hidden space-y-6 pb-16 pt-8 md:block ${isSmall && 'pb-3 pt-2'}`}
-    >
+    <div className={`space-y-6 pb-16 pt-8 md:block ${isSmall && 'pb-3 pt-2'}`}>
       <div className="flex flex-row justify-between items-center">
         <div className="space-y-0.5">
           {isSmall ? (

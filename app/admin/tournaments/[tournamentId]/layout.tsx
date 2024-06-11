@@ -41,23 +41,7 @@ export default function SettingsLayout({
   ]
   return (
     <>
-      <div className="md:hidden">
-        <Image
-          src="/examples/forms-light.png"
-          width={1280}
-          height={791}
-          alt="Forms"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/forms-dark.png"
-          width={1280}
-          height={791}
-          alt="Forms"
-          className="hidden dark:block"
-        />
-      </div>
-      <div className="hidden space-y-6 py-10 pb-16 md:block">
+      <div className="space-y-6 py-10 pb-16 md:block">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">Tournament</h2>
           <p className="text-muted-foreground">Manage your tournament.</p>

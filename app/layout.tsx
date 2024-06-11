@@ -25,7 +25,7 @@ export default async function RootLayout({
         >
           <Provider session={session}>
             <Navigation />
-            <div className="px-14">{children}</div>
+            <div className="md:px-14 px-6">{children}</div>
           </Provider>
         </ThemeProvider>
       </body>

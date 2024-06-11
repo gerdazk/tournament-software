@@ -96,7 +96,7 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
 
   return (
     <div className="flex gap-3 flex-col align-start">
-      <div className="flex gap-3 my-3">
+      <div className="flex gap-3 my-3 overflow-auto">
         <Button
           disabled={isSaved}
           variant="default"
