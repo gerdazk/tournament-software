@@ -16,6 +16,9 @@ import { Form } from '@/components/ui/form'
 import { TextField } from '@/src/components/Input/TextField'
 import { signIn } from 'next-auth/react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+
+import { ErrorMessage } from '../Labels/ErrorMessage'
 
 const formSchema = z.object({
   email: z.string().email().min(1).max(191),
@@ -27,17 +30,20 @@ export const LoginDialog = () => {
     defaultValues: {},
     resolver: zodResolver(formSchema)
   })
+  const [isLoading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const onSubmit = async (values: any) => {
+    setLoading(true)
     const result = await signIn('credentials', {
       redirect: false,
       ...values
     })
+    setLoading(false)
 
     if (!result?.error) {
-      // console.log('Successfully logged in:', result)
     } else {
-      // console.error('Login failed:', result?.error)
+      setErrorMessage('Log in failed. Check your credentials.')
     }
   }
   return (
@@ -70,8 +76,11 @@ export const LoginDialog = () => {
               name="password"
               type="password"
             />
-            <DialogFooter>
-              <Button type="submit">Submit</Button>
+            <DialogFooter className="sm:flex-col sm:items-end gap-3">
+              <Button type="submit" isLoading={isLoading}>
+                Submit
+              </Button>
+              {errorMessage && <ErrorMessage message={errorMessage} />}
             </DialogFooter>
           </form>
         </Form>

@@ -19,16 +19,19 @@ import { createDraw } from '../utils/createDraw'
 
 export const CreateDrawDialog = ({ tournamentId }) => {
   const [open, setOpen] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const form = useForm({
     defaultValues: {}
   })
 
   const onSubmit = async ({ name, numOfTeams }) => {
+    setLoading(true)
     await createDraw({
       tournamentId,
       name,
       numOfTeams: Number(numOfTeams)
     })
+    setLoading(false)
     setOpen(false)
   }
 
@@ -63,7 +66,9 @@ export const CreateDrawDialog = ({ tournamentId }) => {
               min="1"
             />
             <DialogFooter>
-              <Button type="submit">Submit</Button>
+              <Button isLoading={isLoading} type="submit">
+                Submit
+              </Button>
             </DialogFooter>
           </form>
         </Form>

@@ -48,6 +48,7 @@ const formSchema = z.object({
 export const RegistrationDialog = () => {
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,7 +57,9 @@ export const RegistrationDialog = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true)
     const result = await registerUser({ ...values })
+    setLoading(false)
 
     if (!result?.error) {
       setSuccessMessage('Sign up successful. You can now log in.')
@@ -117,7 +120,9 @@ export const RegistrationDialog = () => {
               {successMessage ? (
                 <div>{successMessage}</div>
               ) : (
-                <Button type="submit">Submit</Button>
+                <Button isLoading={isLoading} type="submit">
+                  Submit
+                </Button>
               )}
               {errorMessage && <ErrorMessage message={errorMessage} />}
             </DialogFooter>

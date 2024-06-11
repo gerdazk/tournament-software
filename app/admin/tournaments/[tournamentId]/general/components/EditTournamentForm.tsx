@@ -31,6 +31,7 @@ export function EditTournamentForm({ tournament }) {
     from: tournament.start_date || '',
     to: tournament.end_date || ''
   })
+  const [isLoading, setLoading] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,6 +43,7 @@ export function EditTournamentForm({ tournament }) {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true)
     const start_date = mainDrawDates?.from
     const end_date = mainDrawDates?.to
     const no_of_courts = Number(values.no_of_courts)
@@ -61,6 +63,7 @@ export function EditTournamentForm({ tournament }) {
       no_of_courts,
       id: tournament.id
     })
+    setLoading(false)
 
     if (data.success) {
       setErrorMessage('')
@@ -158,7 +161,9 @@ export function EditTournamentForm({ tournament }) {
           {successMessage ? (
             <SuccessMessage message={successMessage} />
           ) : (
-            <Button type="submit">Submit</Button>
+            <Button isLoading={isLoading} type="submit">
+              Submit
+            </Button>
           )}
           {errorMessage && <ErrorMessage message={errorMessage} />}
         </form>

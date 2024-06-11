@@ -40,6 +40,7 @@ export const AssignMatchToScheduleDialog: React.FC<
 
   const [matches, setMatches] = useState<Match[]>([])
   const [date, setDate] = useState(new Date(tournamentDate))
+  const [isLoading, setLoading] = useState(false)
 
   const getMatches = async () => {
     const res = await getAllTournamentMatches({ id: tournamentId })
@@ -51,6 +52,7 @@ export const AssignMatchToScheduleDialog: React.FC<
   }, [isOpen])
 
   const onSubmit = async (values: any) => {
+    setLoading(true)
     const result = await fetch(
       `/api/tournament/${tournamentId}/matches/addToSchedule`,
       {
@@ -63,9 +65,10 @@ export const AssignMatchToScheduleDialog: React.FC<
         })
       }
     )
+    setLoading(false)
 
     if (result?.error) {
-      console.error('Login failed:', result?.error)
+      // console.error('Login failed:', result?.error)
     } else {
       setOpen(false)
     }
@@ -100,7 +103,9 @@ export const AssignMatchToScheduleDialog: React.FC<
             <FormLabel className="mt-3">Time of the match</FormLabel>
             <TimePicker date={date} setDate={setDate} />
             <DialogFooter>
-              <Button type="submit">Submit</Button>
+              <Button isLoading={isLoading} type="submit">
+                Submit
+              </Button>
             </DialogFooter>
           </form>
         </Form>

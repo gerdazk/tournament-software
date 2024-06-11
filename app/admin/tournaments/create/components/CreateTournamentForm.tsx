@@ -29,12 +29,14 @@ export function CreateTournamentForm() {
   const [mainDrawDates, setMainDrawDates] = useState({ from: '', to: '' })
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
   const { data: sessionData } = useSession()
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true)
     const start_date = mainDrawDates?.from
     const end_date = mainDrawDates?.to
     const no_of_courts = Number(values.no_of_courts)
@@ -54,6 +56,8 @@ export function CreateTournamentForm() {
       no_of_courts,
       organizerId: sessionData?.user?.id
     })
+
+    setLoading(false)
 
     if (data.success) {
       setErrorMessage('')
@@ -133,7 +137,9 @@ export function CreateTournamentForm() {
             {successMessage ? (
               <SuccessMessage message={successMessage} />
             ) : (
-              <Button type="submit">Submit</Button>
+              <Button isLoading={isLoading} type="submit">
+                Submit
+              </Button>
             )}
             {errorMessage && <ErrorMessage message={errorMessage} />}
           </form>

@@ -14,6 +14,7 @@ import { Form } from '@/components/ui/form'
 import { TextField } from '@/src/components/Input/TextField'
 import { useForm } from 'react-hook-form'
 import { Location } from '@prisma/client'
+import { useState } from 'react'
 
 type CreateLocationDialogProps = {
   tournamentId: number
@@ -29,12 +30,15 @@ export const CreateLocationDialog: React.FC<CreateLocationDialogProps> = ({
   const form = useForm({
     defaultValues: {}
   })
+  const [isLoading, setLoading] = useState(false)
 
   const onSubmit = async (props: Partial<Location>) => {
+    setLoading(true)
     await fetch(`/api/tournament/${tournamentId}/locations`, {
       method: 'POST',
       body: JSON.stringify(props)
     })
+    setLoading(false)
     onOpenChange(false)
   }
 
@@ -60,7 +64,9 @@ export const CreateLocationDialog: React.FC<CreateLocationDialogProps> = ({
               name="name"
             />
             <DialogFooter>
-              <Button type="submit">Submit</Button>
+              <Button isLoading={isLoading} type="submit">
+                Submit
+              </Button>
             </DialogFooter>
           </form>
         </Form>

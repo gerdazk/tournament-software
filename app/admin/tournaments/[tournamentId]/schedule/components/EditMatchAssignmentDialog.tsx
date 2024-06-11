@@ -44,6 +44,7 @@ export const EditMatchAssignmentDialog: React.FC<
 
   const [locations, setLocations] = useState<Location[]>([])
   const [startTime, setStartTime] = useState(new Date(date))
+  const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const getLocations = async () => {
@@ -57,7 +58,7 @@ export const EditMatchAssignmentDialog: React.FC<
   }, [isOpen])
 
   const onSubmit = async ({ day, locationId }) => {
-    console.log({ day, locationId, startTime })
+    setLoading(true)
     if (
       !(day || normalizeDate(date)) ||
       !startTime ||
@@ -88,6 +89,8 @@ export const EditMatchAssignmentDialog: React.FC<
         })
       }
     )
+
+    setLoading(false)
 
     if (result?.error) {
       console.error('Submit failed:', result?.error)
@@ -140,7 +143,9 @@ export const EditMatchAssignmentDialog: React.FC<
             <FormLabel className="mt-3">Time of the match</FormLabel>
             <TimePicker date={startTime} setDate={setStartTime} />
             <DialogFooter className="flex flex-col sm:flex sm:flex-col items-end gap-2">
-              <Button type="submit">Submit</Button>
+              <Button isLoading={isLoading} type="submit">
+                Submit
+              </Button>
               {error && <ErrorMessage message={error} />}
             </DialogFooter>
           </form>

@@ -36,6 +36,7 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
   const [scoringUnits, setScoringUnits] = useState(
     buildInitialEntries({ players, matchId })
   )
+  const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const form = useForm({
@@ -60,6 +61,7 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
   }
 
   const onSubmit = async ({ winnerId }) => {
+    setLoading(true)
     const result = await fetch(
       `/api/tournament/${tournamentId}/matches/score`,
       {
@@ -67,6 +69,7 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
         body: JSON.stringify({ scoringUnits, winnerId, matchId })
       }
     )
+    setLoading(false)
 
     if (!result?.error) {
       setOpen(false)
@@ -110,7 +113,9 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
             })}
 
             <DialogFooter>
-              <Button type="submit">Submit</Button>
+              <Button isLoading={isLoading} type="submit">
+                Submit
+              </Button>
               {error && <ErrorMessage message={error} />}
             </DialogFooter>
           </form>

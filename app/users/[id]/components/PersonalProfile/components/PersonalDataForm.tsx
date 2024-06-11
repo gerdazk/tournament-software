@@ -26,6 +26,7 @@ export const PersonalDataForm: React.FC<PersonalDataFormProps> = ({
   defaultValues
 }) => {
   const [error, setError] = useState('')
+  const [isLoading, setLoading] = useState(false)
   const [isSubmitted, setSubmitted] = useState(false)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,11 +37,14 @@ export const PersonalDataForm: React.FC<PersonalDataFormProps> = ({
   })
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    setLoading(true)
     try {
       await updateUserData({ ...defaultValues, ...data })
       setSubmitted(true)
+      setLoading(false)
     } catch (e) {
       setError('Failed to save data.')
+      setLoading(false)
     }
   }
 
@@ -57,7 +61,9 @@ export const PersonalDataForm: React.FC<PersonalDataFormProps> = ({
         {isSubmitted ? (
           <div>Successfully updated user data</div>
         ) : (
-          <Button type="submit">Submit</Button>
+          <Button isLoading={isLoading} type="submit">
+            Submit
+          </Button>
         )}
         {error && <ErrorMessage message={error} />}
       </form>
