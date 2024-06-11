@@ -16,6 +16,13 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import dayjs from 'dayjs'
 import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const formSchema = z.object({
+  locationId: z.string().min(1).max(191),
+  day: z.string().min(1).max(191)
+})
 
 type EditMatchAssignmentDialogProps = {
   isOpen: boolean
@@ -25,6 +32,7 @@ type EditMatchAssignmentDialogProps = {
   matchId: number
   dates: Date[]
   initialLocationId: number
+  onUpdate: () => void
 }
 
 export const EditMatchAssignmentDialog: React.FC<
@@ -40,7 +48,11 @@ export const EditMatchAssignmentDialog: React.FC<
   onUpdate
 }) => {
   const form = useForm({
-    defaultValues: {}
+    defaultValues: {
+      locationId: initialLocationId?.toString(),
+      day: normalizeDate(date)
+    },
+    resolver: zodResolver(formSchema)
   })
 
   const [locations, setLocations] = useState<Location[]>([])

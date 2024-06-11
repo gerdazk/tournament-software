@@ -15,6 +15,12 @@ import { TextField } from '@/src/components/Input/TextField'
 import { useForm } from 'react-hook-form'
 import { Location } from '@prisma/client'
 import { useState } from 'react'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const formSchema = z.object({
+  name: z.string().min(1).max(191)
+})
 
 type CreateLocationDialogProps = {
   tournamentId: number
@@ -28,7 +34,8 @@ export const CreateLocationDialog: React.FC<CreateLocationDialogProps> = ({
   onOpenChange
 }) => {
   const form = useForm({
-    defaultValues: {}
+    defaultValues: {},
+    resolver: zodResolver(formSchema)
   })
   const [isLoading, setLoading] = useState(false)
 

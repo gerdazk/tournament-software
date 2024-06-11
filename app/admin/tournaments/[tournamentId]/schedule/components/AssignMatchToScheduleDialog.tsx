@@ -11,9 +11,15 @@ import { Form, FormLabel } from '@/components/ui/form'
 import { TimePicker } from '@/components/ui/time-picker-demo'
 import { SelectField } from '@/src/components/Input/SelectField'
 import { getAllTournamentMatches } from '@/src/utils/tournaments/getAllTournamentMatches'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Match } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const formSchema = z.object({
+  winnerId: z.string().min(1).max(191)
+})
 
 type AssignMatchToScheduleDialogProps = {
   isOpen: boolean
@@ -37,7 +43,8 @@ export const AssignMatchToScheduleDialog: React.FC<
   onUpdate
 }) => {
   const form = useForm({
-    defaultValues: {}
+    defaultValues: {},
+    resolver: zodResolver(formSchema)
   })
 
   const [matches, setMatches] = useState<Match[]>([])

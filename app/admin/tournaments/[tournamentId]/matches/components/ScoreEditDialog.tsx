@@ -12,10 +12,16 @@ import { SelectField } from '@/src/components/Input/SelectField'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { updateScore } from '../utils/scoreHandlers'
 
 import { PlayerScoreRow } from './PlayerScoreRow'
+
+const formSchema = z.object({
+  winnerId: z.string().min(1).max(191)
+})
 
 type ScoreEditDialogProps = {
   matchId: number
@@ -51,7 +57,8 @@ export const ScoreEditDialog: React.FC<ScoreEditDialogProps> = ({
   }, [])
 
   const form = useForm({
-    defaultValues: {}
+    defaultValues: {},
+    resolver: zodResolver(formSchema)
   })
 
   const playersOptions =

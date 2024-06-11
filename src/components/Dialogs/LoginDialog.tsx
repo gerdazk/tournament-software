@@ -30,6 +30,7 @@ export const LoginDialog = () => {
     defaultValues: {},
     resolver: zodResolver(formSchema)
   })
+
   const [isLoading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
