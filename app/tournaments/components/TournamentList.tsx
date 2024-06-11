@@ -262,7 +262,7 @@ export const TournamentList = ({ data }: { data: Session[] }) => {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No tournaments match the search criteria.
                 </TableCell>
               </TableRow>
             )}

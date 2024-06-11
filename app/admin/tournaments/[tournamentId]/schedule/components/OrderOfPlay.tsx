@@ -23,6 +23,7 @@ export const OrderOfPlay: React.FC<OrderOfPlayProps> = ({
   onUpdate
 }) => {
   const dates = getDaysBetweenDates({ ...tournament })
+
   return (
     !!dates?.length && (
       <Tabs defaultValue={dates[0]}>
@@ -33,36 +34,49 @@ export const OrderOfPlay: React.FC<OrderOfPlayProps> = ({
             </TabsTrigger>
           ))}
         </TabsList>
-        {dates.map(date => (
-          <TabsContent key={date} value={date}>
-            <Accordion type="single" collapsible className="w-full">
-              {tournament.Location.map(({ id, name }) => {
-                const schedule = schedules.filter(
-                  ({ locationId, date: scheduleDate }: any) => {
-                    return (
-                      id === locationId && normalizeDate(scheduleDate) === date
+        {dates.map(date => {
+          const matchesAtThisDay = schedules.filter(
+            ({ date: scheduleDate }: any) => {
+              return normalizeDate(scheduleDate) === date
+            }
+          )
+          return (
+            <TabsContent key={date} value={date}>
+              {matchesAtThisDay?.length || shouldAllowEditing ? (
+                <Accordion type="single" collapsible className="w-full">
+                  {tournament.Location.map(({ id, name }) => {
+                    const filteredMatchesForLocationAndDate = schedules.filter(
+                      ({ locationId, date: scheduleDate }: any) => {
+                        return (
+                          id === locationId &&
+                          normalizeDate(scheduleDate) === date
+                        )
+                      }
                     )
-                  }
-                )
-                const hasMatches =
-                  schedule?.[0] && !!schedule[0].matches?.length
-                return (
-                  <OrderOfPlayAccordionItem
-                    key={id}
-                    hasMatches={hasMatches}
-                    locationId={id}
-                    name={name}
-                    date={date}
-                    schedule={schedule}
-                    tournamentId={tournamentId}
-                    shouldAllowEditing={shouldAllowEditing}
-                    onUpdate={onUpdate}
-                  />
-                )
-              })}
-            </Accordion>
-          </TabsContent>
-        ))}
+                    const hasMatches =
+                      filteredMatchesForLocationAndDate?.[0] &&
+                      !!filteredMatchesForLocationAndDate[0].matches?.length
+                    return (
+                      <OrderOfPlayAccordionItem
+                        key={id}
+                        hasMatches={hasMatches}
+                        locationId={id}
+                        name={name}
+                        date={date}
+                        schedule={filteredMatchesForLocationAndDate}
+                        tournamentId={tournamentId}
+                        shouldAllowEditing={shouldAllowEditing}
+                        onUpdate={onUpdate}
+                      />
+                    )
+                  })}
+                </Accordion>
+              ) : (
+                <div>There are no matches for selected date.</div>
+              )}
+            </TabsContent>
+          )
+        })}
       </Tabs>
     )
   )

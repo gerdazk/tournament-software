@@ -5,7 +5,13 @@ import { TableCell, TableRow } from '@/components/ui/table'
 import { normalizeDate } from '@/src/utils/normalizeDate'
 import { Pencil, Users } from 'lucide-react'
 import { useState } from 'react'
-import { OrderOfPlay, Participant, ScoreUnit, Tournament } from '@prisma/client'
+import {
+  Draw,
+  OrderOfPlay,
+  Participant,
+  ScoreUnit,
+  Tournament
+} from '@prisma/client'
 import { normalizeScore } from '@/src/utils/normalizeScore'
 
 import { EditMatchAssignmentDialog } from '../../schedule/components/EditMatchAssignmentDialog'
@@ -26,6 +32,7 @@ type MatchRowProps = {
   ScoreUnit: ScoreUnit[]
   shouldAllowAdminEditing?: boolean
   tournament?: Tournament
+  draw: Draw
 }
 
 export const MatchRow: React.FC<MatchRowProps> = ({
@@ -38,7 +45,8 @@ export const MatchRow: React.FC<MatchRowProps> = ({
   tournamentId,
   ScoreUnit,
   shouldAllowAdminEditing,
-  tournament
+  tournament,
+  draw
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [isEditDialogOpen, setEditDialogOpen] = useState(false)
@@ -74,6 +82,7 @@ export const MatchRow: React.FC<MatchRowProps> = ({
         <TableCell className="font-medium">
           {(startTime && normalizeDate(startTime, true)) || 'TBD'}
         </TableCell>
+        <TableCell className="font-medium">{draw?.name}</TableCell>
         <TableCell className="font-medium">
           {OrderOfPlay?.Location?.name || 'TBD'}
         </TableCell>

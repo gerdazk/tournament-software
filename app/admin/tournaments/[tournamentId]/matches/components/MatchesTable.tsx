@@ -38,6 +38,7 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
   useEffect(() => {
     getTournament()
   }, [])
+
   return (
     <>
       <Table className={`w-full`}>
@@ -45,7 +46,8 @@ export const MatchesTable: React.FC<MatchesTableProps> = ({
           <TableRow className="w-full cursor-default">
             {shouldAllowAdminEditing && <TableHead></TableHead>}
             {shouldAllowAdminEditing && <TableHead></TableHead>}
-            <TableHead>Match time</TableHead>
+            <TableHead>Date and Time</TableHead>
+            <TableHead>Draw name</TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Player 1</TableHead>
             <TableHead>Player 2</TableHead>

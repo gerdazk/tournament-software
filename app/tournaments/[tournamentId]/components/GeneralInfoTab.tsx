@@ -2,7 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SimpleCard } from '@/src/components/SimpleCard'
 import { normalizeDate } from '@/src/utils/normalizeDate'
 import { Tournament } from '@prisma/client'
-import { CalendarIcon, HomeIcon, InfoCircledIcon } from '@radix-ui/react-icons'
+import {
+  CalendarIcon,
+  HomeIcon,
+  InfoCircledIcon,
+  TargetIcon
+} from '@radix-ui/react-icons'
 
 export const GeneralInfoTab: React.FC<Tournament> = ({
   name,
@@ -10,7 +15,10 @@ export const GeneralInfoTab: React.FC<Tournament> = ({
   description,
   start_date,
   end_date,
-  country
+  country,
+  address_additional_info,
+  address_name,
+  no_of_courts
 }) => {
   return (
     <>
@@ -21,7 +29,6 @@ export const GeneralInfoTab: React.FC<Tournament> = ({
         </CardHeader>
         <CardContent className="space-y-2">
           <SimpleCard title="Name of the tournament" subtitle={name} />
-          <SimpleCard title="Gender" subtitle="Women" />
           <SimpleCard title="Description" subtitle={description} />
         </CardContent>
       </Card>
@@ -37,22 +44,29 @@ export const GeneralInfoTab: React.FC<Tournament> = ({
       </Card>
       <Card className="w-full">
         <CardHeader className="flex justify-between flex-row">
-          <CardTitle>Tournament venue</CardTitle>
+          <CardTitle>Tournament location</CardTitle>
           <HomeIcon />
         </CardHeader>
         <CardContent className="space-y-2">
           <SimpleCard title="Country" subtitle={country} />
           <SimpleCard title="City" subtitle={city} />
+          <SimpleCard
+            title="Additional address info"
+            subtitle={address_additional_info || '-'}
+          />
         </CardContent>
       </Card>
       <Card className="w-full">
         <CardHeader className="flex justify-between flex-row">
-          <CardTitle>Tournament dates</CardTitle>
-          <CalendarIcon />
+          <CardTitle>Tournament venue</CardTitle>
+          <TargetIcon />
         </CardHeader>
         <CardContent className="space-y-2">
-          <SimpleCard title="Start date" subtitle="Lithuania" />
-          <SimpleCard title="End date" subtitle="Vilnius" />
+          <SimpleCard title="Venue name" subtitle={address_name} />
+          <SimpleCard
+            title="Number of courts/fields"
+            subtitle={no_of_courts?.toString() || '-'}
+          />
         </CardContent>
       </Card>
     </>
