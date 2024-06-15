@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import { CaretSortIcon, ChevronDownIcon } from '@radix-ui/react-icons'
-import dayjs from 'dayjs'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -158,10 +157,12 @@ export const columns: ColumnDef<Session>[] = [
 
 export const TournamentList = ({
   data,
-  isLoading
+  isLoading,
+  isAdmin = false
 }: {
   data: Session[]
   isLoading?: boolean
+  isAdmin?: boolean
 }) => {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const router = useRouter()
@@ -171,6 +172,8 @@ export const TournamentList = ({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const endpointPrefix = isAdmin ? '/admin' : ''
+  const endpointPostfix = isAdmin ? '/general' : ''
 
   const table = useReactTable({
     data,
@@ -253,7 +256,9 @@ export const TournamentList = ({
                     <TableRow
                       key={row.id}
                       onClick={() =>
-                        router.push(`/tournaments/${row.getValue('id')}`)
+                        router.push(
+                          `${endpointPrefix}/tournaments/${row.getValue('id')}${endpointPostfix}`
+                        )
                       }
                       className="cursor-pointer"
                       data-state={row.getIsSelected() && 'selected'}

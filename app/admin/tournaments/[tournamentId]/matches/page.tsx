@@ -14,13 +14,13 @@ export default function Page({ params }) {
   const [isLoading, setLoading] = useState(false)
 
   const getDraws = async () => {
-    setLoading(true)
     const allDraws = await getAllDraws({ tournamentId: params.tournamentId })
     allDraws && setDraws(allDraws)
     setLoading(false)
   }
 
   useEffect(() => {
+    setLoading(true)
     getDraws()
   }, [])
 

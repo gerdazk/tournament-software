@@ -13,10 +13,16 @@ import { Participant } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { ErrorMessage } from '@/src/components/Labels/ErrorMessage'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { buildInitialEntries, updateScore } from '../utils/scoreHandlers'
 
 import { PlayerScoreRow } from './PlayerScoreRow'
+
+const formSchema = z.object({
+  winnerId: z.string().min(1).max(191)
+})
 
 type ScoreEntryDialogProps = {
   matchId: number
@@ -43,7 +49,8 @@ export const ScoreEntryDialog: React.FC<ScoreEntryDialogProps> = ({
   const [error, setError] = useState('')
 
   const form = useForm({
-    defaultValues: {}
+    defaultValues: {},
+    resolver: zodResolver(formSchema)
   })
 
   const playersOptions = players.map(({ user }) => ({

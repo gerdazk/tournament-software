@@ -3,7 +3,7 @@ import { CreateTournamentForm } from '@/app/admin/tournaments/create/components/
 export default function CreateTournamentPage() {
   return (
     <div className="flex">
-      <CreateTournamentForm />{' '}
+      <CreateTournamentForm />
     </div>
   )
 }

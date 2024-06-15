@@ -33,6 +33,7 @@ export default function Page({ params }) {
     const allDraws = await getAllDraws({ tournamentId: params.tournamentId })
     allDraws && setDraws(allDraws)
   }
+
   return (
     <>
       <div className="space-y-6 pb-16 pt-8 md:block">

@@ -64,6 +64,15 @@ export const Navigation = () => {
             </Link>
           </NavigationMenuItem>
         )}
+        {isAdmin && (
+          <NavigationMenuItem>
+            <Link href="/admin/tournaments" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Tournament manager
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        )}
       </NavigationMenuList>
       <div>
         {data?.user ? (
