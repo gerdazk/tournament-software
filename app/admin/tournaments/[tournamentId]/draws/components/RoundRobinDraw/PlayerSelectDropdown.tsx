@@ -38,18 +38,27 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
       players,
       orderNo: drawOrderNo
     })
-    defaultValue && setSelectedValue(defaultValue)
-  }, [])
+    setSelectedValue(defaultValue)
+  }, [players, drawOrderNo])
 
   const handleValueChange = e => {
-    handleChange({ ...e, drawId, drawOrderNo })
-    setSelectedValue(e)
+    if (e?.value === selectedValue?.value) {
+      handleChange({ ...e, drawId: null, drawOrderNo: null })
+      setSelectedValue(null)
+    } else {
+      handleChange({ ...e, drawId, drawOrderNo })
+      setSelectedValue(e)
+    }
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button disabled={disabled} variant="outline" className="h-full">
+        <Button
+          disabled={disabled}
+          variant="outline"
+          className="h-full min-h-[38px]"
+        >
           {selectedValue?.label}
         </Button>
       </DropdownMenuTrigger>
@@ -71,7 +80,6 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
                     drawOrderNo,
                     ...rest
                   }}
-                  disabled={playerDrawOrderNo === drawOrderNo}
                 >
                   {label}
                 </DropdownMenuRadioItem>

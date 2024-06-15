@@ -8,6 +8,6 @@ export const tournamentSchema = z.object({
   city: z.string().min(1),
   address_additional_info: z.string(),
   address_name: z.string().min(1),
-  is_visible: z.boolean(),
-  is_registration_open: z.boolean()
+  is_visible: z.boolean().default(false),
+  is_registration_open: z.boolean().default(false)
 })

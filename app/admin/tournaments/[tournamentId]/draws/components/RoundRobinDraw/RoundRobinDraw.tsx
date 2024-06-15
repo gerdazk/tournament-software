@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Draw } from '@prisma/client'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
 import { findPlayerByDrawOrderNo } from '@/src/utils/findPlayerByDrawOrderNo'
 import { ConfirmationDialog } from '@/src/components/Dialogs/ConfirmationDialog'
 
@@ -27,7 +26,8 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
   const [isDeleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] =
     useState(false)
   const [isSaved, setSaved] = useState(true)
-  const router = useRouter()
+  const [isSaveLoading, setSaveLoading] = useState(false)
+  const [isPublishLoading, setPublishLoading] = useState(false)
   const participantIds = participants.map(({ id }) => id)
 
   const drawPositions = Array.from(
@@ -59,6 +59,7 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
   }
 
   const handleSave = async () => {
+    setSaveLoading(true)
     const normalizedParticipants = participants.map(
       ({ drawId, tournamentId, drawOrderNo, value, userId }) => ({
         id: value,
@@ -75,11 +76,14 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
     })
     setSaved(true)
     onUpdate()
+    setSaveLoading(false)
   }
 
   const handlePublish = async () => {
+    setPublishLoading(true)
     await publishDraw(draw)
     onUpdate()
+    setPublishLoading(false)
   }
 
   const handleDelete = async () => {
@@ -101,6 +105,7 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
           disabled={isSaved}
           variant="default"
           onClick={() => handleSave()}
+          isLoading={isSaveLoading}
         >
           Save your changes
         </Button>
@@ -108,8 +113,9 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
           disabled={!isSaved || draw.isPublished}
           variant="outline"
           onClick={() => handlePublish()}
+          isLoading={isPublishLoading}
         >
-          Publish the draw
+          {draw.isPublished ? 'Published' : 'Publish the draw'}
         </Button>
         <Button
           disabled={draw.isPublished}
@@ -131,10 +137,6 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
           })}
         </div>
         {drawPositions.map((position, i) => {
-          const participant = findPlayerByDrawOrderNo({
-            players: participants,
-            orderNo: i + 1
-          })
           return (
             <Row
               participantIds={participantIds}
@@ -144,7 +146,6 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
               players={participants}
               handlePlayerChange={handlePlayerChange}
               drawId={draw.id}
-              teamId={participant?.value}
               isPublished={draw.isPublished}
             />
           )
