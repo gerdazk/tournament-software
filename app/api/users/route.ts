@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
+import bcrypt from 'bcryptjs'
 
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams
@@ -90,7 +91,8 @@ export async function PUT(req: NextRequest) {
   const params = req.nextUrl.searchParams
   const id = params.get('id')
   const prisma = new PrismaClient()
-  const body = await req.json()
+  const { password, ...body } = await req.json()
+  const hashedPassword = await bcrypt.hash(password, 10)
 
   if (!id) {
     return NextResponse.json(
@@ -104,7 +106,7 @@ export async function PUT(req: NextRequest) {
       where: {
         id: Number(id)
       },
-      data: body
+      data: password ? { ...body, password: hashedPassword } : body
     })
 
     return NextResponse.json(users, { status: 200 })
