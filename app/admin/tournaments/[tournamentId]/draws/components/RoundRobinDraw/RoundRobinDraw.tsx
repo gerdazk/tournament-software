@@ -118,7 +118,6 @@ export const RoundRobinDraw: React.FC<RoundRobinDrawProps> = ({
           {draw.isPublished ? 'Published' : 'Publish the draw'}
         </Button>
         <Button
-          disabled={draw.isPublished}
           variant="destructive"
           onClick={() => setDeleteConfirmationDialogOpen(true)}
         >

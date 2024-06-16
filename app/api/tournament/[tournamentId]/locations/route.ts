@@ -1,5 +1,8 @@
+import { isRequestBodyValid } from '@/src/utils/isRequestBodyValid'
 import { PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { bodySchema } from './schemas'
 
 export async function DELETE(req: NextRequest) {
   const params = req.nextUrl.searchParams
@@ -28,6 +31,15 @@ export async function DELETE(req: NextRequest) {
 export async function POST(req: NextRequest, { params }) {
   const body = await req.json()
   const tournamentId = Number(params.tournamentId)
+
+  const isBodyValid = isRequestBodyValid({
+    schema: bodySchema,
+    body
+  })
+
+  if (!isBodyValid) {
+    return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
+  }
 
   const prisma = new PrismaClient()
 
