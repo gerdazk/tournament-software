@@ -38,8 +38,8 @@ export default function Page({ params }) {
   return (
     <div className="w-full">
       <PageHeader
-        title="Players"
-        subtitle="All players registered to this tournament"
+        title="Results of the tournament"
+        subtitle="Places of each player in the tournament."
         isSmall
       />
       {isLoading ? (
