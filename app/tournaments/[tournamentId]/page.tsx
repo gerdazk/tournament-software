@@ -13,6 +13,7 @@ import { PlayersTable } from './components/PlayersTable'
 import { HeaderButtons } from './components/HeaderButtons'
 import { DrawsTab } from './components/DrawsTab/DrawsTab'
 import { OrderOfPlayTab } from './components/OrderOfPlayTab/OrderOfPlayTab'
+import { ResultsTab } from './components/ResultsTab'
 
 export default function Page({ params }) {
   const [tournament, setTournament] = useState<Tournament>({})
@@ -54,6 +55,7 @@ export default function Page({ params }) {
           <TabsTrigger value="draws">Draws</TabsTrigger>
           <TabsTrigger value="schedules">Order of play</TabsTrigger>
           <TabsTrigger value="matches">Matches</TabsTrigger>
+          <TabsTrigger value="results">Results</TabsTrigger>
         </TabsList>
         <TabsContent
           value="general"
@@ -72,6 +74,9 @@ export default function Page({ params }) {
         </TabsContent>
         <TabsContent value="schedules">
           <OrderOfPlayTab tournamentId={params.tournamentId} />
+        </TabsContent>
+        <TabsContent value="results">
+          <ResultsTab participants={tournament.participants} />
         </TabsContent>
       </Tabs>
     </>

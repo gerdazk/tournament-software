@@ -34,7 +34,8 @@ export default function Tournaments() {
   return (
     <div>
       <PageHeader
-        title="All tournaments"
+        title="Your tournaments"
+        subtitle="All tournaments created by you"
         buttonText="Create new tournament"
         onButtonClick={() => router.push('/admin/tournaments/create')}
         buttonVariant="default"

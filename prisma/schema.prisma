@@ -67,6 +67,7 @@ model Participant {
   drawOrderNo  Int?
   matches      Match[]
   ScoreUnit    ScoreUnit[]
+  place Int?
 }
 
 model Draw {

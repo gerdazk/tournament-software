@@ -69,23 +69,21 @@ export const PlayerSelectDropdown: React.FC<PlayersSelectDropdownProps> = ({
           value={selectedValue?.label}
           onValueChange={handleValueChange}
         >
-          {players.map(
-            ({ label, value, drawOrderNo: playerDrawOrderNo, ...rest }) => {
-              return (
-                <DropdownMenuRadioItem
-                  key={value}
-                  value={{
-                    label,
-                    value,
-                    drawOrderNo,
-                    ...rest
-                  }}
-                >
-                  {label}
-                </DropdownMenuRadioItem>
-              )
-            }
-          )}
+          {players.map(({ label, value, drawOrderNo, ...rest }) => {
+            return (
+              <DropdownMenuRadioItem
+                key={value}
+                value={{
+                  label,
+                  value,
+                  drawOrderNo,
+                  ...rest
+                }}
+              >
+                {label}
+              </DropdownMenuRadioItem>
+            )
+          })}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

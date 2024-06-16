@@ -37,6 +37,10 @@ export default function SettingsLayout({
     {
       title: 'Order of play',
       href: `/admin/tournaments/${tournamentId}/schedule`
+    },
+    {
+      title: 'Tournament results',
+      href: `/admin/tournaments/${tournamentId}/results`
     }
   ]
   return (
