@@ -18,7 +18,6 @@ export default function Tournaments() {
       const res = await fetch(
         `/api/tournament/organizer?id=${session?.data?.user?.id}`
       )
-      console.log({ res })
       const fetchedTournaments = await res?.json()
       fetchedTournaments?.tournaments?.length &&
         setTournaments(fetchedTournaments.tournaments)

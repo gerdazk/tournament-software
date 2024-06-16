@@ -1,6 +1,8 @@
 export const getTournamentById = async ({ id }: { id: string }) => {
   try {
-    const response = await fetch(`/api/tournament?id=${id}`)
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/tournament?id=${id}`
+    )
 
     if (response.ok) {
       const data = await response.json()

@@ -1,8 +1,11 @@
 'use client'
-import Image from 'next/image'
 import { Separator } from '@/components/ui/separator'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
 import { SidebarNav } from '../../components/SideBarNav'
+
+import { isUserAllowedToEnter } from './utils/isUserAllowedToEnter'
 
 interface SettingsLayoutProps {
   children: React.ReactNode
@@ -13,6 +16,21 @@ export default function SettingsLayout({
   params
 }: SettingsLayoutProps) {
   const tournamentId = params?.tournamentId
+  const { data } = useSession()
+  const [isAllowed, setAllowed] = useState(false)
+
+  const setAllowance = async () => {
+    const isAllowedToEnter = await isUserAllowedToEnter({
+      userId: data?.user?.id,
+      tournamentId: params.tournamentId
+    })
+    setAllowed(!!isAllowedToEnter)
+  }
+
+  useEffect(() => {
+    setAllowance()
+  }, [])
+
   const sidebarNavItems = [
     {
       title: 'General info',
@@ -47,6 +65,7 @@ export default function SettingsLayout({
       href: `/admin/tournaments/${tournamentId}/results`
     }
   ]
+
   return (
     <>
       <div className="space-y-6 py-10 pb-16 md:block">
@@ -59,7 +78,9 @@ export default function SettingsLayout({
           <aside className="-mx-4 lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
           </aside>
-          <div className="flex-1 lg:max-w-2xl">{children}</div>
+          <div className="flex-1 lg:max-w-2xl">
+            {isAllowed ? children : 'You are not allowed to access this page'}
+          </div>
         </div>
       </div>
     </>
