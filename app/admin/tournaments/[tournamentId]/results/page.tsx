@@ -1,6 +1,5 @@
 'use client'
 
-import { PlayersTable } from '@/app/tournaments/[tournamentId]/components/PlayersTable'
 import { Loader } from '@/components/ui/loader'
 import { PageHeader } from '@/src/components/PageHeader'
 import { getTournamentById } from '@/src/utils/tournaments/getTournamentById'

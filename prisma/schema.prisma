@@ -21,21 +21,22 @@ generator dbml {
 }
 
 model User {
-  id            Int           @id @default(autoincrement())
-  name          String
-  password      String
-  email         String        @unique
-  role          String        @default("user")
-  proposed_role String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  date_of_birth DateTime
-  tournaments   Tournament[]
-  participant   Participant[]
+  id              Int               @id @default(autoincrement())
+  name            String
+  password        String
+  email           String            @unique
+  role            String            @default("user")
+  proposed_role   String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  date_of_birth   DateTime
+  tournaments     Tournament[]
+  participant     Participant[]
+  tournamentStaff TournamentStaff[]
 }
 
 model Tournament {
-  id                      Int           @id @default(autoincrement())
+  id                      Int              @id @default(autoincrement())
   name                    String
   description             String
   no_of_courts            Int
@@ -45,15 +46,23 @@ model Tournament {
   address_name            String
   start_date              DateTime
   end_date                DateTime
-  is_visible              Boolean       @default(false)
-  is_registration_open    Boolean       @default(false)
+  is_visible              Boolean          @default(false)
+  is_registration_open    Boolean          @default(false)
   max_participants        Int?
-  organizer               User          @relation(fields: [organizerId], references: [id])
+  organizer               User             @relation(fields: [organizerId], references: [id])
   organizerId             Int
   participants            Participant[]
   draws                   Draw[]
   OrderOfPlay             OrderOfPlay[]
   Location                Location[]
+  tournamentStaff         TournamentStaff? @relation(fields: [tournamentStaffId], references: [id])
+  tournamentStaffId       Int?             @unique
+}
+
+model TournamentStaff {
+  id           Int         @id @default(autoincrement())
+  tournament   Tournament?
+  staffMembers User[]
 }
 
 model Participant {
@@ -67,7 +76,7 @@ model Participant {
   drawOrderNo  Int?
   matches      Match[]
   ScoreUnit    ScoreUnit[]
-  place Int?
+  place        Int?
 }
 
 model Draw {
@@ -102,7 +111,7 @@ model OrderOfPlay {
   Location     Location?  @relation(fields: [locationId], references: [id])
   locationId   Int?
   date         DateTime
-  isPublished  Boolean   @default(false)
+  isPublished  Boolean    @default(false)
 }
 
 model Location {
