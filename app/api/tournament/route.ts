@@ -56,7 +56,12 @@ export async function GET(req: NextRequest) {
                 Draw: true
               }
             },
-            Location: true
+            Location: true,
+            tournamentStaff: {
+              include: {
+                staffMembers: true
+              }
+            }
           }
         })
       : await prisma.tournament.findMany({

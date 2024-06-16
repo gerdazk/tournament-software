@@ -23,6 +23,10 @@ export default function SettingsLayout({
       href: `/admin/tournaments/${tournamentId}/locations`
     },
     {
+      title: 'Tournament staff',
+      href: `/admin/tournaments/${tournamentId}/staff`
+    },
+    {
       title: 'Players',
       href: `/admin/tournaments/${tournamentId}/players`
     },
