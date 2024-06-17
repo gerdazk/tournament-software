@@ -1,10 +1,9 @@
-# Use an official Node.js runtime as a parent image
 FROM node:19-alpine
 
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
@@ -16,10 +15,7 @@ COPY . .
 # Build the application
 RUN npx prisma generate
 
-# RUN npx prisma migrate deploy
 RUN npm run build
-
-RUN npm run seed
 
 # Expose the port the app runs on
 EXPOSE 3000
