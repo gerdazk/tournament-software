@@ -31,13 +31,9 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-
-// import { sportOptions } from '../data'
-
 import { useRouter } from 'next/navigation'
 import { normalizeDate } from '@/src/utils/normalizeDate'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Loader } from '@/components/ui/loader'
+import { LoadingSection } from '@/src/components/LoadingSection'
 
 import { DataTableToolbar } from './Toolbar'
 
@@ -227,7 +223,7 @@ export const TournamentList = ({
         </DropdownMenu>
       </div>
       {isLoading ? (
-        <Loader className="h-10 w-10" />
+        <LoadingSection />
       ) : (
         <>
           <div className="rounded-md border">

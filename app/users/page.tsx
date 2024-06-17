@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { PageHeader } from '@/src/components/PageHeader'
 import { getAllUsers } from '@/src/utils/users/getAllUsers'
-import { Loader } from '@/components/ui/loader'
+import { LoadingSection } from '@/src/components/LoadingSection'
 
 import { PlayersList } from './components/PlayersList'
 
@@ -25,11 +25,7 @@ export default function Players() {
   return (
     <div>
       <PageHeader title="All players" />
-      {isLoading ? (
-        <Loader className="h-10 w-10" />
-      ) : (
-        <PlayersList data={players} />
-      )}
+      {isLoading ? <LoadingSection /> : <PlayersList data={players} />}
     </div>
   )
 }

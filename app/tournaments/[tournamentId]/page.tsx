@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { Draw, Tournament } from '@prisma/client'
 import { getAllDraws } from '@/app/admin/tournaments/[tournamentId]/draws/utils/getAllDraws'
 import { ListOfMatchesDraws } from '@/app/admin/tournaments/[tournamentId]/matches/components/ListOfMatchesDraws'
+import { LoadingSection } from '@/src/components/LoadingSection'
 
 import { GeneralInfoTab } from './components/GeneralInfoTab'
 import { PlayersTable } from './components/PlayersTable'
@@ -17,10 +18,18 @@ import { ResultsTab } from './components/ResultsTab'
 
 export default function Page({ params }) {
   const [tournament, setTournament] = useState<Tournament>({})
+  const [isLoading, setLoading] = useState(true)
+  const [draws, setDraws] = useState<Draw[]>([])
 
   const getTournament = async () => {
     const tournaments = await getTournamentById({ id: params.tournamentId })
     tournaments && setTournament(tournaments.tournaments)
+    setLoading(false)
+  }
+
+  const getDraws = async () => {
+    const allDraws = await getAllDraws({ tournamentId: params.tournamentId })
+    allDraws && setDraws(allDraws)
   }
 
   useEffect(() => {
@@ -28,14 +37,9 @@ export default function Page({ params }) {
     getDraws()
   }, [])
 
-  const [draws, setDraws] = useState<Draw[]>([])
-
-  const getDraws = async () => {
-    const allDraws = await getAllDraws({ tournamentId: params.tournamentId })
-    allDraws && setDraws(allDraws)
-  }
-
-  return (
+  return isLoading ? (
+    <LoadingSection className="h-screen" />
+  ) : (
     <>
       <div className="space-y-6 pb-16 pt-8 md:block">
         <div className="flex flex-row justify-between items-center">

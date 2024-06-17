@@ -8,7 +8,7 @@ import { PageHeader } from '@/src/components/PageHeader'
 import { OverviewCard } from '@/src/components/OverviewCard'
 import { Calendar, CalendarCheck2Icon, TrophyIcon } from 'lucide-react'
 import { normalizeDate } from '@/src/utils/normalizeDate'
-import { Loader } from '@/components/ui/loader'
+import { LoadingSection } from '@/src/components/LoadingSection'
 
 import { UserProfile } from './components/UserProfile/UserProfile'
 import { PersonalProfile } from './components/PersonalProfile/PersonalProfile'
@@ -36,16 +36,18 @@ export default function Page({ params }) {
     <div>
       <PageHeader title="Player profile" />
       {isLoading ? (
-        <Loader className="h-10 w-10" />
+        <LoadingSection className="" />
       ) : (
         <>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
-            <OverviewCard
-              label="Tournament participations"
-              title={user?.participant?.length || 0}
-              subtitle="Total number of tournament participations"
-              Icon={TrophyIcon}
-            />
+            {user?.participant?.length !== undefined && (
+              <OverviewCard
+                label="Tournament participations"
+                title={user?.participant?.length || 0}
+                subtitle="Total number of tournament participations"
+                Icon={TrophyIcon}
+              />
+            )}
             {user?.createdAt && (
               <OverviewCard
                 label="A member since"
