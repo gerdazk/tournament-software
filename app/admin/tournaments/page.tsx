@@ -30,12 +30,16 @@ export default function Tournaments() {
     getTournaments()
   }, [])
 
+  const isAllowedToCreateTournaments =
+    session?.data?.user?.role === 'admin' ||
+    session?.data?.user?.role === 'tournamentOrganizer'
+
   return (
     <div>
       <PageHeader
         title="Your tournaments"
         subtitle="All tournaments created by you"
-        buttonText="Create new tournament"
+        buttonText={isAllowedToCreateTournaments ? 'Create new tournament' : ''}
         onButtonClick={() => router.push('/admin/tournaments/create')}
         buttonVariant="default"
       />

@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   const session = await getToken({ req: request, secret: process.env.SECRET })
-  const isAdmin = session?.user?.role === 'admin'
+  const isAdmin = session?.user?.role && session?.user?.role !== 'user'
 
   return isAdmin
     ? NextResponse.next()

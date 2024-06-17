@@ -79,7 +79,9 @@ export default function SettingsLayout({
             <SidebarNav items={sidebarNavItems} />
           </aside>
           <div className="flex-1 lg:max-w-2xl">
-            {isAllowed ? children : 'You are not allowed to access this page'}
+            {isAllowed
+              ? children
+              : 'You do not have access rights to this tournament.'}
           </div>
         </div>
       </div>

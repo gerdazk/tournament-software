@@ -6,7 +6,7 @@ export enum PermissionName {
   MANAGE_MATCHES = 'Manage matches'
 }
 
-export type UserRoles = 'admin' | 'referee' | 'organizer'
+export type UserRoles = 'admin' | 'staffMember' | 'tournamentOrganizer'
 
 export const permissionMap = {
   admin: [

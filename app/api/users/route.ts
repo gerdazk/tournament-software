@@ -30,7 +30,8 @@ export async function GET(req: NextRequest) {
             proposed_role: true,
             date_of_birth: true,
             tournaments: true,
-            participant: true
+            participant: true,
+            role: true
           }
         })
 

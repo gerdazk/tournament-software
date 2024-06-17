@@ -22,14 +22,18 @@ export const UserProfile: React.FC<User> = ({
           {name && <PersonalDataSection {...rest} />}
         </CardContent>
       </Card>
-      <Card className="w-full">
-        <CardHeader className="">
-          <h2 className="text-xl font-bold">Most recent tournaments</h2>
-        </CardHeader>
-        <CardContent>
-          {participant && <RegistrationsList participantions={participant} />}
-        </CardContent>
-      </Card>
+      {participant?.length ? (
+        <Card className="w-full">
+          <CardHeader className="">
+            <h2 className="text-xl font-bold">Most recent tournaments</h2>
+          </CardHeader>
+          <CardContent>
+            <RegistrationsList participantions={participant} />
+          </CardContent>
+        </Card>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

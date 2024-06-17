@@ -8,15 +8,29 @@ export async function GET(req: NextRequest) {
   const prisma = new PrismaClient()
 
   try {
-    const tournaments = await prisma.tournament.findMany({
+    const organizedTournaments = await prisma.tournament.findMany({
       where: {
         organizerId: Number(id)
       }
     })
 
-    console.log({ tournaments })
+    const staffMemberTournaments = await prisma.tournament.findMany({
+      where: {
+        tournamentStaff: {
+          staffMembers: {
+            some: {
+              id: Number(id)
+            }
+          }
+        }
+      }
+    })
 
-    return NextResponse.json({ success: true, tournaments, status: 201 })
+    return NextResponse.json({
+      success: true,
+      tournaments: [...organizedTournaments, ...staffMemberTournaments],
+      status: 201
+    })
   } catch (error) {
     console.error('Error finding tournaments:', error)
     return NextResponse.json({

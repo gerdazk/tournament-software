@@ -26,7 +26,10 @@ export default function Page({ params }) {
   const getPlayers = async () => {
     setLoading(true)
     const allPlayers = await getAllUsers()
-    allPlayers && setPlayers(allPlayers)
+    const adminLevelUsers = allPlayers?.filter(
+      ({ role }) => role && role !== 'user'
+    )
+    adminLevelUsers && setPlayers(adminLevelUsers)
     setLoading(false)
   }
 

@@ -28,12 +28,12 @@ const roleOptions = [
     value: null
   },
   {
-    text: 'Referee',
-    value: 'referee'
+    text: 'Tournament staff member',
+    value: 'staffMember'
   },
   {
     text: 'Tournament organiser',
-    value: 'organiser'
+    value: 'tournamentOrganizer'
   }
 ]
 
