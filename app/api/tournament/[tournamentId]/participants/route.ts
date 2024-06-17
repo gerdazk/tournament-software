@@ -1,15 +1,17 @@
 import { PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
-  const body = await req.json()
+export async function POST(req: NextRequest, { params }) {
+  const { userId } = await req.json()
+  const tournamentId = Number(params.tournamentId)
 
   const prisma = new PrismaClient()
 
   try {
     const user = await prisma.participant.create({
       data: {
-        ...body
+        userId: Number(userId),
+        tournamentId
       }
     })
 

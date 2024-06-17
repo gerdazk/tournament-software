@@ -19,7 +19,8 @@ export const HeaderButtons = ({
   participants,
   organizerId,
   is_registration_open,
-  id
+  id,
+  onUpdate
 }: HeaderButtonsProps) => {
   const [isDialogOpen, setDialogOpen] = useState(false)
   const { data: sessionData } = useSession()
@@ -44,16 +45,22 @@ export const HeaderButtons = ({
     })
 
   const onParticipantRegistration = async () => {
-    try {
-      await addParticipant({ userId: sessionData?.user?.id, tournamentId: id })
-      setDialogOpen(false)
-    } catch (e) {}
+    await addParticipant({
+      userId: sessionData?.user?.id,
+      tournamentId: id
+    })
+    setDialogOpen(false)
+    onUpdate()
   }
 
-  const onParticipantWithdrawal = async ({ data }) => {
+  const onParticipantWithdrawal = async () => {
+    const participant = participants.find(
+      ({ user }) => user.id === sessionData?.user?.id
+    )
     try {
-      await removeParticipant({ ...data })
+      await removeParticipant({ id: participant?.id })
       setDialogOpen(false)
+      onUpdate()
     } catch (e) {}
   }
 

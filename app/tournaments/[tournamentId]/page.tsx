@@ -48,7 +48,9 @@ export default function Page({ params }) {
               {tournament?.name || ''}
             </h2>
           </div>
-          {tournament && <HeaderButtons {...tournament} />}
+          {tournament && (
+            <HeaderButtons {...tournament} onUpdate={getTournament} />
+          )}
         </div>
         <Separator className="my-6" />
       </div>
@@ -74,13 +76,21 @@ export default function Page({ params }) {
           <DrawsTab tournamentId={params.tournamentId} />
         </TabsContent>
         <TabsContent value="matches">
-          <ListOfMatchesDraws draws={draws} onUpdate={() => getDraws()} />
+          {draws?.length ? (
+            <ListOfMatchesDraws draws={draws} onUpdate={() => getDraws()} />
+          ) : (
+            <div>No matches to display.</div>
+          )}
         </TabsContent>
         <TabsContent value="schedules">
           <OrderOfPlayTab tournamentId={params.tournamentId} />
         </TabsContent>
         <TabsContent value="results">
-          <ResultsTab participants={tournament.participants} />
+          {tournament.participants?.length ? (
+            <ResultsTab participants={tournament.participants} />
+          ) : (
+            <div>No results to display.</div>
+          )}
         </TabsContent>
       </Tabs>
     </>

@@ -34,19 +34,25 @@ export const PlayersTable: React.FC<PlayersTableProps> = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {players.map(player => (
-          <TableRow
-            key={player.userId}
-            className="cursor-pointer"
-            onClick={() => router.push(`/users/${player.user.id}`)}
-          >
-            <TableCell className="font-medium">{player.id}</TableCell>
-            <TableCell className="font-medium">{player.user.name}</TableCell>
-            <TableCell className="font-medium">
-              {normalizeDate(player.user.date_of_birth.toString())}
-            </TableCell>
+        {players?.length ? (
+          players.map(player => (
+            <TableRow
+              key={player.userId}
+              className="cursor-pointer"
+              onClick={() => router.push(`/users/${player.user.id}`)}
+            >
+              <TableCell className="font-medium">{player.id}</TableCell>
+              <TableCell className="font-medium">{player.user.name}</TableCell>
+              <TableCell className="font-medium">
+                {normalizeDate(player.user.date_of_birth.toString())}
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={3}>No players are currently registered.</TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   )

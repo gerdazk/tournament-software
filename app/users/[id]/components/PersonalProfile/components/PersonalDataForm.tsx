@@ -65,6 +65,7 @@ export const PersonalDataForm: React.FC<PersonalDataFormProps> = ({
       id,
       password
     })
+
     if (res?.error) {
       setError('Failed to save data.')
     } else {

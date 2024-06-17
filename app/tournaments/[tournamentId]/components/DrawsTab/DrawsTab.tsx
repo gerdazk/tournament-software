@@ -41,7 +41,9 @@ export const DrawsTab = ({ tournamentId }) => {
   }, [])
   return isLoading ? (
     <Loader className="w-10 h-10" />
-  ) : (
+  ) : draws?.length ? (
     <ListOfDraws draws={draws} players={players} />
+  ) : (
+    <div>No draws to display.</div>
   )
 }
