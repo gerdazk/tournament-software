@@ -15,8 +15,11 @@ COPY . .
 
 # Build the application
 RUN npx prisma generate
+
 # RUN npx prisma migrate deploy
 RUN npm run build
+
+RUN npm run seed
 
 # Expose the port the app runs on
 EXPOSE 3000
