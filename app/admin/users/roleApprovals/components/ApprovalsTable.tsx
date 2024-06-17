@@ -23,7 +23,7 @@ export function ApprovalsTable({ requests }: { requests: User[] }) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Name</TableHead>
+          <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Requested role</TableHead>
           <TableHead>Approve/Disapprove</TableHead>
